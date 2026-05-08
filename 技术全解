@@ -18,6 +18,7 @@ gezebo选用11.xx.x系列配置失败
 ####ardipilot####
 选用missionplanner里面原生的arducopter系列飞控固件
 https://ardupilot.org/ardupilot/index.html
+https://github.com/ArduPilot/MissionPlanner
 
 
 ####wattToolkit####
