@@ -1,4 +1,4 @@
-##此文档用于记载备赛流程
+##此文档用于记载备赛流程的技术选型##
 
 ####ubuntu####
 2026赛季开始，Ubuntu版本决定为22.04，本地测试采用双系统
@@ -10,3 +10,9 @@ ROS采用最新的ROS2 humble
 
 ####gezebo####
 gezebo选用11.xx.x系列，用来本地对自动飞行代码的验证和一些仿真工作
+gezebo选用11.xx.x系列配置失败
+对于ubuntu22.04，其实Fortress才是LTS（长期支持更新的稳定版本），但它和ardupilot不兼容；另外gazebo 11并不好用，所以我们最终选用gazebo Harmonic。
+
+
+####ardipilot####
+选用missionplanner里面原生的arducopter系列飞控固件
