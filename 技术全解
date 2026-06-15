@@ -13,6 +13,8 @@ gezebo选用11.xx.x系列，用来本地对自动飞行代码的验证和一些�
 gezebo选用11.xx.x系列配置失败
 对于ubuntu22.04，其实Fortress才是LTS（长期支持更新的稳定版本），但它和ardupilot不兼容；另外gazebo 11并不好用，所以我们最终选用gazebo Harmonic。
 具体配置教程见仿真文件夹
+https://gazebosim.org/home
+意外收获时发现gazebo classic不支持RGBD相机仿真gazebo Harmonic支持https://gazebosim.org/docs/harmonic/comparison/?utm_source=chatgpt.com
 
 
 ####ardipilot####
@@ -29,3 +31,5 @@ https://github.com/ArduPilot/MissionPlanner
 CUAV V5 nano
 CUAV X7+ PRO    https://www.cuav.net/x7-plus-pro/
 CUAV 7-nano     https://www.cuav.net/7-nano/
+
+
