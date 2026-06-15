@@ -1,6 +1,7 @@
 /**
- * @file offb_node.cpp
- * @brief Pure takeoff solution – no setpoint during takeoff to avoid conflict.
+ * 代码功能：起飞然后飞一个5X5矩形
+ * 是否进行仿真验证：是
+ * 是否进行飞行验证：是
  */
 
 #include <rclcpp/rclcpp.hpp>
