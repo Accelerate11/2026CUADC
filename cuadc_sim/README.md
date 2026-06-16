@@ -1,4 +1,4 @@
-# CUADC Rescue Simulation
+# CUADC Simulation
 
 面向 2026 中国大学生飞行器设计创新大赛“多旋翼无人机侦察与救援”赛项的 Gazebo + ArduPilot SITL + ROS2 仿真环境。
 
