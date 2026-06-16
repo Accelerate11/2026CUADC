@@ -1,0 +1,33 @@
+seed: 2026
+
+recognition_area:
+  center: [0.0, 0.0, 0.0]
+  # Rules map to x=5m forward depth, y=8m lateral span.
+  size: [5.0, 8.0]
+
+recon_buckets:
+  count: 5
+  diameter: 0.20
+  height: 0.15
+  min_separation: 0.70
+
+hazard_markers:
+  count: 3
+  size: [0.12, 0.12]
+  classes:
+    - explosive
+    - nonflammable_gas
+    - irritant
+    - radioactive
+    - corrosive
+    - biohazard
+    - dangerous_when_wet
+    - toxic
+    - spontaneously_combustible
+    - flammable
+
+camera:
+  model: static_d435i_camera
+  position: [0.0, 0.0, 5.0]
+  # The static camera uses the same downward optical pose convention as the full-flow sim.
+  frame: hazard_d435i

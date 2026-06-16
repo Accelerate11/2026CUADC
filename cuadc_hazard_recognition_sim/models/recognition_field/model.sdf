@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="recognition_field">
+    <static>true</static>
+    <link name="link">
+      <visual name="ground">
+        <pose>0 0 -0.006 0 0 0</pose>
+        <geometry><box><size>7 10 0.01</size></box></geometry>
+        <material><ambient>0.54 0.57 0.52 1</ambient><diffuse>0.54 0.57 0.52 1</diffuse></material>
+      </visual>
+      <visual name="recognition_area">
+        <pose>0 0 0.002 0 0 0</pose>
+        <geometry><box><size>5 8 0.004</size></box></geometry>
+        <material><ambient>0.95 0.85 0.10 0.55</ambient><diffuse>0.95 0.85 0.10 0.55</diffuse></material>
+      </visual>
+      <visual name="x_axis">
+        <pose>0 0 0.012 0 0 0</pose>
+        <geometry><box><size>5 0.035 0.006</size></box></geometry>
+        <material><ambient>1 0.1 0.1 1</ambient><diffuse>1 0.1 0.1 1</diffuse></material>
+      </visual>
+      <visual name="y_axis">
+        <pose>0 0 0.014 0 0 0</pose>
+        <geometry><box><size>0.035 8 0.006</size></box></geometry>
+        <material><ambient>0.1 0.7 0.1 1</ambient><diffuse>0.1 0.7 0.1 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

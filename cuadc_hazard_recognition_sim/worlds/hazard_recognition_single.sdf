@@ -1,0 +1,134 @@
+    <?xml version="1.0"?>
+    <sdf version="1.9">
+      <world name="hazard_recognition_single">
+        <physics name="1ms" type="ignore">
+          <max_step_size>0.001</max_step_size>
+          <real_time_factor>1.0</real_time_factor>
+        </physics>
+
+        <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+          <render_engine>ogre2</render_engine>
+        </plugin>
+        <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+        <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+
+        <scene>
+          <ambient>1.0 1.0 1.0</ambient>
+          <background>0.78 0.80 0.82</background>
+          <sky/>
+        </scene>
+
+        <light type="directional" name="sun">
+          <pose>0 0 20 0 0 0</pose>
+          <diffuse>0.9 0.9 0.85 1</diffuse>
+          <specular>0.6 0.6 0.6 1</specular>
+          <direction>-0.4 0.2 -0.9</direction>
+        </light>
+
+        <include>
+  <name>recognition_field</name>
+  <uri>model://recognition_field</uri>
+  <pose>0 0 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>static_d435i_camera</name>
+  <uri>model://static_d435i_camera</uri>
+  <pose>0.0 0.0 5.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_1</name>
+  <uri>model://recon_bucket</uri>
+  <pose>-1.64 0.02 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_2</name>
+  <uri>model://recon_bucket</uri>
+  <pose>0.05 2.63 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_3</name>
+  <uri>model://recon_bucket</uri>
+  <pose>-1.71 -2.02 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_4</name>
+  <uri>model://recon_bucket</uri>
+  <pose>0.43 0.41 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_5</name>
+  <uri>model://recon_bucket</uri>
+  <pose>1.22 0.35 0.0 0 0 0.0</pose>
+</include>
+<model name="marker_explosive_recon_4">
+  <static>true</static>
+  <pose>0.43 0.41 0.165 0 0 3.14159265359</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/explosive.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="marker_nonflammable_gas_recon_5">
+  <static>true</static>
+  <pose>1.22 0.35 0.165 0 0 0.0</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/nonflammable_gas.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="marker_spontaneously_combustible_recon_1">
+  <static>true</static>
+  <pose>-1.64 0.02 0.165 0 0 -1.57079632679</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/spontaneously_combustible.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+      </world>
+    </sdf>

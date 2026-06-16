@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="hazard_marker">
+    <static>true</static>
+    <link name="link">
+      <visual name="placeholder">
+        <geometry><box><size>0.12 0.12 0.004</size></box></geometry>
+        <material><ambient>1 1 0 1</ambient><diffuse>1 1 0 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

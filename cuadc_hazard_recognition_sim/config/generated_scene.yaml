@@ -1,0 +1,38 @@
+seed: 2026
+source: hazard_recognition_only
+camera:
+  x: 0.0
+  y: 0.0
+  z: 5.0
+  topic_prefix: /hazard_d435i
+recon_targets:
+  recon_1:
+    x: -1.64
+    y: 0.02
+    z: 0.0
+    marker: spontaneously_combustible
+    yaw: -1.57079632679
+  recon_2:
+    x: 0.05
+    y: 2.63
+    z: 0.0
+    marker: none
+    yaw: 0.0
+  recon_3:
+    x: -1.71
+    y: -2.02
+    z: 0.0
+    marker: none
+    yaw: 0.0
+  recon_4:
+    x: 0.43
+    y: 0.41
+    z: 0.0
+    marker: explosive
+    yaw: 3.14159265359
+  recon_5:
+    x: 1.22
+    y: 0.35
+    z: 0.0
+    marker: nonflammable_gas
+    yaw: 0.0
