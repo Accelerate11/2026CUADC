@@ -12,8 +12,7 @@ ROS采用最新的ROS2 humble
 gezebo选用11.xx.x系列，用来本地对自动飞行代码的验证和一些仿真工作
 gezebo选用11.xx.x系列配置失败
 对于ubuntu22.04，其实Fortress才是LTS（长期支持更新的稳定版本），但它和ardupilot不兼容；另外gazebo 11并不好用，所以我们最终选用gazebo Harmonic。
-具体配置教程见仿真文件夹
-https://gazebosim.org/home
+gazebo官网https://gazebosim.org/home
 意外收获时发现gazebo classic不支持RGBD相机仿真gazebo Harmonic支持https://gazebosim.org/docs/harmonic/comparison/?utm_source=chatgpt.com
 
 
