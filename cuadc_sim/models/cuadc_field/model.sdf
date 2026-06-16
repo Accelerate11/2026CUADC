@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="cuadc_field">
+    <static>true</static>
+    <link name="link">
+      <visual name="ground">
+        <pose>30 0 -0.006 0 0 0</pose>
+        <geometry><box><size>75 16 0.01</size></box></geometry>
+        <material><ambient>0.55 0.58 0.52 1</ambient><diffuse>0.55 0.58 0.52 1</diffuse></material>
+      </visual>
+      <visual name="takeoff_area">
+        <pose>13.5 0 0.001 0 0 0</pose>
+        <geometry><box><size>33 8 0.003</size></box></geometry>
+        <material><ambient>0.18 0.35 0.18 0.65</ambient><diffuse>0.18 0.35 0.18 0.65</diffuse></material>
+      </visual>
+      <visual name="takeoff_line">
+        <pose>2 0 0.006 0 0 0</pose>
+        <geometry><box><size>0.08 8 0.006</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+      <visual name="drop_area">
+        <pose>30 0 0.002 0 0 0</pose>
+        <geometry><box><size>5 8 0.004</size></box></geometry>
+        <material><ambient>0.05 0.32 0.95 0.75</ambient><diffuse>0.05 0.32 0.95 0.75</diffuse></material>
+      </visual>
+      <visual name="recon_area">
+        <pose>55 0 0.002 0 0 0</pose>
+        <geometry><box><size>5 8 0.004</size></box></geometry>
+        <material><ambient>0.95 0.85 0.10 0.55</ambient><diffuse>0.95 0.85 0.10 0.55</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

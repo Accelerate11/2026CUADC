@@ -1,0 +1,47 @@
+seed: 2026
+source: randomized_scene_from_scene_yaml
+drop_targets:
+  drop_1:
+    x: 28.44
+    y: 0.02
+    z: 0.0
+    radius: 0.075
+    score: 500
+  drop_2:
+    x: 30.05
+    y: 2.56
+    z: 0.0
+    radius: 0.1
+    score: 300
+  drop_3:
+    x: 28.37
+    y: -1.96
+    z: 0.0
+    radius: 0.125
+    score: 100
+recon_targets:
+  recon_1:
+    x: 55.41
+    y: 0.4
+    z: 0.0
+    marker: biohazard
+  recon_2:
+    x: 56.16
+    y: 0.34
+    z: 0.0
+    marker: none
+  recon_3:
+    x: 55.95
+    y: 1.9
+    z: 0.0
+    marker: radioactive
+  recon_4:
+    x: 53.93
+    y: 0.81
+    z: 0.0
+    marker: toxic
+  recon_5:
+    x: 53.4
+    y: 2.25
+    z: 0.0
+    marker: none

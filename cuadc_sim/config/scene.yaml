@@ -1,0 +1,53 @@
+seed: 2026
+
+field:
+  takeoff_center: [0.0, 0.0, 0.0]
+  takeoff_line_x: 2.0
+  takeoff_area_size: [33.0, 8.0]
+  drop_area_center: [30.0, 0.0, 0.0]
+  drop_area_size: [5.0, 8.0]
+  recon_area_center: [55.0, 0.0, 0.0]
+  recon_area_size: [5.0, 8.0]
+
+drop_buckets:
+  - id: drop_1
+    model: drop_bucket_15
+    position: [30.0, -1.2, 0.0]
+    diameter: 0.15
+    score: 500
+  - id: drop_2
+    model: drop_bucket_20
+    position: [30.0, 0.0, 0.0]
+    diameter: 0.20
+    score: 300
+  - id: drop_3
+    model: drop_bucket_25
+    position: [30.0, 1.2, 0.0]
+    diameter: 0.25
+    score: 100
+
+recon_buckets:
+  - id: recon_1
+    position: [53.7, -1.7, 0.0]
+  - id: recon_2
+    position: [53.9, 1.5, 0.0]
+  - id: recon_3
+    position: [55.2, 0.0, 0.0]
+  - id: recon_4
+    position: [56.5, -1.2, 0.0]
+  - id: recon_5
+    position: [56.6, 1.4, 0.0]
+
+hazard_markers:
+  - recon_bucket_id: recon_1
+    class_name: explosive
+    label: explosive
+    rotation_deg: 0
+  - recon_bucket_id: recon_3
+    class_name: toxic
+    label: toxic
+    rotation_deg: 90
+  - recon_bucket_id: recon_5
+    class_name: corrosive
+    label: corrosive
+    rotation_deg: 180

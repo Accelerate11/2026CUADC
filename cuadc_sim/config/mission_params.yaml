@@ -1,0 +1,11 @@
+mission:
+  takeoff_altitude: 5.0
+  cruise_altitude: 5.0
+  waypoint_hold_seconds: 2.0
+  drop_targets: [drop_1, drop_2]
+  recon_hover_seconds: 8.0
+  landing_altitude: 1.0
+
+drop_judge:
+  b_zone_radius: 0.5
+  target_bucket_id: drop_1

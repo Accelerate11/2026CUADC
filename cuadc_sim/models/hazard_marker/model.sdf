@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="hazard_marker">
+    <static>true</static>
+    <link name="link">
+      <visual name="marker">
+        <pose>0 0 0.002 0 0 0</pose>
+        <geometry><box><size>0.12 0.12 0.004</size></box></geometry>
+        <material>
+          <ambient>1 0.9 0.05 1</ambient>
+          <diffuse>1 0.9 0.05 1</diffuse>
+          <specular>0.1 0.1 0.1 1</specular>
+        </material>
+      </visual>
+      <visual name="symbol">
+        <pose>0 0 0.006 0 0 0</pose>
+        <geometry><box><size>0.07 0.07 0.004</size></box></geometry>
+        <material>
+          <ambient>0 0 0 1</ambient>
+          <diffuse>0 0 0 1</diffuse>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

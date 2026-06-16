@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <model name="takeoff_pad">
+    <static>true</static>
+    <link name="link">
+      <visual name="pad">
+        <pose>0 0 0.002 0 0 0</pose>
+        <geometry><cylinder><radius>0.4</radius><length>0.004</length></cylinder></geometry>
+        <material><ambient>0.05 0.05 0.05 1</ambient><diffuse>0.05 0.05 0.05 1</diffuse></material>
+      </visual>
+      <visual name="h_left">
+        <pose>0 -0.12 0.008 0 0 0</pose>
+        <geometry><box><size>0.34 0.06 0.004</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+      <visual name="h_right">
+        <pose>0 0.12 0.008 0 0 0</pose>
+        <geometry><box><size>0.34 0.06 0.004</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+      <visual name="h_mid">
+        <pose>0 0 0.009 0 0 0</pose>
+        <geometry><box><size>0.07 0.28 0.004</size></box></geometry>
+        <material><ambient>1 1 1 1</ambient><diffuse>1 1 1 1</diffuse></material>
+      </visual>
+    </link>
+  </model>
+</sdf>

@@ -1,0 +1,170 @@
+    <?xml version="1.0"?>
+    <sdf version="1.9">
+      <world name="cuadc_rescue_single">
+        <physics name="1ms" type="ignore">
+          <max_step_size>0.001</max_step_size>
+          <real_time_factor>1.0</real_time_factor>
+        </physics>
+
+        <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+          <render_engine>ogre2</render_engine>
+        </plugin>
+        <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+        <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+        <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+        <plugin filename="gz-sim-navsat-system" name="gz::sim::systems::NavSat"/>
+
+        <scene>
+          <ambient>1.0 1.0 1.0</ambient>
+          <background>0.78 0.80 0.82</background>
+          <sky/>
+        </scene>
+
+        <spherical_coordinates>
+          <latitude_deg>-35.363262</latitude_deg>
+          <longitude_deg>149.165237</longitude_deg>
+          <elevation>584</elevation>
+          <heading_deg>0</heading_deg>
+          <surface_model>EARTH_WGS84</surface_model>
+        </spherical_coordinates>
+
+        <light type="directional" name="sun">
+          <cast_shadows>true</cast_shadows>
+          <pose>0 0 20 0 0 0</pose>
+          <diffuse>0.9 0.9 0.85 1</diffuse>
+          <specular>0.6 0.6 0.6 1</specular>
+          <attenuation>
+            <range>1000</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+          </attenuation>
+          <direction>-0.45 0.15 -0.88</direction>
+        </light>
+
+        <include>
+  <name>cuadc_field</name>
+  <uri>model://cuadc_field</uri>
+  <pose>0 0 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>takeoff_pad</name>
+  <uri>model://takeoff_pad</uri>
+  <pose>0 0 0.01 0 0 0.0</pose>
+</include>
+<include>
+  <name>drop_1</name>
+  <uri>model://drop_bucket_15</uri>
+  <pose>28.44 0.02 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>drop_2</name>
+  <uri>model://drop_bucket_20</uri>
+  <pose>30.05 2.56 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>drop_3</name>
+  <uri>model://drop_bucket_25</uri>
+  <pose>28.37 -1.96 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_1</name>
+  <uri>model://recon_bucket</uri>
+  <pose>55.41 0.4 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_2</name>
+  <uri>model://recon_bucket</uri>
+  <pose>56.16 0.34 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_3</name>
+  <uri>model://recon_bucket</uri>
+  <pose>55.95 1.9 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_4</name>
+  <uri>model://recon_bucket</uri>
+  <pose>53.93 0.81 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_5</name>
+  <uri>model://recon_bucket</uri>
+  <pose>53.4 2.25 0 0 0 0.0</pose>
+</include>
+<model name="hazard_toxic_recon_4">
+  <static>true</static>
+  <pose>53.93 0.81 0.165 0 0 -1.57079632679</pose>
+  <link name="link">
+    <visual name="marker">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/toxic.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="hazard_biohazard_recon_1">
+  <static>true</static>
+  <pose>55.41 0.4 0.165 0 0 3.14159265359</pose>
+  <link name="link">
+    <visual name="marker">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/biohazard.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="hazard_radioactive_recon_3">
+  <static>true</static>
+  <pose>55.95 1.9 0.165 0 0 3.14159265359</pose>
+  <link name="link">
+    <visual name="marker">
+      <pose>0 0 0 0 0 0</pose>
+      <geometry>
+        <box>
+          <size>0.12 0.12 0.004</size>
+        </box>
+      </geometry>
+      <material>
+        <diffuse>1 1 1 1</diffuse>
+        <pbr>
+          <metal>
+            <albedo_map>model://hazard_marker/materials/textures/radioactive.png</albedo_map>
+            <roughness>0.65</roughness>
+            <metalness>0</metalness>
+          </metal>
+        </pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<include><uri>model://iris_d435i</uri><pose degrees="true">0 0 0.195 0 0 90</pose></include>
+      </world>
+    </sdf>
