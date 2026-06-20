@@ -292,4 +292,26 @@ target_z = mission_origin_z + TAKEOFF_ALT;
 current_altitude_ >= TAKEOFF_ALT * 0.95
 而应该写成：
 current_altitude_ - takeoff_start_z >= TAKEOFF_ALT * 0.95
-下次外场进行新的代码调试
+
+同时，三次起飞移动基站，甚至在飞行过程中移动基站，是严重的错误
+
+ArduPilot 的 RTK 文档明确说，RTK 成功的关键是基站位置必须被精确知道或通过 survey-in 确定；基站会把这个位置作为自己的位置开始输出改正数据。 所以移动基站，会破坏这个前提。详见：
+https://ardupilot.org/copter/docs/common-rtk-correction.html
+如果移动了基站，机载 RTK 接收机可能出现这几种情况：
+1、RTK Fixed 掉到 Float 或 3D Fix
+飞控定位精度突然下降。
+2、RTK 仍显示 Fixed，但位置整体偏了
+这是更危险的情况。因为飞机会“很自信地相信一个错的位置”。
+3、/mavros/local_position/odom 的 x/y 发生跳变
+你们的状态机如果正在追踪 {0,0}、{5,0} 这类 local setpoint，飞机可能突然认为自己偏离目标，于是做大幅修正。
+4、EKF 认为 GPS glitch / EKF variance 增大
+ArduPilot 的 GPS glitch 检测会把新的 GPS 位置和上一时刻位置、速度外推出来的位置做比较；如果差异异常，就可能触发 GPS glitch:
+https://ardupilot.org/copter/docs/gps-failsafe-glitch-protection.html
+ EKF failsafe 文档也说明，如果 GPS 位置突然跳了，但加速度计没有对应的运动，EKF 的位置可信度会变差。
+https://ardupilot.org/copter/docs/ekf-inav-failsafe.html
+5、GUIDED / Loiter / Auto 这类依赖 GPS 的模式会变得危险
+ArduPilot 说明，在 Guided、Auto、Loiter、RTL 等需要 GPS 的模式下，如果 GPS 锁定丢失或位置 glitch 持续，会触发 GPS failsafe。
+https://ardupilot.org/copter/docs/gps-failsafe-glitch-protection.html
+而在以往的飞行中，GPS 3D定位涉及不到这一问题，所以没有出现这样严重的飞机乱飞情况
+
+下次外场根据本次错误进行新的代码调试，规范地面RTK基站操作
