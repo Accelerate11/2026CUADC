@@ -265,6 +265,31 @@ Fix	        固定解	    1~3 cm	    ✅
 ####2026.6.5又一次历史性时刻，首次使用蘑菇头天线完成定位收敛，并且翻遍了协会所有的五金件搭建了天线三脚架
 RTK Fix 用时：03.37.26 感觉还是挺快的。
 
+####2026.6.13####
+今天用朱**的大一年度项目机子完成了第一次室外实机自动起飞流程效果不错飞机自旋问题整体可以忽略，而且这个小飞机经过autotune调参参数相对也不错
+值得注意的是autotune调参的前提是在althode模式下能基本实现稳定飞行才能进行调参；对于打飞机有相应的特殊需求，详见https://ardupilot.org/copter/docs/autotune.html
+
 ####2026.6.16####
 今天配合codex完成了全流程的仿真环境配置，方便后人学习使用，全套文件放进了cuadc_sim中，值得注意的是本年备赛使用了d435i下视深度相机，如果后人的方案没有这一部分请忽略
 并且做了一个仅有侦察危险物区域的环境放入了cuadc_hazard_recognition_sim中
+
+
+####2026.6.20####
+端午节外场
+端午节快乐（实际不快乐）今天用大轴子完成了自动飞行效果非常不好原因是飞机会乱飞而且参数是一大问题
+抛开参数问题不谈在飞行原点定义上有很大问题其中这一版代码定义的远点是/mavros/local_position/odom，然后把当前位置里的 x/y/z 直接当作控制判断依据；同时一开始就把 current_target_ 设成 {0,0,0}，并允许发布 setpoint。 起飞完成后，代码又强制把目标设成 {0,0,TAKEOFF_ALT}，随后矩形航点是 {0,0} -> {5,0} -> {5,5} -> {0,5} -> {0,0}，这些都是绝对 local 坐标，不是“从起飞点开始的相对坐标”。
+而在官方文档中ArduPilot 的 SET_POSITION_TARGET_LOCAL_NED 不是“以当前解锁点为原点”，而是相对 EKF origin；官方文档写得很关键：MAV_FRAME_LOCAL_NED 的位置是相对 EKF Origin，EKF origin 是飞控第一次获得良好位置估计时的位置。
+详细见：https://ardupilot.org/dev/docs/copter-commands-in-guided-mode.html
+后续改进方案是，飞机准备起飞时或起飞完成后，读取一次当前 /mavros/local_position/odom，保存为：
+mission_origin_x = current_position_.x;
+mission_origin_y = current_position_.y;
+mission_origin_z = current_altitude_;
+然后所有矩形航点都变成：
+target_x = mission_origin_x + rel_x;
+target_y = mission_origin_y + rel_y;
+target_z = mission_origin_z + TAKEOFF_ALT;
+同时高度判断也不能写成：
+current_altitude_ >= TAKEOFF_ALT * 0.95
+而应该写成：
+current_altitude_ - takeoff_start_z >= TAKEOFF_ALT * 0.95
+下次外场进行新的代码调试
