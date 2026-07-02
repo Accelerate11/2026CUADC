@@ -112,5 +112,8 @@ python3 ./sim_vehicle.py -v ArduCopter -f gazebo-iris --model JSON --map --conso
 `models/iris_d435i` 与 `models/iris_d435i_airframe` 基于本机 `~/ardupilot_gazebo` 中的 Iris 模型派生，仅增加下视 RGB-D 相机并修改模型命名。上游 `ardupilot_gazebo/LICENSE.md` 为 LGPL v3，归档到 GitHub 时请保留来源说明。
 
 危险化学品标识纹理来自比赛附件 11，用于本赛项仿真训练。
-<img width="3837" height="2157" alt="6<img width="3837" height="2157" alt="a864ee056c372db0712d3d0863653156" src="https://github.com/user-attachments/assets/5210dc1b-a3b4-4b75-aadb-2510ce471028" />
-8edb154916b6c0f021813433ca1e971" src="https://github.com/user-attachments/assets/77935fdc-058f-4251-999c-0f17d24ac886" />
+
+## 运行效果
+<img width="3837" height="2157" alt="68edb154916b6c0f021813433ca1e971" src="https://github.com/user-attachments/assets/a067c7c8-31bc-4d82-98bc-b4fb644ca28f" />
+<img width="3837" height="2157" alt="a864ee056c372db0712d3d0863653156" src="https://github.com/user-attachments/assets/35f7606c-8315-4a40-8d51-e1392af7f4a0" />
+
