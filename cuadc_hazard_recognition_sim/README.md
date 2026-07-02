@@ -98,16 +98,3 @@ python3 scripts/generate_scene.py
 ```
 
 `seed` 控制随机结果。改变 `seed` 后可得到新的桶位和标识类别。
-
-## GitHub 归档
-
-```bash
-cd ~/cuadc_ws/src/cuadc_hazard_recognition_sim
-scripts/archive_for_github.sh
-```
-
-输出：
-
-```text
-~/cuadc_hazard_recognition_sim_github_archive.tar.gz
-```
