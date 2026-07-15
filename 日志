@@ -315,3 +315,7 @@ https://ardupilot.org/copter/docs/gps-failsafe-glitch-protection.html
 而在以往的飞行中，GPS 3D定位涉及不到这一问题，所以没有出现这样严重的飞机乱飞情况
 
 下次外场根据本次错误进行新的代码调试，规范地面RTK基站操作
+
+####2026.7.15####
+外场调参
+由于风比较大就没有使用autotune,手动调参后效果并不好，最终P值调的过大系统发散，导致炸机
