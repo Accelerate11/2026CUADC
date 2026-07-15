@@ -319,3 +319,4 @@ https://ardupilot.org/copter/docs/gps-failsafe-glitch-protection.html
 ####2026.7.15####
 外场调参
 由于风比较大就没有使用autotune,手动调参后效果并不好，最终P值调的过大系统发散，导致炸机
+https://ardupilot.org/copter/docs/autotune.html
