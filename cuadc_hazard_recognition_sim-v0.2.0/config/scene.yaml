@@ -1,0 +1,51 @@
+seed: 2026
+
+recognition_area:
+  center: [0.0, 0.0, 0.0]
+  size: [5.0, 8.0]
+
+recon_buckets:
+  count: 5
+  diameter: 0.20
+  height: 0.15
+  min_separation: 0.70
+
+hazard_markers:
+  count: 3
+  size: [0.12, 0.12]
+  random_size_range_m: [0.105, 0.135]
+  max_center_offset_m: 0.025
+  classes:
+    - explosive
+    - nonflammable_gas
+    - irritant
+    - radioactive
+    - corrosive
+    - biohazard
+    - dangerous_when_wet
+    - toxic
+    - spontaneously_combustible
+    - flammable
+
+camera:
+  enabled: true
+  model: static_d435i_camera
+  position: [0.0, 0.0, 5.0]
+  frame: hazard_d435i
+
+vehicle:
+  enabled: true
+  model: iris_d435i
+  # One-centimetre landing-gear clearance; the collision plane extends beyond the scan area.
+  pose: [-3.5, 0.0, 0.205, 0.0, 0.0, 1.57079632679]
+
+# ArduPilot SITL's CMAC default position. Replace with the surveyed real RTK
+# base WGS84 coordinate while keeping the state-machine code unchanged.
+rtk_base:
+  latitude_deg: -35.363262
+  longitude_deg: 149.165237
+  altitude_m: 584.0
+  world_position_enu_m: [0.0, 0.0, 0.0]
+  world_to_rtk_yaw_deg: 0.0
+
+

@@ -1,0 +1,13 @@
+﻿rtk_base:
+  latitude_deg: -35.362938
+  longitude_deg: 149.165085
+  altitude_m: 584.0
+  world_position_enu_m: [0.0, 0.0, 0.0]
+
+coordinate_frames:
+  world_frame: gazebo_world_enu
+  rtk_frame: rtk_base_enu
+  mavros_frame: map_enu
+  rtk_to_mavros_yaw_deg: 0.0
+
+

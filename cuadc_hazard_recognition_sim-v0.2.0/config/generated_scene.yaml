@@ -1,0 +1,120 @@
+seed: 4104
+source: hazard_recognition_only_randomized
+coordinate_frames:
+  world: gazebo_world_enu
+  rtk: rtk_base_enu
+  mavros: map_enu
+recognition_area:
+  center_world:
+  - 0.0
+  - 0.0
+  - 0.0
+  size:
+  - 5.0
+  - 8.0
+  center_rtk_enu:
+  - 0.0
+  - 0.0
+  - 0.0
+  world_to_rtk_yaw_deg: 0.0
+rtk_base:
+  latitude_deg: -35.363262
+  longitude_deg: 149.165237
+  altitude_m: 584.0
+  world_position_enu_m:
+  - 0.0
+  - 0.0
+  - 0.0
+  world_to_rtk_yaw_deg: 0.0
+camera:
+  enabled: true
+  x: 0.0
+  y: 0.0
+  z: 5.0
+  topic_prefix: /hazard_d435i
+vehicle:
+  enabled: true
+  model: iris_d435i
+  pose:
+  - -3.5
+  - 0.0
+  - 0.205
+  - 0.0
+  - 0.0
+  - 1.57079632679
+  rtk_enu:
+  - -3.5
+  - 0.0
+  - 0.0
+  camera_topic_prefix: /d435i
+visual_randomization:
+  ambient: 0.746
+  sun: 0.815
+  dx: -0.531
+  dy: -0.182
+recon_targets:
+  recon_1:
+    x: 0.87
+    y: 2.918
+    z: 0.0
+    rtk_enu:
+    - 0.87
+    - 2.918
+    - 0.0
+    marker: corrosive
+    marker_x: 0.8756
+    marker_y: 2.8986
+    yaw: -0.063655
+    marker_size: 0.1258
+  recon_2:
+    x: -0.08
+    y: 1.715
+    z: 0.0
+    rtk_enu:
+    - -0.08
+    - 1.715
+    - 0.0
+    marker: nonflammable_gas
+    marker_x: -0.0626
+    marker_y: 1.7081
+    yaw: 0.10126
+    marker_size: 0.1074
+  recon_3:
+    x: 1.169
+    y: -2.688
+    z: 0.0
+    rtk_enu:
+    - 1.169
+    - -2.688
+    - 0.0
+    marker: explosive
+    marker_x: 1.1606
+    marker_y: -2.673
+    yaw: 0.129979
+    marker_size: 0.1269
+  recon_4:
+    x: 1.007
+    y: 1.317
+    z: 0.0
+    rtk_enu:
+    - 1.007
+    - 1.317
+    - 0.0
+    marker: none
+    marker_x: null
+    marker_y: null
+    yaw: 0.0
+    marker_size: 0.0
+  recon_5:
+    x: 0.307
+    y: -0.727
+    z: 0.0
+    rtk_enu:
+    - 0.307
+    - -0.727
+    - 0.0
+    marker: none
+    marker_x: null
+    marker_y: null
+    yaw: 0.0
+    marker_size: 0.0
