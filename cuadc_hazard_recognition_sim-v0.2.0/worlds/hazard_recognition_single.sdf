@@ -1,0 +1,100 @@
+    <?xml version="1.0"?>
+    <sdf version="1.9">
+      <world name="hazard_recognition_single">
+        <physics name="1ms" type="ignore"><max_step_size>0.001</max_step_size><real_time_factor>1.0</real_time_factor></physics>
+        <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors"><render_engine>ogre2</render_engine></plugin>
+        <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+        <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+        <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+        <plugin filename="gz-sim-navsat-system" name="gz::sim::systems::NavSat"/>
+        <spherical_coordinates>
+          <latitude_deg>-35.363262</latitude_deg>
+          <longitude_deg>149.165237</longitude_deg>
+          <elevation>584.0</elevation>
+          <heading_deg>0.0</heading_deg>
+          <surface_model>EARTH_WGS84</surface_model>
+        </spherical_coordinates>
+        <scene><ambient>0.746 0.746 0.746</ambient><background>0.78 0.80 0.82</background><sky/></scene>
+        <light type="directional" name="sun"><pose>0 0 20 0 0 0</pose><diffuse>0.815 0.815 0.815 1</diffuse><specular>0.6 0.6 0.6 1</specular><direction>-0.531 -0.182 -0.9</direction></light>
+        <include>
+  <name>recognition_field</name>
+  <uri>model://recognition_field</uri>
+  <pose>0 0 0 0 0 0.0</pose>
+</include>
+<include>
+  <name>static_d435i_camera</name>
+  <uri>model://static_d435i_camera</uri>
+  <pose>0.0 0.0 5.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>iris_d435i</name>
+  <uri>model://iris_d435i</uri>
+  <pose>-3.5 0.0 0.205 0 0 1.57079632679</pose>
+</include>
+<include>
+  <name>recon_1</name>
+  <uri>model://recon_bucket</uri>
+  <pose>0.87 2.918 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_2</name>
+  <uri>model://recon_bucket</uri>
+  <pose>-0.08 1.715 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_3</name>
+  <uri>model://recon_bucket</uri>
+  <pose>1.169 -2.688 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_4</name>
+  <uri>model://recon_bucket</uri>
+  <pose>1.007 1.317 0.0 0 0 0.0</pose>
+</include>
+<include>
+  <name>recon_5</name>
+  <uri>model://recon_bucket</uri>
+  <pose>0.307 -0.727 0.0 0 0 0.0</pose>
+</include>
+<model name="marker_explosive_recon_3">
+  <static>true</static>
+  <pose>1.1606 -2.673 0.180 0 0 0.129979</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry><box><size>0.1269 0.1269 0.004</size></box></geometry>
+      <material>
+        <diffuse>0.856 0.856 0.856 1</diffuse>
+        <pbr><metal><albedo_map>model://hazard_marker/materials/textures/explosive.png</albedo_map><roughness>0.65</roughness><metalness>0</metalness></metal></pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="marker_corrosive_recon_1">
+  <static>true</static>
+  <pose>0.8756 2.8986 0.180 0 0 -0.063655</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry><box><size>0.1258 0.1258 0.004</size></box></geometry>
+      <material>
+        <diffuse>0.942 0.942 0.942 1</diffuse>
+        <pbr><metal><albedo_map>model://hazard_marker/materials/textures/corrosive.png</albedo_map><roughness>0.65</roughness><metalness>0</metalness></metal></pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+<model name="marker_nonflammable_gas_recon_2">
+  <static>true</static>
+  <pose>-0.0626 1.7081 0.180 0 0 0.10126</pose>
+  <link name="link">
+    <visual name="marker">
+      <geometry><box><size>0.1074 0.1074 0.004</size></box></geometry>
+      <material>
+        <diffuse>0.986 0.986 0.986 1</diffuse>
+        <pbr><metal><albedo_map>model://hazard_marker/materials/textures/nonflammable_gas.png</albedo_map><roughness>0.65</roughness><metalness>0</metalness></metal></pbr>
+      </material>
+    </visual>
+  </link>
+</model>
+      </world>
+    </sdf>
