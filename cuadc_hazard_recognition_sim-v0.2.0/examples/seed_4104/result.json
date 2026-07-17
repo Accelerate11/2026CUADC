@@ -1,0 +1,56 @@
+{
+  "seed": 4104,
+  "mission": "coverage_search_unknown_bucket_positions",
+  "state_machine_has_ground_truth": false,
+  "localization": "rtk",
+  "coverage_waypoints": 14,
+  "coverage_completed": true,
+  "raw_observations": 3,
+  "unmatched_observations": 0,
+  "false_positive_count": 0,
+  "results": [
+    {
+      "bucket": "recon_1",
+      "predicted": "FuShiPin",
+      "truth": "corrosive",
+      "confidence": 0.4878,
+      "separation_m": 0.1447,
+      "correct": true
+    },
+    {
+      "bucket": "recon_2",
+      "predicted": "BuRanQiTi",
+      "truth": "nonflammable_gas",
+      "confidence": 0.8528,
+      "separation_m": 0.0711,
+      "correct": true
+    },
+    {
+      "bucket": "recon_3",
+      "predicted": "BaoZhaPin",
+      "truth": "explosive",
+      "confidence": 0.1824,
+      "separation_m": 0.1599,
+      "correct": true
+    },
+    {
+      "bucket": "recon_4",
+      "predicted": "none",
+      "truth": "none",
+      "confidence": 0.0,
+      "separation_m": null,
+      "correct": true
+    },
+    {
+      "bucket": "recon_5",
+      "predicted": "none",
+      "truth": "none",
+      "confidence": 0.0,
+      "separation_m": null,
+      "correct": true
+    }
+  ],
+  "correct": 5,
+  "total": 5,
+  "pass": true
+}

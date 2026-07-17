@@ -1,0 +1,14 @@
+{
+  "seed": 4104,
+  "mission": "coverage_search_unknown_bucket_positions",
+  "state_machine_has_ground_truth": false,
+  "localization": "rtk",
+  "coverage_waypoints": 14,
+  "coverage_completed": true,
+  "observations": [
+    {"class": "BuRanQiTi", "confidence": 0.8528, "position_local": [3.4451, 1.6923], "route_index": 7, "merged_views": 1, "position_rtk_enu": [-0.0176, 1.6809]},
+    {"class": "FuShiPin", "confidence": 0.4878, "position_local": [4.4302, 3.0363], "route_index": 9, "merged_views": 1, "position_rtk_enu": [0.9675, 3.0249]},
+    {"class": "BaoZhaPin", "confidence": 0.1824, "position_local": [4.6963, -2.8229], "route_index": 11, "merged_views": 1, "position_rtk_enu": [1.2336, -2.8343]}
+  ],
+  "detected": 3
+}
