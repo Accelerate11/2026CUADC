@@ -1,10 +1,11 @@
-# CUADC Hazard Recognition Simulation
+<img width="3837" height="2037" alt="image" src="https://github.com/user-attachments/assets/d075fc02-75f5-418c-91e5-8ee212f03b65" /># CUADC Hazard Recognition Simulation
 
 面向 CUADC 危险物侦察任务的独立开源仿真包。项目基于 ROS 2、Gazebo Sim、ArduPilot SITL、MAVROS 和 ONNX Runtime，实现未知桶位条件下的区域覆盖搜索、RTK 坐标转换、实时视觉识别与 C++ 飞行状态机。
 
 > 本仓库只包含危险物侦察仿真，不包含物资运输、投放或救援全流程。
 
-![OpenCV 实时识别窗口](docs/images/seed_4104_detection.jpg)
+![Uploading 4bcebf6ec7e6251e82e609225eed04ba.png…]()
+![Uploading 60a32efd60bd4eb9bf699f835551e11b.png…]()
 
 ## 功能特点
 
