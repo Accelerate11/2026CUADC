@@ -1,0 +1,13 @@
+std_msgs/Header header
+string class_name
+float32 confidence
+int32 center_u
+int32 center_v
+int32 x1
+int32 y1
+int32 x2
+int32 y2
+uint32 consecutive_count
+bool confirmed
+string[] class_names
+float32[] class_confidences
