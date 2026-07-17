@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>cuadc_hazard_recognition_sim</name>
+  <version>0.2.0</version>
+  <description>Standalone Gazebo and ROS 2 environment for RTK-aware CUADC hazard recognition.</description>
+  <maintainer email="cuadc-hazard-recognition-sim@users.noreply.github.com">CUADC Hazard Recognition Simulation Contributors</maintainer>
+  <license>LGPL-3.0-only</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>rosidl_default_generators</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>geometry_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>mavros_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>yaml_cpp_vendor</depend>
+
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <exec_depend>ros_gz_bridge</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <exec_depend>python3-opencv</exec_depend>
+  <exec_depend>python3-numpy</exec_depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
