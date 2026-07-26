@@ -1,3 +1,13 @@
+/*
+ * 问题说明：
+ * 1. 程序锁定的航向始终为 0°，并非飞机真实起飞航向。
+ * 2. 所有航点因此沿 ENU 地图固定方向生成，导致飞机偏航后朝错误方向飞行。
+ * 3. TAKEOFF 请求未显式设置 yaw，默认 0° 可能再次触发偏航。
+ * 4. 多个 MAVROS 位置话题同时更新当前位置，产生位置跳变。
+ *
+ * 应使用 compass_hdg 锁定真实航向，起飞时显式设置 yaw，
+ * 并只保留一个主要本地位置源。
+ */
 #include <rclcpp/rclcpp.hpp>
 
 #include <geometry_msgs/msg/pose_stamped.hpp>
