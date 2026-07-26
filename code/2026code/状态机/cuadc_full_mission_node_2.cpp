@@ -1,5 +1,6 @@
 #include <rclcpp/rclcpp.hpp>
 
+#include <geometry_msgs/msg/pose_array.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 #include <mavros_msgs/msg/home_position.hpp>
 #include <mavros_msgs/msg/state.hpp>
@@ -35,7 +36,12 @@ enum class MissionState {
   SETTING_GUIDED,
   ARMING,
   TAKEOFF,
-  SCANNING,
+  DROP_SEARCH,
+  DROP_ALIGN_COARSE,
+  DROP_ALIGN_FINE,
+  DROP_RELEASE,
+  DROP_RECOVER,
+  RECON_SURVEY,
   RETURN_HOME,
   LANDING,
   DONE
@@ -53,20 +59,19 @@ struct ReconTarget {
   Point3 point;
 };
 
-struct DropTarget {
-  std::string id;
-  Point3 point;
-  double radius = 0.0;
-  int score = 0;
+struct BucketTrack {
+  Point3 local;
+  Point3 body;
+  double diameter = 0.0;
+  int score_estimate = 0;
+  rclcpp::Time stamp;
+  std::size_t updates = 1;
 };
 
 struct Waypoint {
   Point3 point;
   double hold_s = 0.0;
   std::string label;
-  bool release_payload = false;
-  std::size_t payload_index = 0;
-  std::string drop_target_id;
 };
 
 struct Segment {
@@ -95,6 +100,38 @@ public:
     declare_parameter<double>("cruise_alt", 5.0);
     declare_parameter<double>("drop_hover_alt", 3.0);
     declare_parameter<double>("recon_hover_alt", 3.5);
+    declare_parameter<double>("drop_search_alt", 4.2);
+    declare_parameter<double>("drop_coarse_alt", 3.4);
+    declare_parameter<double>("drop_fine_alt", 3.0);
+    declare_parameter<int>("drop_search_lane_count", 3);
+    declare_parameter<double>("drop_search_edge_margin_m", 0.35);
+    declare_parameter<double>("drop_search_cross_margin_m", 0.55);
+    declare_parameter<double>("coarse_body_error_m", 0.45);
+    declare_parameter<double>("fine_body_error_m", 0.055);
+    declare_parameter<double>("release_body_error_m", 0.055);
+    declare_parameter<double>("coarse_stable_s", 0.8);
+    declare_parameter<double>("fine_stable_s", 0.9);
+    declare_parameter<double>("drop_lost_timeout_s", 3.0);
+    declare_parameter<double>("track_gate_m", 0.85);
+    declare_parameter<int>("bucket_min_confirmations", 3);
+    declare_parameter<double>("align_initial_track_grace_s", 10.0);
+    declare_parameter<double>("known_bucket_memory_s", 180.0);
+    declare_parameter<double>("drop_target_timeout_s", 30.0);
+    declare_parameter<double>("fine_align_timeout_s", 12.0);
+    declare_parameter<int>("release_gate_max_retries", 4);
+    declare_parameter<double>("timeout_release_body_error_m", 0.45);
+    declare_parameter<bool>("allow_degraded_timeout_release", true);
+    declare_parameter<double>("b_zone_final_approach_timeout_s", 10.0);
+    declare_parameter<double>("align_retarget_interval_s", 0.65);
+    declare_parameter<double>("align_retarget_delta_m", 0.45);
+    declare_parameter<double>("align_target_smoothing", 0.30);
+    declare_parameter<int>("max_drop_search_passes", 3);
+    declare_parameter<bool>("use_known_bucket_after_release", true);
+    declare_parameter<bool>("search_until_candidates_for_payloads", true);
+    declare_parameter<bool>("first_payload_require_500_and_300", true);
+    declare_parameter<double>("drop_release_hold_s", 0.6);
+    declare_parameter<double>("post_drop_climb_hold_s", 0.4);
+    declare_parameter<int>("payload_count", 2);
     declare_parameter<double>("drop_settle_s", 2.0);
     declare_parameter<double>("post_drop_hold_s", 0.8);
     declare_parameter<double>("mission_yaw_rad", 0.0);
@@ -124,11 +161,11 @@ public:
     declare_parameter<bool>("use_generated_scene", true);
     declare_parameter<std::string>("generated_scene_path", "");
     declare_parameter<std::string>("scene_coordinate_mode", "gazebo_world_to_mavros_local");
-    declare_parameter<std::vector<std::string>>("drop_targets", std::vector<std::string>{"drop_1", "drop_2"});
+    declare_parameter<std::string>("bucket_detection_topic", "/perception/drop_buckets_body");
     declare_parameter<std::vector<double>>("payload_release_offsets_body_m", std::vector<double>{0.0, 0.0, -0.16, 0.0, 0.0, -0.16});
     declare_parameter<std::vector<double>>("payload_drop_bias_body_m", std::vector<double>{0.0, 0.0, 0.0, 0.0, 0.0, 0.0});
     declare_parameter<std::vector<double>>("camera_offset_body_m", std::vector<double>{0.0, 0.0, -0.08});
-    declare_parameter<std::vector<double>>("camera_optical_to_body_rotation", std::vector<double>{1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0});
+    declare_parameter<std::vector<double>>("camera_optical_to_body_rotation", std::vector<double>{-1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0});
     declare_parameter<std::vector<double>>("camera_target_point_camera_m", std::vector<double>{0.0, 0.0, 0.0});
     declare_parameter<std::vector<double>>("camera_target_point_body_m", std::vector<double>{0.0, 0.0, 0.0});
     declare_parameter<bool>("use_camera_target_point_body", false);
@@ -147,6 +184,41 @@ public:
     cruise_alt_ = get_parameter("cruise_alt").as_double();
     drop_hover_alt_ = get_parameter("drop_hover_alt").as_double();
     recon_hover_alt_ = get_parameter("recon_hover_alt").as_double();
+    drop_search_alt_ = get_parameter("drop_search_alt").as_double();
+    drop_coarse_alt_ = get_parameter("drop_coarse_alt").as_double();
+    drop_fine_alt_ = get_parameter("drop_fine_alt").as_double();
+    drop_search_lane_count_ = std::max(1, static_cast<int>(get_parameter("drop_search_lane_count").as_int()));
+    drop_search_edge_margin_m_ = std::max(0.0, get_parameter("drop_search_edge_margin_m").as_double());
+    drop_search_cross_margin_m_ = std::max(0.0, get_parameter("drop_search_cross_margin_m").as_double());
+    coarse_body_error_m_ = std::max(0.05, get_parameter("coarse_body_error_m").as_double());
+    fine_body_error_m_ = std::max(0.03, get_parameter("fine_body_error_m").as_double());
+    release_body_error_m_ = std::max(0.02, get_parameter("release_body_error_m").as_double());
+    coarse_stable_s_ = std::max(0.1, get_parameter("coarse_stable_s").as_double());
+    fine_stable_s_ = std::max(0.1, get_parameter("fine_stable_s").as_double());
+    drop_lost_timeout_s_ = std::max(0.2, get_parameter("drop_lost_timeout_s").as_double());
+    track_gate_m_ = std::max(0.1, get_parameter("track_gate_m").as_double());
+    bucket_min_confirmations_ = std::max(1, static_cast<int>(get_parameter("bucket_min_confirmations").as_int()));
+    align_initial_track_grace_s_ = std::max(0.5, get_parameter("align_initial_track_grace_s").as_double());
+    known_bucket_memory_s_ = std::max(1.0, get_parameter("known_bucket_memory_s").as_double());
+    drop_target_timeout_s_ = std::max(5.0, get_parameter("drop_target_timeout_s").as_double());
+    fine_align_timeout_s_ = std::max(2.0, get_parameter("fine_align_timeout_s").as_double());
+    release_gate_max_retries_ = std::max(0, static_cast<int>(get_parameter("release_gate_max_retries").as_int()));
+    timeout_release_body_error_m_ = std::max(
+      release_body_error_m_, get_parameter("timeout_release_body_error_m").as_double());
+    allow_degraded_timeout_release_ = get_parameter("allow_degraded_timeout_release").as_bool();
+    b_zone_final_approach_timeout_s_ = std::max(
+      2.0, get_parameter("b_zone_final_approach_timeout_s").as_double());
+    align_retarget_interval_s_ = std::max(0.05, get_parameter("align_retarget_interval_s").as_double());
+    align_retarget_delta_m_ = std::max(0.05, get_parameter("align_retarget_delta_m").as_double());
+    align_target_smoothing_ = std::clamp(
+      get_parameter("align_target_smoothing").as_double(), 0.05, 1.0);
+    max_drop_search_passes_ = std::max(1, static_cast<int>(get_parameter("max_drop_search_passes").as_int()));
+    use_known_bucket_after_release_ = get_parameter("use_known_bucket_after_release").as_bool();
+    search_until_candidates_for_payloads_ = get_parameter("search_until_candidates_for_payloads").as_bool();
+    first_payload_require_500_and_300_ = get_parameter("first_payload_require_500_and_300").as_bool();
+    drop_release_hold_s_ = std::max(0.1, get_parameter("drop_release_hold_s").as_double());
+    post_drop_climb_hold_s_ = std::max(0.0, get_parameter("post_drop_climb_hold_s").as_double());
+    payload_count_ = std::max(1, static_cast<int>(get_parameter("payload_count").as_int()));
     drop_settle_s_ = get_parameter("drop_settle_s").as_double();
     post_drop_hold_s_ = get_parameter("post_drop_hold_s").as_double();
     mission_yaw_rad_ = get_parameter("mission_yaw_rad").as_double();
@@ -191,13 +263,13 @@ public:
     use_generated_scene_ = get_parameter("use_generated_scene").as_bool();
     generated_scene_path_ = get_parameter("generated_scene_path").as_string();
     scene_coordinate_mode_ = get_parameter("scene_coordinate_mode").as_string();
-    requested_drop_targets_ = get_parameter("drop_targets").as_string_array();
+    bucket_detection_topic_ = get_parameter("bucket_detection_topic").as_string();
     payload_release_offsets_body_ = get_parameter("payload_release_offsets_body_m").as_double_array();
     payload_drop_bias_body_ = get_parameter("payload_drop_bias_body_m").as_double_array();
     camera_offset_body_ = get_parameter("camera_offset_body_m").as_double_array();
     camera_optical_to_body_rotation_ = matrix3_param(
       "camera_optical_to_body_rotation",
-      std::array<double, 9>{1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0});
+      std::array<double, 9>{-1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0});
     camera_target_point_camera_ = get_parameter("camera_target_point_camera_m").as_double_array();
     camera_target_point_body_ = get_parameter("camera_target_point_body_m").as_double_array();
     use_camera_target_point_body_ = get_parameter("use_camera_target_point_body").as_bool();
@@ -229,6 +301,9 @@ public:
     pose_sub_ = create_subscription<geometry_msgs::msg::PoseStamped>(
       "/mavros/local_position/pose", best_effort,
       std::bind(&CuadcFullMissionNode::pose_cb, this, std::placeholders::_1));
+    bucket_sub_ = create_subscription<geometry_msgs::msg::PoseArray>(
+      bucket_detection_topic_, best_effort,
+      std::bind(&CuadcFullMissionNode::bucket_cb, this, std::placeholders::_1));
 
     setpoint_pub_ = create_publisher<geometry_msgs::msg::PoseStamped>(
       "/mavros/setpoint_position/local", rclcpp::QoS(10).reliable());
@@ -248,9 +323,10 @@ public:
 
     RCLCPP_INFO(
       get_logger(),
-      "CUADC full mission C++ node started; drop_targets=%zu, recon_targets=%zu, coordinate_mode=%s, field_yaw=%.3f rad, lock_initial_yaw=%s",
-      drop_targets_.size(), recon_targets_.size(), scene_coordinate_mode_.c_str(),
-      field_yaw_offset_rad_, lock_mission_yaw_to_initial_heading_ ? "true" : "false");
+      "CUADC full mission C++ node started; dynamic_bucket_search=true, recon_targets=%zu, "
+      "coordinate_mode=%s, field_yaw=%.3f rad, lock_initial_yaw=%s, bucket_topic=%s",
+      recon_targets_.size(), scene_coordinate_mode_.c_str(), field_yaw_offset_rad_,
+      lock_mission_yaw_to_initial_heading_ ? "true" : "false", bucket_detection_topic_.c_str());
     log_mount_calibration();
   }
 
@@ -281,6 +357,65 @@ private:
       msg->pose.orientation.z,
       msg->pose.orientation.w,
       "local_position/pose");
+  }
+
+  void bucket_cb(const geometry_msgs::msg::PoseArray::SharedPtr msg) {
+    if (!have_local_position_ || !have_local_heading_ || !mission_frame_locked_) {
+      return;
+    }
+
+    std::vector<BucketTrack> detections;
+    detections.reserve(msg->poses.size());
+    for (const auto & pose : msg->poses) {
+      const Point3 body{
+        pose.position.x,
+        pose.position.y,
+        pose.position.z};
+      if (!std::isfinite(body.x) || !std::isfinite(body.y) || !std::isfinite(body.z)) {
+        continue;
+      }
+      const Point3 local = body_point_to_local(body);
+      if (bucket_unavailable(local)) {
+        continue;
+      }
+      const double diameter = std::max(0.0, pose.orientation.x);
+      detections.push_back(BucketTrack{
+        local,
+        body,
+        diameter,
+        score_from_diameter(diameter),
+        now(),
+        1});
+    }
+
+    for (const auto & detection : detections) {
+      merge_bucket_track(known_buckets_, detection);
+      if (mission_state_ == MissionState::DROP_SEARCH) {
+        merge_bucket_track(search_candidates_, detection);
+      }
+    }
+
+    if (!active_bucket_.has_value() || detections.empty()) {
+      return;
+    }
+    if (mission_state_ != MissionState::DROP_ALIGN_COARSE &&
+      mission_state_ != MissionState::DROP_ALIGN_FINE &&
+      mission_state_ != MissionState::DROP_RELEASE)
+    {
+      return;
+    }
+
+    auto nearest = std::min_element(
+      detections.begin(), detections.end(),
+      [this](const BucketTrack & a, const BucketTrack & b) {
+        return distance_xy(a.local, active_bucket_->local) <
+               distance_xy(b.local, active_bucket_->local);
+      });
+    if (nearest != detections.end() &&
+      distance_xy(nearest->local, active_bucket_->local) <= track_gate_m_)
+    {
+      smooth_bucket_track(*active_bucket_, *nearest);
+    }
   }
 
   void update_local_pose(
@@ -507,12 +642,15 @@ private:
       RCLCPP_INFO(
         get_logger(),
         "state=%s, pos=(%.1f, %.1f, %.1f), target=(%.1f, %.1f, %.1f), "
-        "yaw_vehicle=%.2fdeg yaw_command=%.2fdeg yaw_locked=%.2fdeg",
+        "yaw_vehicle=%.2fdeg yaw_command=%.2fdeg yaw_locked=%.2fdeg, "
+        "bucket_track=%s payload=%d/%d known_buckets=%zu",
         state_name(mission_state_).c_str(), current_position_.x, current_position_.y,
         current_position_.z, target_.x, target_.y, target_.z,
         current_heading_rad_ * 180.0 / M_PI,
         current_yaw_ * 180.0 / M_PI,
-        mission_heading_rad_ * 180.0 / M_PI);
+        mission_heading_rad_ * 180.0 / M_PI,
+        active_bucket_.has_value() ? "yes" : "no",
+        payload_index_, payload_count_, valid_known_bucket_count());
     }
 
     switch (mission_state_) {
@@ -627,7 +765,7 @@ private:
         }
         if (relative_altitude() >= takeoff_alt_ * 0.9) {
           publish_setpoints_ = true;
-          start_scan();
+          start_drop_search();
         } else if (takeoff_sent_ && seconds_since(state_enter_time_) > takeoff_timeout_s_) {
           RCLCPP_ERROR(
             get_logger(), "Takeoff timeout at relative altitude %.2f m; landing instead of advancing the mission",
@@ -636,8 +774,28 @@ private:
         }
         break;
 
-      case MissionState::SCANNING:
-        update_scan_trajectory();
+      case MissionState::DROP_SEARCH:
+        update_drop_search();
+        break;
+
+      case MissionState::DROP_ALIGN_COARSE:
+        update_drop_alignment(false);
+        break;
+
+      case MissionState::DROP_ALIGN_FINE:
+        update_drop_alignment(true);
+        break;
+
+      case MissionState::DROP_RELEASE:
+        update_dynamic_release();
+        break;
+
+      case MissionState::DROP_RECOVER:
+        update_drop_recover();
+        break;
+
+      case MissionState::RECON_SURVEY:
+        update_recon_survey();
         break;
 
       case MissionState::RETURN_HOME:
@@ -673,6 +831,18 @@ private:
       const YAML::Node field = scene["field"];
       if (field) {
         log_field_dimensions(field);
+        if (field["drop_area_center"] && field["drop_area_center"].IsSequence() &&
+          field["drop_area_center"].size() >= 2)
+        {
+          field_drop_center_.x = field["drop_area_center"][0].as<double>();
+          field_drop_center_.y = field["drop_area_center"][1].as<double>();
+        }
+        if (field["drop_area_size"] && field["drop_area_size"].IsSequence() &&
+          field["drop_area_size"].size() >= 2)
+        {
+          field_drop_size_x_ = field["drop_area_size"][0].as<double>();
+          field_drop_size_y_ = field["drop_area_size"][1].as<double>();
+        }
       }
 
       const YAML::Node vehicle = scene["vehicle"];
@@ -681,25 +851,8 @@ private:
         vehicle_spawn_world_.y = vehicle["pose"][1].as<double>();
       }
 
-      const YAML::Node drop_targets = scene["drop_targets"];
-      if (drop_targets && drop_targets.IsMap()) {
-        for (const auto & item : drop_targets) {
-          const std::string id = item.first.as<std::string>();
-          const YAML::Node node = item.second;
-          Point3 p;
-          p.x = node["x"].as<double>();
-          p.y = node["y"].as<double>();
-          p.z = drop_hover_alt_;
-          DropTarget target;
-          target.id = id;
-          target.point = p;
-          target.radius = node["radius"] ? node["radius"].as<double>() : 0.0;
-          target.score = node["score"] ? node["score"].as<int>() : 0;
-          drop_targets_.push_back(target);
-        }
-      } else {
-        RCLCPP_WARN(get_logger(), "No drop_targets map found in %s", generated_scene_path_.c_str());
-      }
+      // Bucket positions are intentionally not loaded here. In both simulation and
+      // competition mode the C++ mission must discover them through perception.
 
       const YAML::Node targets = scene["recon_targets"];
       if (!targets || !targets.IsMap()) {
@@ -828,12 +981,21 @@ private:
   }
 
   Point3 body_vector_to_local(const Point3 & body_vector) const {
-    const double c = std::cos(mission_yaw_rad_);
-    const double s = std::sin(mission_yaw_rad_);
+    const double yaw = have_local_heading_ ? current_heading_rad_ : mission_heading_rad_;
+    const double c = std::cos(yaw);
+    const double s = std::sin(yaw);
     return Point3{
       c * body_vector.x - s * body_vector.y,
       s * body_vector.x + c * body_vector.y,
       body_vector.z};
+  }
+
+  Point3 body_point_to_local(const Point3 & body_point) const {
+    const Point3 offset = body_vector_to_local(body_point);
+    return Point3{
+      current_position_.x + offset.x,
+      current_position_.y + offset.y,
+      current_position_.z + offset.z};
   }
 
   Point3 payload_release_vector_body(std::size_t payload_index) const {
@@ -885,147 +1047,257 @@ private:
     return Point3{observed_point.x - view_local.x, observed_point.y - view_local.y, observed_point.z};
   }
 
-  std::vector<DropTarget> select_drop_targets() const {
-    std::vector<DropTarget> selected;
-    if (!requested_drop_targets_.empty()) {
-      for (const auto & id : requested_drop_targets_) {
-        auto it = std::find_if(
-          drop_targets_.begin(), drop_targets_.end(),
-          [&id](const DropTarget & target) { return target.id == id; });
-        if (it != drop_targets_.end()) {
-          selected.push_back(*it);
-        } else {
-          RCLCPP_WARN(get_logger(), "Requested drop target %s was not found", id.c_str());
-        }
-      }
-      return selected;
+  static int score_from_diameter(double diameter) {
+    if (diameter <= 0.0) {
+      return 0;
     }
-
-    selected = drop_targets_;
-    std::sort(selected.begin(), selected.end(), [](const DropTarget & a, const DropTarget & b) {
-      return a.score > b.score;
-    });
-    if (selected.size() > 2) {
-      selected.resize(2);
+    if (diameter < 0.175) {
+      return 500;
     }
-    return selected;
+    if (diameter < 0.225) {
+      return 300;
+    }
+    return 100;
   }
 
-  std::vector<Waypoint> make_scan_route(const Point3 & start) const {
+  bool near_any(const Point3 & point, const std::vector<Point3> & points) const {
+    return std::any_of(
+      points.begin(), points.end(),
+      [this, &point](const Point3 & old) {
+        return distance_xy(point, old) < 0.65;
+      });
+  }
+
+  bool bucket_unavailable(const Point3 & point) const {
+    return near_any(point, released_buckets_) || near_any(point, skipped_buckets_);
+  }
+
+  void smooth_bucket_track(BucketTrack & track, const BucketTrack & detection) {
+    constexpr double alpha = 0.35;
+    track.local.x = (1.0 - alpha) * track.local.x + alpha * detection.local.x;
+    track.local.y = (1.0 - alpha) * track.local.y + alpha * detection.local.y;
+    track.local.z = (1.0 - alpha) * track.local.z + alpha * detection.local.z;
+    track.body = detection.body;
+    track.diameter = detection.diameter;
+    track.score_estimate = detection.score_estimate;
+    track.stamp = detection.stamp;
+    ++track.updates;
+  }
+
+  void merge_bucket_track(std::vector<BucketTrack> & tracks, const BucketTrack & detection) {
+    if (bucket_unavailable(detection.local)) {
+      return;
+    }
+    auto nearest = std::min_element(
+      tracks.begin(), tracks.end(),
+      [this, &detection](const BucketTrack & a, const BucketTrack & b) {
+        return distance_xy(a.local, detection.local) < distance_xy(b.local, detection.local);
+      });
+    if (nearest != tracks.end() &&
+      distance_xy(nearest->local, detection.local) <= track_gate_m_)
+    {
+      smooth_bucket_track(*nearest, detection);
+      return;
+    }
+    tracks.push_back(detection);
+  }
+
+  bool valid_bucket_track(const BucketTrack & track, double max_age_s) const {
+    return track.updates >= static_cast<std::size_t>(bucket_min_confirmations_) &&
+      !bucket_unavailable(track.local) &&
+      seconds_since(track.stamp) <= max_age_s;
+  }
+
+  std::vector<BucketTrack> valid_known_buckets() const {
+    std::vector<BucketTrack> valid;
+    for (const auto & track : known_buckets_) {
+      if (valid_bucket_track(track, known_bucket_memory_s_)) {
+        valid.push_back(track);
+      }
+    }
+    return valid;
+  }
+
+  std::size_t valid_known_bucket_count() const {
+    return valid_known_buckets().size();
+  }
+
+  std::optional<BucketTrack> best_known_bucket() const {
+    auto valid = valid_known_buckets();
+    if (valid.empty()) {
+      return std::nullopt;
+    }
+    const auto best = std::max_element(
+      valid.begin(), valid.end(),
+      [this](const BucketTrack & a, const BucketTrack & b) {
+        if (a.score_estimate != b.score_estimate) {
+          return a.score_estimate < b.score_estimate;
+        }
+        if (a.updates != b.updates) {
+          return a.updates < b.updates;
+        }
+        return distance_xy(current_position_, a.local) >
+               distance_xy(current_position_, b.local);
+      });
+    return *best;
+  }
+
+  int remaining_payloads() const {
+    return std::max(0, payload_count_ - payload_index_);
+  }
+
+  bool enough_known_buckets_for_plan() const {
+    auto valid = valid_known_buckets();
+    const int remaining = remaining_payloads();
+    if (remaining <= 0) {
+      return true;
+    }
+    if (valid.size() < static_cast<std::size_t>(remaining)) {
+      return false;
+    }
+    if (first_payload_require_500_and_300_ && payload_index_ == 0 && remaining >= 2) {
+      std::vector<int> scores;
+      scores.reserve(valid.size());
+      for (const auto & bucket : valid) {
+        scores.push_back(bucket.score_estimate);
+      }
+      std::sort(scores.begin(), scores.end(), std::greater<int>());
+      return scores.size() >= 2 && scores[0] >= 500 && scores[1] >= 300;
+    }
+    return true;
+  }
+
+  Point3 field_offset_point(
+    const Point3 & center, double field_x, double field_y, double relative_altitude_m) const
+  {
+    const double c = std::cos(field_yaw_rad_);
+    const double s = std::sin(field_yaw_rad_);
+    return Point3{
+      center.x + c * field_x - s * field_y,
+      center.y + s * field_x + c * field_y,
+      mission_altitude(relative_altitude_m)};
+  }
+
+  double route_cost_from(const Point3 & start, const std::vector<Waypoint> & route) const {
+    if (route.empty()) {
+      return 0.0;
+    }
+    double cost = distance_xy(start, route.front().point);
+    for (std::size_t i = 1; i < route.size(); ++i) {
+      cost += distance_xy(route[i - 1].point, route[i].point);
+    }
+    return cost;
+  }
+
+  std::vector<Waypoint> make_drop_search_route() const {
+    const Point3 center = scene_point_to_local(field_drop_center_, drop_search_alt_);
+    const double half_x = std::max(
+      0.2, field_drop_size_x_ * 0.5 - drop_search_edge_margin_m_);
+    const double half_y = std::max(
+      0.2, field_drop_size_y_ * 0.5 - drop_search_cross_margin_m_);
+
+    std::vector<double> lanes;
+    lanes.reserve(static_cast<std::size_t>(drop_search_lane_count_));
+    if (drop_search_lane_count_ == 1) {
+      lanes.push_back(0.0);
+    } else {
+      for (int i = 0; i < drop_search_lane_count_; ++i) {
+        const double ratio = static_cast<double>(i) /
+          static_cast<double>(drop_search_lane_count_ - 1);
+        lanes.push_back(-half_y + 2.0 * half_y * ratio);
+      }
+    }
+
+    const auto build = [this, &center, half_x](
+      std::vector<double> lane_order, bool start_forward)
+      {
+        std::vector<Waypoint> route;
+        bool forward = start_forward;
+        for (double lane : lane_order) {
+          route.push_back(Waypoint{
+            field_offset_point(
+              center, forward ? -half_x : half_x, lane, drop_search_alt_),
+            0.0, "drop_search"});
+          route.push_back(Waypoint{
+            field_offset_point(
+              center, forward ? half_x : -half_x, lane, drop_search_alt_),
+            0.0, "drop_search"});
+          forward = !forward;
+        }
+        return route;
+      };
+
+    std::vector<double> reversed = lanes;
+    std::reverse(reversed.begin(), reversed.end());
+    std::vector<std::vector<Waypoint>> candidates;
+    candidates.push_back(build(lanes, true));
+    candidates.push_back(build(lanes, false));
+    candidates.push_back(build(reversed, true));
+    candidates.push_back(build(reversed, false));
+    const auto best = std::min_element(
+      candidates.begin(), candidates.end(),
+      [this](const auto & a, const auto & b) {
+        return route_cost_from(current_position_, a) <
+               route_cost_from(current_position_, b);
+      });
+    return best == candidates.end() ? std::vector<Waypoint>{} : *best;
+  }
+
+  std::vector<Waypoint> make_recon_route() const {
     std::vector<Waypoint> route;
-    Point3 cursor = start;
-
-    std::vector<DropTarget> selected_drops = select_drop_targets();
-    for (std::size_t i = 0; i < selected_drops.size(); ++i) {
-      DropTarget target = selected_drops[i];
-      target.point = scene_point_to_local(target.point, drop_hover_alt_);
-      const Point3 release_point = compensated_release_point(target.point, i);
-      const std::string label = target.id + " score=" + std::to_string(target.score);
-      const Point3 cruise_point{release_point.x, release_point.y, mission_altitude(cruise_alt_)};
-      route.push_back(Waypoint{cruise_point, 0.0, "drop cruise " + label, false, 0, ""});
-      route.push_back(Waypoint{release_point, drop_settle_s_, "drop settle " + label, false, 0, ""});
-      route.push_back(Waypoint{release_point, post_drop_hold_s_, "drop release " + label, true, i, target.id});
-      route.push_back(Waypoint{cruise_point, 0.0, "drop climb " + label, false, 0, ""});
-      cursor = cruise_point;
+    std::vector<ReconTarget> remaining = recon_targets_;
+    Point3 cursor = current_position_;
+    for (auto & target : remaining) {
+      target.point = scene_point_to_local(target.point, recon_hover_alt_);
     }
-
-    if (!recon_targets_.empty()) {
-      std::vector<ReconTarget> remaining = recon_targets_;
-      for (auto & target : remaining) {
-        target.point = scene_point_to_local(target.point, recon_hover_alt_);
-      }
-
-      while (!remaining.empty()) {
-        auto best_it = std::min_element(
-          remaining.begin(), remaining.end(),
-          [&cursor](const ReconTarget & a, const ReconTarget & b) {
-            return distance_xy(cursor, a.point) < distance_xy(cursor, b.point);
-          });
-
-        const Point3 view_point = compensated_camera_view_point(best_it->point);
-        route.push_back(Waypoint{
-          view_point,
-          bucket_hold_s_,
-          "recon " + best_it->id + "(" + best_it->marker + ")",
-          false,
-          0,
-          ""});
-        cursor = view_point;
-        remaining.erase(best_it);
-      }
-      return route;
-    }
-
-    if (!route.empty()) {
-      return route;
-    }
-
-    for (std::size_t i = 0; i < fallback_scan_waypoints_.size(); ++i) {
+    while (!remaining.empty()) {
+      auto nearest = std::min_element(
+        remaining.begin(), remaining.end(),
+        [this, &cursor](const ReconTarget & a, const ReconTarget & b) {
+          return distance_xy(cursor, a.point) < distance_xy(cursor, b.point);
+        });
+      const Point3 view_point = compensated_camera_view_point(nearest->point);
       route.push_back(Waypoint{
-        scene_point_to_local(fallback_scan_waypoints_[i], recon_hover_alt_),
+        view_point,
         bucket_hold_s_,
-        "fallback_" + std::to_string(i + 1),
-        false,
-        0,
-        ""});
+        "recon " + nearest->id + "(" + nearest->marker + ")"});
+      cursor = view_point;
+      remaining.erase(nearest);
+    }
+    if (route.empty()) {
+      for (std::size_t i = 0; i < fallback_scan_waypoints_.size(); ++i) {
+        route.push_back(Waypoint{
+          scene_point_to_local(fallback_scan_waypoints_[i], recon_hover_alt_),
+          bucket_hold_s_,
+          "recon_fallback_" + std::to_string(i + 1)});
+      }
     }
     return route;
   }
 
-  void start_scan() {
+  void reset_route(const std::vector<Waypoint> & route) {
+    scan_route_ = route;
     scan_index_ = 0;
     holding_at_waypoint_ = false;
-    scan_route_ = make_scan_route(current_position_at_altitude());
-
-    if (scan_route_.empty()) {
-      RCLCPP_WARN(get_logger(), "Scan route is empty, returning home");
-      start_return_home();
-      return;
-    }
-
-    for (std::size_t i = 0; i < scan_route_.size(); ++i) {
-      const auto & wp = scan_route_[i];
-      RCLCPP_INFO(
-        get_logger(),
-        "Scan wp %zu/%zu %s -> ENU/map (x=%.2f, y=%.2f, z=%.2f), hold %.1fs",
-        i + 1, scan_route_.size(), wp.label.c_str(),
-        wp.point.x, wp.point.y, wp.point.z, wp.hold_s);
-    }
-
-    start_segment(current_position_at_altitude(), scan_route_.front().point);
-    enter_state(MissionState::SCANNING);
   }
 
-  void update_scan_trajectory() {
+  bool update_route_trajectory() {
     if (scan_index_ >= scan_route_.size()) {
-      start_return_home();
-      return;
+      return true;
     }
 
     if (holding_at_waypoint_) {
-      const auto & wp = scan_route_[scan_index_];
-      target_ = wp.point;
-      if (wp.release_payload) {
-        update_release_during_hold(wp);
+      target_ = scan_route_[scan_index_].point;
+      if (seconds_since(hold_start_time_) < scan_route_[scan_index_].hold_s) {
+        return false;
       }
-      if (seconds_since(hold_start_time_) < wp.hold_s) {
-        return;
-      }
-      if (wp.release_payload && servo_return_to_stowed_ && !servo_return_sent_ &&
-          (release_mode_ == "servo" || release_mode_ == "both")) {
-        send_servo_for_payload(wp.payload_index, false);
-        servo_return_sent_ = true;
-      }
-
       holding_at_waypoint_ = false;
       ++scan_index_;
       if (scan_index_ >= scan_route_.size()) {
-        RCLCPP_INFO(get_logger(), "Scan trajectory finished, returning home");
-        start_return_home();
-        return;
+        return true;
       }
-      start_segment(active_segment_.end, scan_route_[scan_index_].point);
-      return;
+      start_segment(current_position_, scan_route_[scan_index_].point);
+      return false;
     }
 
     target_ = sample_segment();
@@ -1033,62 +1305,455 @@ private:
     if (!segment_finished() ||
       distance_xy(current_position_, active_segment_.end) > accept_radius_)
     {
-      return;
+      return false;
     }
 
     target_ = active_segment_.end;
-    update_yaw_to_target(target_);
     if (scan_route_[scan_index_].hold_s > 0.0) {
-      begin_hold_at_current_waypoint();
-      return;
+      holding_at_waypoint_ = true;
+      hold_start_time_ = now();
+      RCLCPP_INFO(
+        get_logger(), "Holding over %s for %.1f s",
+        scan_route_[scan_index_].label.c_str(), scan_route_[scan_index_].hold_s);
+      return false;
     }
 
     ++scan_index_;
     if (scan_index_ >= scan_route_.size()) {
-      RCLCPP_INFO(get_logger(), "Scan trajectory finished, returning home");
-      start_return_home();
-      return;
+      return true;
     }
-    start_segment(active_segment_.end, scan_route_[scan_index_].point);
+    start_segment(current_position_, scan_route_[scan_index_].point);
+    return false;
   }
 
-
-  void begin_hold_at_current_waypoint() {
-    holding_at_waypoint_ = true;
-    hold_start_time_ = now();
+  void start_drop_search() {
+    active_bucket_.reset();
+    search_candidates_.clear();
     release_started_ = false;
     servo_return_sent_ = false;
-    const auto & wp = scan_route_[scan_index_];
+    force_release_reason_.clear();
+    b_zone_fuse_start_time_.reset();
+    target_lock_time_.reset();
+    release_gate_retries_ = 0;
+    ++search_pass_;
+
+    reset_route(make_drop_search_route());
+    if (scan_route_.empty()) {
+      RCLCPP_ERROR(get_logger(), "Drop search route is empty; continuing reconnaissance");
+      start_recon_survey();
+      return;
+    }
+
     RCLCPP_INFO(
-      get_logger(), "Holding over %s for %.1fs%s",
-      wp.label.c_str(), wp.hold_s, wp.release_payload ? " with release" : "");
+      get_logger(),
+      "Start dynamic drop search pass %d/%d, lanes=%d, waypoints=%zu, "
+      "area_center_field=(%.2f, %.2f), area_size=(%.2f x %.2f); "
+      "no bucket coordinates loaded",
+      search_pass_, max_drop_search_passes_, drop_search_lane_count_,
+      scan_route_.size(), field_drop_center_.x, field_drop_center_.y,
+      field_drop_size_x_, field_drop_size_y_);
+    start_segment(current_position_, scan_route_.front().point);
+    enter_state(MissionState::DROP_SEARCH);
   }
 
-  void update_release_during_hold(const Waypoint & wp) {
+  void update_drop_search() {
+    const auto best = best_known_bucket();
+    if (best.has_value() &&
+      (!search_until_candidates_for_payloads_ || enough_known_buckets_for_plan()))
+    {
+      commit_bucket_candidate(
+        *best,
+        enough_known_buckets_for_plan() ?
+        "enough confirmed unreleased buckets" : "confirmed bucket detected");
+      return;
+    }
+
+    if (!update_route_trajectory()) {
+      return;
+    }
+
+    const auto best_after_pass = best_known_bucket();
+    if (best_after_pass.has_value()) {
+      commit_bucket_candidate(*best_after_pass, "best bucket after full search pass");
+    } else if (search_pass_ < max_drop_search_passes_) {
+      start_drop_search();
+    } else {
+      RCLCPP_WARN(
+        get_logger(),
+        "No confirmed bucket after %d full search passes; skipping blind release",
+        search_pass_);
+      start_recon_survey();
+    }
+  }
+
+  void commit_bucket_candidate(const BucketTrack & candidate, const std::string & reason) {
+    if (bucket_unavailable(candidate.local)) {
+      continue_drop_plan("candidate became unavailable");
+      return;
+    }
+    active_bucket_ = candidate;
+    active_bucket_->stamp = now();
+    target_lock_time_ = now();
+    release_gate_retries_ = 0;
+    force_release_reason_.clear();
+    b_zone_fuse_start_time_.reset();
+    RCLCPP_INFO(
+      get_logger(),
+      "Lock discovered bucket (%s): local=(%.2f, %.2f), diameter=%.3f, "
+      "score_est=%d, confirmations=%zu",
+      reason.c_str(), candidate.local.x, candidate.local.y,
+      candidate.diameter, candidate.score_estimate, candidate.updates);
+    start_drop_alignment(false);
+  }
+
+  Point3 release_setpoint(double relative_altitude_m) const {
+    if (!active_bucket_.has_value()) {
+      return Point3{
+        current_position_.x,
+        current_position_.y,
+        mission_altitude(relative_altitude_m)};
+    }
+    Point3 bucket{
+      active_bucket_->local.x,
+      active_bucket_->local.y,
+      mission_altitude(relative_altitude_m)};
+    return compensated_release_point(bucket, static_cast<std::size_t>(payload_index_));
+  }
+
+  double body_release_error() const {
+    if (!active_bucket_.has_value()) {
+      return std::numeric_limits<double>::infinity();
+    }
+    const Point3 release_body =
+      payload_release_vector_body(static_cast<std::size_t>(payload_index_));
+    return std::hypot(
+      active_bucket_->body.x - release_body.x,
+      active_bucket_->body.y - release_body.y);
+  }
+
+  double local_release_error() const {
+    if (!active_bucket_.has_value()) {
+      return std::numeric_limits<double>::infinity();
+    }
+    const Point3 release_local =
+      body_vector_to_local(payload_release_vector_body(static_cast<std::size_t>(payload_index_)));
+    const Point3 release_point{
+      current_position_.x + release_local.x,
+      current_position_.y + release_local.y,
+      current_position_.z + release_local.z};
+    return distance_xy(release_point, active_bucket_->local);
+  }
+
+  bool active_track_recent() const {
+    return active_bucket_.has_value() &&
+      seconds_since(active_bucket_->stamp) <= drop_lost_timeout_s_;
+  }
+
+  double estimated_release_error() const {
+    const double local_error = local_release_error();
+    return active_track_recent() ? std::min(body_release_error(), local_error) : local_error;
+  }
+
+  void start_drop_alignment(bool fine) {
+    align_stable_since_.reset();
+    last_align_target_.reset();
+    last_align_retarget_.reset();
+    if (!target_lock_time_.has_value()) {
+      target_lock_time_ = now();
+    }
+    const Point3 desired = release_setpoint(fine ? drop_fine_alt_ : drop_coarse_alt_);
+    last_align_target_ = desired;
+    last_align_retarget_ = now();
+    start_segment(current_position_, desired);
+    enter_state(fine ? MissionState::DROP_ALIGN_FINE : MissionState::DROP_ALIGN_COARSE);
+  }
+
+  Point3 update_alignment_setpoint(const Point3 & raw_desired) {
+    if (!last_align_target_.has_value()) {
+      last_align_target_ = raw_desired;
+      last_align_retarget_ = now();
+      start_segment(current_position_, raw_desired);
+      return raw_desired;
+    }
+
+    const double alpha = align_target_smoothing_;
+    const Point3 smoothed{
+      (1.0 - alpha) * last_align_target_->x + alpha * raw_desired.x,
+      (1.0 - alpha) * last_align_target_->y + alpha * raw_desired.y,
+      (1.0 - alpha) * last_align_target_->z + alpha * raw_desired.z};
+    const bool retarget_due = !last_align_retarget_.has_value() ||
+      seconds_since(*last_align_retarget_) >= align_retarget_interval_s_;
+    const bool moved =
+      distance_xy(*last_align_target_, smoothed) >= align_retarget_delta_m_ ||
+      std::abs(last_align_target_->z - smoothed.z) >= 0.20;
+    if ((retarget_due || segment_finished()) && moved) {
+      last_align_target_ = smoothed;
+      last_align_retarget_ = now();
+      start_segment(current_position_, smoothed);
+    }
+    return *last_align_target_;
+  }
+
+  double target_elapsed_s() const {
+    return target_lock_time_.has_value() ?
+      seconds_since(*target_lock_time_) : seconds_since(state_enter_time_);
+  }
+
+  std::optional<std::string> alignment_fuse_reason(bool fine) const {
+    if (!active_bucket_.has_value()) {
+      return std::nullopt;
+    }
+    if (b_zone_fuse_start_time_.has_value()) {
+      const double elapsed = seconds_since(*b_zone_fuse_start_time_);
+      if (elapsed >= b_zone_final_approach_timeout_s_) {
+        return "B-zone final approach timeout";
+      }
+      return std::nullopt;
+    }
+    if (target_elapsed_s() >= drop_target_timeout_s_) {
+      return "drop target timeout";
+    }
+    if (fine && seconds_since(state_enter_time_) >= fine_align_timeout_s_) {
+      return "fine alignment timeout";
+    }
+    return std::nullopt;
+  }
+
+  void handle_target_fuse(const std::string & reason, double error) {
+    if (!active_bucket_.has_value()) {
+      continue_drop_plan("fuse without active bucket");
+      return;
+    }
+    if (allow_degraded_timeout_release_ && error <= timeout_release_body_error_m_) {
+      force_release_reason_ = reason + "; nearest confirmed bucket within B-zone gate";
+      release_started_ = false;
+      servo_return_sent_ = false;
+      RCLCPP_WARN(
+        get_logger(),
+        "Drop fuse: %s; releasing to nearest confirmed bucket, estimated_error=%.3f m",
+        reason.c_str(), error);
+      enter_state(MissionState::DROP_RELEASE);
+      return;
+    }
+    if (allow_degraded_timeout_release_ && !b_zone_fuse_start_time_.has_value()) {
+      b_zone_fuse_start_time_ = now();
+      align_stable_since_.reset();
+      last_align_target_.reset();
+      last_align_retarget_.reset();
+      RCLCPP_WARN(
+        get_logger(),
+        "Drop fuse: %s; nearest bucket is %.3f m away, forcing final approach",
+        reason.c_str(), error);
+      return;
+    }
+    if (allow_degraded_timeout_release_) {
+      force_release_reason_ = reason + "; final approach exhausted, nearest-bucket release";
+      release_started_ = false;
+      servo_return_sent_ = false;
+      RCLCPP_WARN(
+        get_logger(),
+        "Drop fuse final release to nearest confirmed bucket, estimated_error=%.3f m",
+        error);
+      enter_state(MissionState::DROP_RELEASE);
+      return;
+    }
+    continue_drop_plan("drop fuse disabled after " + reason);
+  }
+
+  void update_drop_alignment(bool fine) {
+    if (!active_bucket_.has_value()) {
+      continue_drop_plan("alignment lost active bucket");
+      return;
+    }
+
+    const Point3 desired = update_alignment_setpoint(
+      release_setpoint(fine ? drop_fine_alt_ : drop_coarse_alt_));
+    target_ = sample_segment();
+    const double error = estimated_release_error();
+
+    if (!active_track_recent()) {
+      RCLCPP_WARN_THROTTLE(
+        get_logger(), *get_clock(), 2000,
+        "Bucket image track stale; continuing toward fused RTK/local bucket coordinate");
+    }
+    if (b_zone_fuse_start_time_.has_value() && error <= timeout_release_body_error_m_) {
+      handle_target_fuse("B-zone final approach reached release gate", error);
+      return;
+    }
+    const auto fuse_reason = alignment_fuse_reason(fine);
+    if (fuse_reason.has_value()) {
+      handle_target_fuse(*fuse_reason, error);
+      return;
+    }
+
+    const double threshold = fine ? fine_body_error_m_ : coarse_body_error_m_;
+    const double stable_s = fine ? fine_stable_s_ : coarse_stable_s_;
+    const double position_threshold = fine ? threshold : std::max(accept_radius_, threshold);
+    const bool aligned =
+      distance_xy(current_position_, desired) <= position_threshold &&
+      error <= threshold;
+    if (!aligned) {
+      align_stable_since_.reset();
+      return;
+    }
+    if (!align_stable_since_.has_value()) {
+      align_stable_since_ = now();
+      return;
+    }
+    if (seconds_since(*align_stable_since_) < stable_s) {
+      return;
+    }
+
+    if (fine) {
+      RCLCPP_INFO(
+        get_logger(), "Fine alignment stable, estimated release error=%.3f m", error);
+      release_started_ = false;
+      servo_return_sent_ = false;
+      enter_state(MissionState::DROP_RELEASE);
+    } else {
+      RCLCPP_INFO(
+        get_logger(), "Coarse alignment stable, error=%.3f m; descending", error);
+      start_drop_alignment(true);
+    }
+  }
+
+  void continue_drop_plan(const std::string & reason) {
+    active_bucket_.reset();
+    target_lock_time_.reset();
+    force_release_reason_.clear();
+    b_zone_fuse_start_time_.reset();
+    if (payload_index_ >= payload_count_) {
+      start_recon_survey();
+      return;
+    }
+    const auto next = best_known_bucket();
+    if (next.has_value()) {
+      commit_bucket_candidate(*next, reason);
+    } else if (search_pass_ < max_drop_search_passes_) {
+      start_drop_search();
+    } else {
+      RCLCPP_WARN(
+        get_logger(), "No discovered bucket after %s; preserving payload and continuing reconnaissance",
+        reason.c_str());
+      start_recon_survey();
+    }
+  }
+
+  void update_dynamic_release() {
+    if (!active_bucket_.has_value()) {
+      continue_drop_plan("release without active bucket");
+      return;
+    }
+
     if (!release_started_) {
+      const double error = estimated_release_error();
+      if (error > release_body_error_m_ && force_release_reason_.empty()) {
+        ++release_gate_retries_;
+        if (release_gate_retries_ >= release_gate_max_retries_ ||
+          target_elapsed_s() >= drop_target_timeout_s_)
+        {
+          handle_target_fuse("release gate retry/timeout fuse", error);
+          return;
+        }
+        RCLCPP_WARN(
+          get_logger(),
+          "Release gate held: error=%.3f > %.3f m, retry=%d/%d",
+          error, release_body_error_m_, release_gate_retries_, release_gate_max_retries_);
+        start_drop_alignment(true);
+        return;
+      }
+
       release_started_ = true;
       release_start_time_ = now();
       RCLCPP_INFO(
-        get_logger(), "Release payload %zu for %s at vehicle center (%.2f, %.2f, %.2f)",
-        wp.payload_index + 1, wp.drop_target_id.c_str(), wp.point.x, wp.point.y, wp.point.z);
+        get_logger(),
+        "Release payload %d/%d over dynamically discovered bucket at local=(%.2f, %.2f), "
+        "error=%.3f m%s",
+        payload_index_ + 1, payload_count_, active_bucket_->local.x, active_bucket_->local.y,
+        error, force_release_reason_.empty() ? "" : " [FUSE]");
       if (release_mode_ == "virtual" || release_mode_ == "both") {
         call_virtual_release();
       }
       if (release_mode_ == "servo" || release_mode_ == "both") {
-        send_servo_for_payload(wp.payload_index, true);
-      }
-      if (release_mode_ != "virtual" && release_mode_ != "servo" && release_mode_ != "both") {
-        RCLCPP_WARN(get_logger(), "Unknown release_mode=%s; no release command sent", release_mode_.c_str());
+        send_servo_for_payload(static_cast<std::size_t>(payload_index_), true);
       }
       return;
     }
 
-    const double release_duration = value_for_index(servo_release_duration_s_, wp.payload_index, 0.7);
+    const double release_duration = value_for_index(
+      servo_release_duration_s_, static_cast<std::size_t>(payload_index_), 0.7);
     if (servo_return_to_stowed_ && !servo_return_sent_ &&
-        (release_mode_ == "servo" || release_mode_ == "both") &&
-        seconds_since(release_start_time_) >= release_duration) {
-      send_servo_for_payload(wp.payload_index, false);
+      (release_mode_ == "servo" || release_mode_ == "both") &&
+      seconds_since(release_start_time_) >= release_duration)
+    {
+      send_servo_for_payload(static_cast<std::size_t>(payload_index_), false);
       servo_return_sent_ = true;
+    }
+    if (seconds_since(release_start_time_) < drop_release_hold_s_) {
+      return;
+    }
+
+    released_buckets_.push_back(active_bucket_->local);
+    ++payload_index_;
+    active_bucket_.reset();
+    target_lock_time_.reset();
+    force_release_reason_.clear();
+    b_zone_fuse_start_time_.reset();
+    recover_hold_started_ = false;
+    start_segment(
+      current_position_,
+      Point3{current_position_.x, current_position_.y, mission_altitude(cruise_alt_)});
+    enter_state(MissionState::DROP_RECOVER);
+  }
+
+  void update_drop_recover() {
+    target_ = sample_segment();
+    if (!segment_finished() ||
+      distance_xy(current_position_, active_segment_.end) > accept_radius_)
+    {
+      return;
+    }
+    if (!recover_hold_started_) {
+      recover_hold_started_ = true;
+      recover_hold_start_time_ = now();
+      return;
+    }
+    if (seconds_since(recover_hold_start_time_) < post_drop_climb_hold_s_) {
+      return;
+    }
+
+    if (payload_index_ >= payload_count_) {
+      start_recon_survey();
+      return;
+    }
+    const auto next = use_known_bucket_after_release_ ? best_known_bucket() : std::nullopt;
+    if (next.has_value()) {
+      commit_bucket_candidate(*next, "known unreleased bucket after previous drop");
+    } else if (search_pass_ < max_drop_search_passes_) {
+      start_drop_search();
+    } else {
+      RCLCPP_WARN(get_logger(), "No second bucket discovered; continuing reconnaissance");
+      start_recon_survey();
+    }
+  }
+
+  void start_recon_survey() {
+    reset_route(make_recon_route());
+    if (scan_route_.empty()) {
+      start_return_home();
+      return;
+    }
+    RCLCPP_INFO(
+      get_logger(), "Start reconnaissance survey after dynamic drop phase, waypoints=%zu",
+      scan_route_.size());
+    start_segment(current_position_, scan_route_.front().point);
+    enter_state(MissionState::RECON_SURVEY);
+  }
+
+  void update_recon_survey() {
+    if (update_route_trajectory()) {
+      RCLCPP_INFO(get_logger(), "Reconnaissance route finished, returning home");
+      start_return_home();
     }
   }
 
@@ -1402,7 +2067,12 @@ private:
       case MissionState::SETTING_GUIDED: return "SETTING_GUIDED";
       case MissionState::ARMING: return "ARMING";
       case MissionState::TAKEOFF: return "TAKEOFF";
-      case MissionState::SCANNING: return "SCANNING";
+      case MissionState::DROP_SEARCH: return "DROP_SEARCH";
+      case MissionState::DROP_ALIGN_COARSE: return "DROP_ALIGN_COARSE";
+      case MissionState::DROP_ALIGN_FINE: return "DROP_ALIGN_FINE";
+      case MissionState::DROP_RELEASE: return "DROP_RELEASE";
+      case MissionState::DROP_RECOVER: return "DROP_RECOVER";
+      case MissionState::RECON_SURVEY: return "RECON_SURVEY";
       case MissionState::RETURN_HOME: return "RETURN_HOME";
       case MissionState::LANDING: return "LANDING";
       case MissionState::DONE: return "DONE";
@@ -1414,6 +2084,39 @@ private:
   double cruise_alt_ = 5.0;
   double drop_hover_alt_ = 3.0;
   double recon_hover_alt_ = 3.5;
+  double drop_search_alt_ = 4.2;
+  double drop_coarse_alt_ = 3.4;
+  double drop_fine_alt_ = 3.0;
+  double drop_search_edge_margin_m_ = 0.35;
+  double drop_search_cross_margin_m_ = 0.55;
+  double coarse_body_error_m_ = 0.45;
+  double fine_body_error_m_ = 0.055;
+  double release_body_error_m_ = 0.055;
+  double coarse_stable_s_ = 0.8;
+  double fine_stable_s_ = 0.9;
+  double drop_lost_timeout_s_ = 3.0;
+  double track_gate_m_ = 0.85;
+  double align_initial_track_grace_s_ = 10.0;
+  double known_bucket_memory_s_ = 180.0;
+  double drop_target_timeout_s_ = 30.0;
+  double fine_align_timeout_s_ = 12.0;
+  double timeout_release_body_error_m_ = 0.45;
+  double b_zone_final_approach_timeout_s_ = 10.0;
+  double align_retarget_interval_s_ = 0.65;
+  double align_retarget_delta_m_ = 0.45;
+  double align_target_smoothing_ = 0.30;
+  double drop_release_hold_s_ = 0.6;
+  double post_drop_climb_hold_s_ = 0.4;
+  double field_drop_size_x_ = 5.0;
+  double field_drop_size_y_ = 8.0;
+  int drop_search_lane_count_ = 3;
+  int bucket_min_confirmations_ = 3;
+  int release_gate_max_retries_ = 4;
+  int max_drop_search_passes_ = 3;
+  int payload_count_ = 2;
+  int payload_index_ = 0;
+  int search_pass_ = 0;
+  int release_gate_retries_ = 0;
   double drop_settle_s_ = 2.0;
   double post_drop_hold_s_ = 0.8;
   double accept_radius_ = 0.35;
@@ -1450,14 +2153,20 @@ private:
   bool servo_return_to_stowed_ = true;
   bool servo_initialize_stowed_ = true;
   bool use_camera_target_point_body_ = false;
+  bool allow_degraded_timeout_release_ = true;
+  bool use_known_bucket_after_release_ = true;
+  bool search_until_candidates_for_payloads_ = true;
+  bool first_payload_require_500_and_300_ = true;
+  bool recover_hold_started_ = false;
   std::string generated_scene_path_;
   std::string scene_coordinate_mode_;
+  std::string bucket_detection_topic_ = "/perception/drop_buckets_body";
   std::string release_mode_ = "virtual";
-  std::vector<std::string> requested_drop_targets_;
+  std::string force_release_reason_;
   std::vector<double> payload_release_offsets_body_;
   std::vector<double> payload_drop_bias_body_;
   std::vector<double> camera_offset_body_;
-  std::array<double, 9> camera_optical_to_body_rotation_{1.0, 0.0, 0.0, 0.0, 0.0, -1.0, 0.0, 1.0, 0.0};
+  std::array<double, 9> camera_optical_to_body_rotation_{-1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, -1.0};
   std::vector<double> camera_target_point_camera_;
   std::vector<double> camera_target_point_body_;
   std::vector<int64_t> servo_channels_;
@@ -1466,6 +2175,7 @@ private:
   std::vector<double> servo_release_duration_s_;
   std::deque<HeadingSample> heading_samples_;
   Point3 vehicle_spawn_world_;
+  Point3 field_drop_center_{30.0, 0.0, 0.0};
   Quaternion current_attitude_;
   Quaternion locked_orientation_;
 
@@ -1473,7 +2183,12 @@ private:
   Point3 current_position_;
   std::optional<Point3> home_;
   Point3 target_;
-  std::vector<DropTarget> drop_targets_;
+  std::optional<BucketTrack> active_bucket_;
+  std::optional<Point3> last_align_target_;
+  std::vector<BucketTrack> known_buckets_;
+  std::vector<BucketTrack> search_candidates_;
+  std::vector<Point3> released_buckets_;
+  std::vector<Point3> skipped_buckets_;
   std::vector<ReconTarget> recon_targets_;
   std::vector<Point3> fallback_scan_waypoints_;
   std::vector<Waypoint> scan_route_;
@@ -1503,6 +2218,11 @@ private:
   rclcpp::Time last_yaw_update_time_;
   rclcpp::Time hold_start_time_;
   rclcpp::Time release_start_time_;
+  rclcpp::Time recover_hold_start_time_;
+  std::optional<rclcpp::Time> align_stable_since_;
+  std::optional<rclcpp::Time> last_align_retarget_;
+  std::optional<rclcpp::Time> target_lock_time_;
+  std::optional<rclcpp::Time> b_zone_fuse_start_time_;
   rclcpp::Time position_stable_since_;
   rclcpp::Time last_service_request_time_;
   rclcpp::Time last_local_pose_time_;
@@ -1511,6 +2231,7 @@ private:
   rclcpp::Subscription<mavros_msgs::msg::HomePosition>::SharedPtr home_position_sub_;
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odom_sub_;
   rclcpp::Subscription<geometry_msgs::msg::PoseStamped>::SharedPtr pose_sub_;
+  rclcpp::Subscription<geometry_msgs::msg::PoseArray>::SharedPtr bucket_sub_;
   rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr setpoint_pub_;
   rclcpp::Client<mavros_msgs::srv::CommandBool>::SharedPtr arming_cli_;
   rclcpp::Client<mavros_msgs::srv::SetMode>::SharedPtr set_mode_cli_;
