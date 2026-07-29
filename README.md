@@ -5,4 +5,4 @@
 
 感谢CUAV雷迅创新对本项目的大力支持！
 
-<img width="3712" height="2088" alt="DJI_20260728193655_0010_D" src="https://github.com/user-attachments/assets/e4983ac8-f62e-4c5e-9a89-6faad0492643" /># 2026CUADC
+<img width="3712" height="2088" alt="DJI_20260728193655_0010_D" src="https://github.com/user-attachments/assets/e4983ac8-f62e-4c5e-9a89-6faad0492643" />
