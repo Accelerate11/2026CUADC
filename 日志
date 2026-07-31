@@ -331,3 +331,15 @@ https://ardupilot.org/copter/docs/autotune.html
 
 ####2026.7.30####
 振奋人心的一天，完成了锁头和视觉代码的双重室外验证，锁头程序非常的完美，这体现了学好ROS ENU、四元数的重要性；室外视觉通过调整曝光程度，达到了比较好的效果，今晚赶一下把单投放和全流程程序
+
+####2026.8.1####
+凌晨，昨天完成了https://github.com/Accelerate11/2026CUADC/blob/main/code/2026code/%E7%8A%B6%E6%80%81%E6%9C%BA/takeoff_drop_land_node_2.cpp代码的实验，初始问题在：
+
+1、工作空间与安装问题：目录多套一层，Python 视觉节点一度未安装到 libexec。
+2、地面状态异常：/mavros/extended_state 一直是 ground=no，导致状态机无法进入任务，后来已绕过起飞前该门禁。
+3、核心故障是 odom 断流：自动解锁和起飞成功后，/mavros/local_position/odom 超时，状态机立即切换降落。
+4、视觉与 odom 时间不同步：持续出现 No bracketing odom，视觉帧无法转换到飞控坐标系。
+5、MAVLink 链路拥堵：MAVROS 启动时下载参数、航点、围栏和 rally point，并提示需要 MAVLink2，可能挤占 57600 串口带宽。
+6、RTK 本身不是主要问题：local_position/odom 已经是飞控 EKF 融合 RTK 后的位置；真正需要解决的是 MAVROS 数据流稳定性和视觉时间戳对齐。
+
+外场将状态机虽已改为自动解锁、固定航向和放宽起飞门禁，顺利起飞，但 odom 断流这个根因还没解决，仓库中是经过更改的代码，之后的视觉识别不是很顺利，最终反复实验后的结论是飞行高度过高，总之还是有许多问题，但是最起码经过验证后飞机已经有了全流程能力，总体进度还算可以，接下来距离区赛还有一周左右的时间，将会根据这些点持续优化。
