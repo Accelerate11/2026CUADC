@@ -24,7 +24,6 @@
 2026code/
 ├── 状态机/
 │   ├── README.md
-│   ├── offb_node.cpp
 │   ├── cuadc_full_mission_node_1.cpp
 │   ├── cuadc_full_mission_node_2.cpp
 │   ├── offb_node.cpp
