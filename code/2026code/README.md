@@ -36,21 +36,13 @@
 └── 视觉/
     ├── README.md
     └── 视觉1.0/
-        ├── dangerous_target.onnx
-        ├── labeling.py
-        ├── labels.docx
-        └── single_demo_en.py
-```
-
-建议阅读顺序：
-
-1. `状态机/offb_node.cpp`
-2. `状态机/ws_offboard/ws_offboard_2026_6_20/README.md`
-3. `状态机/ws_offboard/ws_offboard_2026_6_20/src/offboard_control/`
-4. `视觉/视觉1.0/single_demo_en.py`
-5. `视觉/视觉1.0/labeling.py`
-
----
+    |   ├── dangerous_target.onnx
+    |   ├── labeling.py
+    |   ├── labels.docx
+    |   └── single_demo_en.py
+    └── 视觉2.0/drop
+        ├── basket_detect_seg.pt
+        └── basket_detect_seg.py
 
 ## 注意事项
 
