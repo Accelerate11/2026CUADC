@@ -32,7 +32,8 @@
 │   ├── takeoff_drop_land_node_1.cpp
 │   ├── takeoff_drop_land_node_2.cpp
 │   └── ws_offboard/
-│       └── ws_offboard_2026_6_20/
+|       ├── ws_offboard_2026_6_20
+│       └── ws_offboard_2026_8_20
 │
 └── 视觉/
     ├── README.md
