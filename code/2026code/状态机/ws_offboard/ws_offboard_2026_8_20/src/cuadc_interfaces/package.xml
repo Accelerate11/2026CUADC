@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_interfaces</name>
+  <version>4.1.0</version>
+  <description>Stable ROS 2 messages and services for the CUADC flight stack.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <depend>action_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

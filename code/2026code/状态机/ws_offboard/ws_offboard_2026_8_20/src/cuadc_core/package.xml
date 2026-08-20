@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_core</name>
+  <version>4.1.0</version>
+  <description>Pure geometry, timing, and boundary helpers for CUADC flight software.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

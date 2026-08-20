@@ -1,0 +1,47 @@
+schema: cuadc.aircraft.v1
+aircraft: v5nano_410035
+layers:
+  calibration: v5nano_410035__d435i_213622075597
+
+# Candidate-only profile.  It is intentionally not flight-authorized and does
+# not assert that any airframe/camera/payload calibration has been signed.
+approval:
+  flight_enable: false
+  calibration_approved: false
+  approval_reference: ""
+
+fcu:
+  # Historical candidate from the operator's V5Nano record.  Verify the exact
+  # /dev/serial/by-id symlink and baud on the aircraft before approval.
+  device: /dev/serial/by-id/usb-ArduPilot_CUAVv5Nano_410035001451333035363236-if00
+  baud: 57600
+  fcu_url: serial:///dev/serial/by-id/usb-ArduPilot_CUAVv5Nano_410035001451333035363236-if00:57600
+  gcs_url: ""
+  protocol: v2.0
+  target_system: 1
+  target_component: 1
+  verification_status: candidate_requires_on_aircraft_check
+
+payload:
+  # Latest modular-release candidate only; requires aircraft-specific bench testing.
+  servo_channels: [7, 8]
+  stowed_pwm: [1100, 1100]
+  release_pwm: [1900, 1900]
+  release_duration_s: [0.7, 0.7]
+  initialize_stowed: true
+  return_to_stowed: true
+  command_ack_timeout_ms: 2000
+  verification_status: candidate_requires_bench_test
+
+hard_limits:
+  # Conservative candidate envelope; verify against this airframe and FCU tune.
+  max_horizontal_speed_m_s: 4.5
+  max_drop_speed_m_s: 0.8
+  max_mission_altitude_m: 6.0
+  max_release_tilt_deg: 5.0
+  verification_status: candidate_requires_on_aircraft_check
+
+mission_parameters:
+  lock_mission_yaw_to_initial_heading: true
+  yaw_to_target: false
+  auto_arm_on_guided: false

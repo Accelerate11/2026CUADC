@@ -1,0 +1,4 @@
+# This USB deliverable is self-contained at the workspace-source level.
+# Real-hardware ROS/CUDA/RealSense dependencies are supplied by the approved
+# onboard image and checked with rosdep; no simulator repositories are allowed.
+repositories: {}

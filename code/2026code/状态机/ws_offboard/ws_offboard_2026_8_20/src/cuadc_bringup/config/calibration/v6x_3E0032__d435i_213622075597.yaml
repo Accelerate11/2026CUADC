@@ -1,0 +1,22 @@
+schema: cuadc.calibration.v1
+calibration: v6x_3E0032__d435i_213622075597
+aircraft: v6x_3E0032
+
+approval:
+  flight_enable: false
+  calibration_approved: false
+  approval_reference: ""
+
+camera:
+  model: Intel RealSense D435i
+  # Candidate serial found only in a planning/profile reference; no attached
+  # enumeration log proved that this unit was present.  Verify on the aircraft.
+  serial: "213622075597"
+  serial_verification_status: candidate_unverified
+  camera_to_body_rotation: [0.0, -1.0, 0.0, -1.0, 0.0, 0.0, 0.0, 0.0, -1.0]
+  camera_to_body_translation_m: [0.0, 0.0, -0.08]
+  extrinsic_verification_status: candidate_unmeasured
+
+payload:
+  release_offsets_body_m: [0.026, -0.065, -0.32, -0.026, 0.065, -0.32]
+  offsets_verification_status: candidate_unmeasured

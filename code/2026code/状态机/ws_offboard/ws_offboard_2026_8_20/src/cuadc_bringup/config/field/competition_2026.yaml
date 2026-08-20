@@ -1,0 +1,22 @@
+schema: cuadc.field.v1
+field: competition_2026
+
+mission_parameters:
+  drop_area_near_edge_field_x_m: 30.0
+  drop_area_length_field_x_m: 5.0
+  drop_area_width_field_y_m: 8.0
+  search_lane_count: 0
+  cross_track_camera_fov_deg: 42.0
+  search_lane_overlap_ratio: 0.30
+  search_edge_margin_m: 0.35
+  search_cross_margin_m: 0.55
+  max_search_passes: 3
+
+  recon_area_center_field_x_m: 55.0
+  recon_area_length_field_x_m: 5.0
+  recon_area_width_field_y_m: 8.0
+  recon_hover_alt_m: 3.5
+  recon_lane_count: 3
+  recon_edge_margin_m: 0.35
+  recon_cross_margin_m: 0.55
+  recon_waypoint_hold_s: 1.0

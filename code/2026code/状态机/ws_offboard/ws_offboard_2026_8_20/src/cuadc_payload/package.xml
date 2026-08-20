@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_payload</name>
+  <version>4.1.0</version>
+  <description>Fail-closed profile-driven dual payload actuator for the CUADC aircraft.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>cuadc_interfaces</depend>
+  <depend>mavros_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rclcpp_action</depend>
+  <depend>std_msgs</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

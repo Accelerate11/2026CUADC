@@ -1,0 +1,52 @@
+schema: cuadc.perception.v1
+perception: basket_v3
+
+model:
+  package: cuadc_perception
+  relative_path: models/basket_v3.pt
+  sha256: 061b67ace71d5f036f7003a3699640dc0a8522e3c3162116884b67b552cd87bf
+  require_cuda: true
+  require_black_frame_inference: true
+  black_frame_timeout_s: 120.0
+
+realsense_parameters:
+  enable_color: true
+  enable_depth: true
+  align_depth.enable: true
+  enable_sync: true
+  rgb_camera.color_profile: 640x480x30
+  depth_module.depth_profile: 640x480x30
+
+perception_parameters:
+  color_topic: /camera/camera/color/image_raw
+  depth_topic: /camera/camera/aligned_depth_to_color/image_raw
+  camera_info_topic: /camera/camera/color/camera_info
+  output_topic: /perception/drop_buckets_body
+  frame_id: base_link
+  sync_queue_size: 3
+  max_input_skew_s: 0.08
+  depth_scale_m_per_unit: 0.001
+  target_class: 0
+  confidence_threshold: 0.25
+  nms_iou_threshold: 0.01
+  duplicate_mask_iou_threshold: 0.20
+  inference_image_size: 640
+  device: "0"
+  half: true
+  depth_mode: rim_direct
+  bucket_height_m: 0.30
+  rim_band_thickness_pixels: 11
+  depth_filter_size: 5
+  ground_ring_inner_scale: 1.15
+  ground_ring_outer_scale: 1.75
+  extrinsic_orthogonality_tolerance: 0.001
+  min_quality_confidence: 0.25
+  min_depth_m: 0.15
+  max_depth_m: 6.0
+  min_depth_valid_ratio: 0.35
+  max_depth_iqr_m: 0.20
+  max_ellipse_axis_ratio: 2.50
+  min_diameter_m: 0.08
+  max_diameter_m: 0.35
+  min_mask_area_px: 100.0
+  max_consecutive_frame_errors: 5

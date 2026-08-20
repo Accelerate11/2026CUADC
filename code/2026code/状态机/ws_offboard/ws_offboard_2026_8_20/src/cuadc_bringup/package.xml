@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_bringup</name>
+  <version>4.1.0</version>
+  <description>Fail-closed real-aircraft bringup and canonical five-layer profile loader.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>cuadc_mission</exec_depend>
+  <exec_depend>cuadc_payload</exec_depend>
+  <exec_depend>cuadc_perception</exec_depend>
+  <exec_depend>cuadc_safety</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>mavros</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <exec_depend>realsense2_camera</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

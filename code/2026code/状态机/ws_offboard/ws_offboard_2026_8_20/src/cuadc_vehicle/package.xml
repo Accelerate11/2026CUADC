@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_vehicle</name>
+  <version>4.1.0</version>
+  <description>MAVROS/ArduPilot transport adapter and command authority policy.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>geometry_msgs</depend>
+  <depend>mavros_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>std_msgs</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

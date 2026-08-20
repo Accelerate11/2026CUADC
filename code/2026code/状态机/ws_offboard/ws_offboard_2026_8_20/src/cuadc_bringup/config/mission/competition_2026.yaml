@@ -1,0 +1,120 @@
+schema: cuadc.mission.v1
+mission: competition_2026
+layers:
+  field: competition_2026
+  perception: basket_v3
+
+# Faster transit outside precision work, deliberately slower drop positioning.
+# Hazard reconnaissance is waypoint-only and has no visual hazard dependency.
+hazard_recon:
+  mode: waypoint_only
+  visual_node_required: false
+  lane_count: 3
+  expected_waypoints: 6
+
+mission_parameters:
+  bucket_detection_topic: /perception/drop_buckets_body
+  vision_heartbeat_timeout_s: 1.5
+  vision_max_pipeline_delay_s: 1.5
+  vision_future_tolerance_s: 0.05
+  vision_transform_tolerance_s: 0.10
+  nav_interpolation_max_gap_s: 0.20
+  odom_history_s: 5.0
+  vision_min_messages_before_takeoff: 3
+  search_vision_acquire_min_frames: 3
+  search_vision_acquire_timeout_s: 5.0
+
+  takeoff_alt_m: 4.0
+  enforce_final_drop_heights: true
+  search_alt_m: 2.0
+  coarse_alt_m: 1.8
+  fine_alt_m: 1.8
+  transit_speed_m_s: 4.0
+  search_speed_m_s: 2.0
+  recon_speed_m_s: 3.0
+  drop_approach_speed_m_s: 0.7
+  release_positioning_speed_m_s: 0.25
+  min_segment_time_s: 1.0
+  waypoint_accept_radius_m: 0.40
+
+  bucket_required_count: 3
+  bucket_min_confirmations: 5
+  track_gate_m: 0.45
+  diameter_track_gate_m: 0.08
+  bucket_track_max_gap_s: 0.60
+  bucket_selection_max_age_s: 45.0
+  bucket_distinct_min_separation_m: 0.20
+  bucket_distinct_min_diameter_m: 0.025
+  bucket_target_ranking_stable_s: 0.80
+  bucket_diameter_filter_window: 9
+  known_bucket_memory_s: 120.0
+  released_bucket_exclusion_m: 0.25
+  bucket_position_filter_alpha: 0.25
+  bucket_body_filter_alpha: 1.0
+  bucket_diameter_filter_alpha: 0.20
+  bucket_confidence_filter_alpha: 0.30
+  bucket_max_position_deviation_m: 0.25
+  bucket_max_diameter_deviation_m: 0.035
+  bucket_min_track_confidence: 0.25
+  coarse_error_m: 0.15
+  fine_error_m: 0.08
+  coarse_stable_s: 0.8
+  fine_stable_s: 0.8
+  alignment_timeout_s: 12.0
+  detection_timeout_s: 3.0
+  target_guidance_max_age_s: 0.5
+  recover_hold_s: 0.5
+  direct_release_xy_tolerance_m: 0.10
+  direct_release_height_tolerance_m: 0.10
+  direct_release_stable_s: 0.80
+  release_pose_refresh_reset_m: 0.03
+  direct_release_timeout_s: 6.0
+  direct_release_max_horizontal_speed_m_s: 0.08
+  direct_release_max_vertical_speed_m_s: 0.05
+  direct_release_max_tilt_deg: 5.0
+  direct_release_max_angular_rate_deg_s: 5.0
+  release_max_yaw_error_deg: 5.0
+
+  prestream_hold_s: 1.5
+  takeoff_timeout_s: 60.0
+  mission_timeout_s: 240.0
+  return_climb_timeout_s: 30.0
+  return_home_timeout_s: 120.0
+  land_timeout_s: 120.0
+  disarm_timeout_s: 20.0
+  odom_timeout_s: 1.5
+  compass_timeout_s: 1.0
+  extended_state_timeout_s: 2.5
+  safety_status_timeout_s: 2.0
+  landing_confirm_stable_s: 1.5
+  landing_max_relative_altitude_m: 0.30
+  landing_max_horizontal_speed_m_s: 0.20
+  landing_max_vertical_speed_m_s: 0.15
+  heading_lock_stability_s: 2.0
+  heading_lock_max_variation_deg: 2.0
+  position_lock_stability_s: 2.0
+  stationary_speed_max_m_s: 0.15
+  service_ack_timeout_s: 3.0
+
+  payload_count: 2
+  payload_initialization_timeout_s: 8.0
+  payload_action_timeout_s: 12.0
+
+safety_parameters:
+  flight_enable: false
+  config_bundle_sha256: ""
+  # Empty selects $HOME/cuadc_logs inside safety_monitor.
+  log_directory: ""
+  mavros_timeout_s: 1.5
+  odom_timeout_s: 0.6
+  vision_timeout_s: 1.5
+  payload_timeout_s: 2.0
+  mission_status_timeout_s: 2.0
+  mission_timeout_s: 900.0
+  startup_grace_s: 20.0
+  minimum_free_megabytes: 512
+  recon_image_topic: /camera/camera/color/image_raw
+  recon_capture_interval_s: 1.0
+  recon_jpeg_quality: 90
+  # Empty selects <log_directory>/recon_evidence in safety_monitor.
+  recon_evidence_directory: ""

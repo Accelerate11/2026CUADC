@@ -1,0 +1,28 @@
+uint64 mission_epoch
+string command_id
+uint8 payload_index
+---
+uint8 SUCCEEDED=0
+uint8 REJECTED=1
+uint8 FAILED=2
+uint8 CANCELED=3
+uint8 CONFLICT=4
+
+uint8 outcome
+bool success
+bool committed
+bool release_ack
+bool stow_ack
+string detail
+---
+uint8 QUEUED=0
+uint8 RELEASING=1
+uint8 HOLDING=2
+uint8 RESTOWING=3
+uint8 TERMINAL=4
+
+uint8 stage
+bool committed
+bool release_ack
+bool stow_ack
+string detail

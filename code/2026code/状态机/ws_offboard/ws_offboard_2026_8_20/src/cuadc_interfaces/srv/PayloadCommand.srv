@@ -1,0 +1,10 @@
+uint8 STOW=0
+uint8 RELEASE_SEQUENCE=1
+
+uint8 payload_index
+uint8 command
+string request_id
+---
+bool accepted
+string request_id
+string message

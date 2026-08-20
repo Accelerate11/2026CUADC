@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_tools</name>
+  <version>4.1.0</version>
+  <description>Offline flight-log verification and analysis tools.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+  <buildtool_depend>ament_python</buildtool_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>

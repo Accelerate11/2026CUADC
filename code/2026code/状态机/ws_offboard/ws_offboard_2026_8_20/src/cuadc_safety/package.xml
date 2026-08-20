@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_safety</name>
+  <version>4.1.0</version>
+  <description>Independent health monitor and append-only flight event recorder.</description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>LicenseRef-Proprietary</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>cuadc_interfaces</depend>
+  <depend>cuadc_recon</depend>
+  <depend>geometry_msgs</depend>
+  <depend>mavros_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclcpp</depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>
