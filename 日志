@@ -426,3 +426,73 @@ https://ardupilot.org/copter/docs/autotune.html
 
 总之主要两大问题，一个是几乎投放到相同位置，一个是偏离场地，前者主要是视觉模型问题，后者具体问题最终没能纠察出原因，RTK再GPSbase的Logs中有2分20秒左右的丢失，.bin显示罗盘一切正常，最终可能是机头摆放问题，但是从现有的结果来看依旧不得而知，后续进一步实验验证原因
 经过内心的挣扎，最终依旧开源了北部赛区冠军机组代码，但是针对细节做了简单保密处理，开源精神本身就是追求技术进步的无私且伟大的精神
+
+####2026.8.21####
+又双叒叕很长时间没写日志了，近期朱**机组测试了4G模块，看着感觉还可以，但是体积比较大，而且需要额外插一张电话卡，重新书写了一版状态机代码，并且规范了工作空间的结构，以二机组为例
+1. 按责任划分 ROS 2 包
+
+推荐飞行工作空间：
+
+cuadc_flight_ws/
+├── src/
+│   ├── cuadc_interfaces/       # 自定义 msg、srv、action
+│   ├── cuadc_core/             # 坐标、滤波、时间同步、安全边界纯库
+│   ├── cuadc_vehicle/          # MAVROS / ArduPilot 适配与命令仲裁
+│   ├── cuadc_perception/       # 投放目标检测、跟踪、三维估计
+│   ├── cuadc_payload/          # 双舵机、互锁、释放状态
+│   ├── cuadc_recon/            # 拍照、图片清单、现场显示
+│   ├── cuadc_mission/          # 层级状态机
+│   ├── cuadc_safety/           # 健康监控、边界、任务时限
+│   ├── cuadc_bringup/          # launch、参数、设备配置
+│   └── cuadc_tools/            # rosbag 回放、日志分析、指标统计
+├── scripts/
+├── dependencies.repos
+└── README.md
+建议实际运行进程控制在：
+
+MAVROS
+RealSense 驱动
+视觉节点
+任务/飞行适配器
+载荷节点
+记录与健康监控
+
+包可以拆清楚，运行时可通过 ROS 2 component 将部分 C++ 组件放进同一个进程。
+
+2. 参数必须分层，不能继续放进一个大 YAML
+
+推荐：
+
+cuadc_bringup/config/
+├── aircraft/
+│   ├── v6x_3E0032.yaml
+│   └── v5nano_410035.yaml
+├── calibration/
+│   ├── camera_213622075597.yaml
+│   ├── v6x_camera_extrinsic.yaml
+│   └── v6x_dual_dropper.yaml
+├── mission/
+│   └── competition_2026.yaml
+├── field/
+│   └── standard_field.yaml
+└── perception/
+    └── bucket_detector.yaml
+
+各层职责严格分开：
+
+aircraft：飞控串口、波特率、飞控编号、舵机通道、PWM 行程、速度和倾角硬限制；
+calibration：相机内外参、左右释放点、舵机动作延迟；
+mission：高度、速度、超时、重试、目标选择策略；
+field：区域尺寸、安全边距、航带参数；
+perception：模型路径、模型校验和、检测阈值、滤波参数。
+
+FCU 串口、D435i 序列号和舵机行程必须从飞机配置读取，不能靠复制一份代码再手工修改。这样 V6X 机与另一架飞机共用同一套源码，只切换 profile。
+
+3. 一个 launch 文件完成全部启动
+
+理想入口：
+
+ros2 launch cuadc_bringup flight.launch.py \
+  aircraft:=v6x_3E0032 \
+  mission:=competition_2026 \
+  preflight_only:=false
