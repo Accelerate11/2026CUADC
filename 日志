@@ -496,3 +496,77 @@ ros2 launch cuadc_bringup flight.launch.py \
   aircraft:=v6x_3E0032 \
   mission:=competition_2026 \
   preflight_only:=false
+
+####2026.8.28####
+依旧是长时间没写日志，根据规定明后天协会要出完整的全流程外场视频，所以这两天要出外场，应该会发现一些新的问题
+这几天读了各个学校的开源项目，总结了目前大家的备赛情况，这里做了一个整理;
+
+# CUADC 高校开源项目技术路线综述
+
+> 说明：
+> - 本表主要整理 GitHub 上可公开检索到的 CUADC / 飞行器设计创新大赛相关项目。
+> - “学校/团队”仅采用仓库 README 或公开资料中明确说明的信息；未明确注明的统一标为“未注明”。
+> - GitHub 开源情况不能完全代表各校实际比赛实力，部分队伍只公开旧版本、框架或赛后资料。
+> - 对 2026 多旋翼无人机侦察与救援而言，重点关注：自主飞行、目标识别、世界坐标定位、双投放、侦察、返航着陆、故障保护与工程部署。
+
+| 项目 | 学校 / 团队 | 年份 / 方向 | 飞控与通信 | 机载计算 / 中间件 | 视觉方案 | 定位 / 控制 | 任务系统与工程特点 | 对 2026 多旋翼的参考价值 | GitHub |
+|---|---|---|---|---|---|---|---|---|---|
+| `cuadc2026` | 西安石油大学航模社 | 2026 多旋翼 | ArduPilot + MAVLink | RK3588 | YOLO + RKNN | 多视角观测、空间聚类、目标地图 | Action Mission、JSON 任务配置、Web UI、投放、侦察、H 标志辅助降落 | **很高**。多视角桶定位、任务配置化、RK3588 NPU 部署尤其值得研究 | [Bob12315/cuadc2026](https://github.com/Bob12315/cuadc2026) |
+| `GDPI_CUADC_2026` | 广东理工职业学院 | 2026 多旋翼 | ArduPilot + MAVROS | Intel NUC + ROS1 | YOLOv8 + RealSense D435i | RTK + RGB-D；相机系→机体系→ENU→WGS84 | 飞控、机械、电控、视觉、培训文档较完整 | **很高**。与 ArduPilot + MAVROS + D435i 技术路线非常接近，适合作为直接横向对比对象 | [SteveTNT111/GDPI_CUADC_2026](https://github.com/SteveTNT111/GDPI_CUADC_2026) |
+| `MavSDKDrone` | 未注明 | 2026 CUADC 多旋翼 | ArduPilot + MAVSDK | C++ + Python | YOLOv5 | 像素→世界坐标、目标跟踪、Kalman / reacquire | `comm / control / vision / mission / bomb` 模块化；Gazebo SITL | **很高**。值得借鉴模块划分、目标锁定、双投放机构建模和视觉重捕获 | [Limile318/MavSDKDrone](https://github.com/Limile318/MavSDKDrone) |
+| `cuadc` | 未注明 | CUADC 多旋翼 | PX4 + MAVROS | ROS1 | RGB-D / 传统视觉 | RTK、视觉伺服、局部坐标 | Setpoint Mux、轨迹控制、Occupancy Grid | **高**。控制权仲裁、视觉伺服和机器人系统架构值得借鉴，但没必要照搬 PX4 | [livepoorloser/cuadc](https://github.com/livepoorloser/cuadc) |
+| `cuadc_ws` | 未注明 | 2026 多旋翼 | PX4 + MAVSDK | Python AsyncIO | YOLOv8 | Offboard 控制 | 独立状态模块、20 Hz heartbeat、watchdog、低电量保护、Gazebo Harmonic | **高**。状态机拆分和 Offboard 心跳/Watchdog 的工程思想很值得参考 | [ZzzRobe/cuadc_ws](https://github.com/ZzzRobe/cuadc_ws) |
+| `CUADCcopter-Public` | 未注明 | 多旋翼 | 原生 MAVLink | C++20 / Windows | TensorRT + OpenCV DNN | RTK / NTRIP、自研 MotionController | MissionScheduler，自研 MAVLink Server，不依赖 ROS | **中高**。证明“无 ROS”也能做完整任务；MissionScheduler 和 TensorRT 部署有参考意义 | [YQHD711/CUADCcopter-Public](https://github.com/YQHD711/CUADCcopter-Public) |
+| `CUADC` | 重庆大学 | 2025，全国一等奖公开总结 | 仓库主要为技术总结 | ROS / 边缘计算 | 机器学习视觉 | 闭环控制 | 强调 Simulation First、机械/通信/软件协同、现场适应与模型再训练 | **很高（工程管理）**。核心价值不是某个算法，而是系统工程和现场适应能力 | [LANEING-AVIATION/CUADC](https://github.com/LANEING-AVIATION/CUADC) |
+| `2024_CUADC` | 上海交通大学航模队 | 2024 CUADC | 视具体子项目 | 团队式开发 | 包含视觉方向 | 包含飞控方向 | 飞设、电控、视觉等完整团队工程仓库 | **中高**。适合研究成熟航模队如何进行专业分工、资料沉淀和代际传承 | [une-glace/2024_CUADC](https://github.com/une-glace/2024_CUADC) |
+| `2023cuadc_multi-rotor_vision` | 未注明 | 2023 多旋翼视觉 | 与飞控弱耦合 | Raspberry Pi 4B | YOLOv5 + OpenCV | 以视觉识别为主 | 较早期、轻量化方案 | **中**。适合观察 CUADC 多旋翼视觉从“识别目标”向“飞行机器人完整系统”的演化 | [PrimoPei/2023cuadc_multi-rotor_vision](https://github.com/PrimoPei/2023cuadc_multi-rotor_vision) |
+| `CUADC-code` | 未注明 | CUADC 视觉 | ROS | RealSense D435 系列 | YOLO | 框中心 + Depth + 相机内参恢复 3D 坐标 | 典型 RGB-D 目标定位方案 | **中**。可作为 D435 深度定位的基础参考，但单像素深度方案鲁棒性有限 | [mikelamch/CUADC-code](https://github.com/mikelamch/CUADC-code) |
+| `UNNC-CUADC2026-YOLOv8-nano` | 宁波诺丁汉相关团队 | 2026 视觉 | 未作为重点公开 | YOLOv8 Nano | YOLO + HSV 二次筛选 | 视觉目标筛选 | 使用白色比例等规则过滤阴影/伪目标 | **中**。说明“神经网络 + 传统视觉 sanity check”仍然很实用 | [UNNC-CUADC2026-YOLOv8-nano](https://github.com/UNNC-CUADC2026-YOLOv8-nano) |
+| `CUADC_Vision_System` | 兰州大学萃英学院 | 固定翼侦察赛道 | 视觉子系统为主 | Python / YOLOv8 | YOLOv8 + 合成数据 + 多角度推理 | 航拍小目标识别 | 处理目标尺度、旋转、08/80、06/90 等混淆问题 | **高（视觉训练）**。虽然不是多旋翼赛道，但数据集工程、小目标与旋转目标处理非常值得参考 | [NOBEL-Pxx/CUADC_Vision_System](https://github.com/NOBEL-Pxx/CUADC_Vision_System) |
+| `CUADC` | README 标注 zju | 固定翼侦察与打击 | ArduPlane + pymavlink | Raspberry Pi 5 / Jetson Orin | 任务视觉 | GNSS / 自主任务 | Python FSM、HIL、pytest、mypy、ruff、uv | **高（软件工程）**。自动测试、类型检查、HIL 和依赖锁定是多数 CUADC 项目的薄弱环节 | [ajuan223/CUADC](https://github.com/ajuan223/CUADC) |
+
+## 技术路线横向总结
+
+| 技术方向 | GitHub 公开项目现状 | 2026 趋势 | 对我们的意义 |
+|---|---|---|---|
+| 飞控 | ArduPilot、PX4 均大量使用 | 不再由飞控品牌决定系统上限 | 没必要因为别人使用 PX4/MAVSDK 就更换 ArduPilot |
+| 上位机通信 | MAVROS、MAVSDK、原生 MAVLink 三条路线并存 | 越来越重视接口清晰和控制权唯一性 | 当前 ROS2 + MAVROS 可以继续保持 |
+| 任务控制 | 简单脚本逐步演化为 FSM / Action Mission | 状态机模块化、任务配置化 | 后续重点应从“大 C++ 状态机”向模块化演进 |
+| 视觉检测 | YOLOv5/v8/v11 基本普及 | YOLO 已成为基础设施 | 单纯换模型意义有限，应重点提高数据质量和系统融合 |
+| 深度定位 | RGB-D、RTK、单目几何并存 | 目标逐渐由“像素”转变为“世界坐标实体” | 当前世界坐标桶跟踪方向正确 |
+| 目标融合 | 单帧→多帧→Kalman→多视角空间聚类 | 多视角目标地图开始出现 | 可研究多视角桶融合，但不是当前最高优先级 |
+| 投放控制 | 图像居中、视觉伺服、世界坐标释放点均存在 | 越来越强调释放机构外参与安全门禁 | 双投放口 3D 外参值得继续保持 |
+| 边缘计算 | NUC、Jetson、RK3588 并存 | RKNN / TensorRT 等硬件推理增加 | 当前 NUC 性能足够时无需仓促换平台 |
+| 仿真 | Gazebo Classic / Harmonic + SITL 较普遍 | 仿真逐渐成为基本配置 | 应进一步增加视觉闭环、异常注入和自动回归 |
+| 安全保护 | 项目水平差异很大 | Watchdog、timeout、低电量、人工接管等逐步标准化 | 当前视觉故障保瓶返航、舵机 ACK 等属于较强项 |
+| 自动测试 | 公开多旋翼项目普遍较弱 | HIL、pytest、CI 开始出现 | 是后续非常值得补的工程短板 |
+| 部署工程 | 从手动启动逐渐发展到 systemd / udev / 环境锁定 | 强调现场可重复部署 | 应继续强化一键启动、设备固定路径和预检 |
+| 数据集工程 | 很多项目仍以“训 YOLO”为主 | 合成数据、负样本、旋转/尺度增强增加 | 危险品识别尤其值得在数据集层面投入 |
+
+## 与当前方案最值得重点对比的项目
+
+| 优先级 | 项目 | 建议重点阅读内容 |
+|---|---|---|
+| P0 | [Bob12315/cuadc2026](https://github.com/Bob12315/cuadc2026) | 多视角桶定位、`gps_fuse_views`、Action Mission、RK3588/RKNN |
+| P0 | [SteveTNT111/GDPI_CUADC_2026](https://github.com/SteveTNT111/GDPI_CUADC_2026) | ArduPilot + MAVROS + RTK + D435i 完整链路 |
+| P0 | [Limile318/MavSDKDrone](https://github.com/Limile318/MavSDKDrone) | 状态机模块化、目标 Tracker、双投放机构、reacquire |
+| P1 | [livepoorloser/cuadc](https://github.com/livepoorloser/cuadc) | Setpoint Mux、视觉伺服、轨迹控制 |
+| P1 | [ZzzRobe/cuadc_ws](https://github.com/ZzzRobe/cuadc_ws) | Async FSM、Offboard heartbeat、Watchdog / Failsafe |
+| P1 | [NOBEL-Pxx/CUADC_Vision_System](https://github.com/NOBEL-Pxx/CUADC_Vision_System) | 数据集工程、小目标、旋转目标识别 |
+| P2 | [YQHD711/CUADCcopter-Public](https://github.com/YQHD711/CUADCcopter-Public) | 原生 MAVLink 架构、MissionScheduler、TensorRT |
+| P2 | [ajuan223/CUADC](https://github.com/ajuan223/CUADC) | pytest、HIL、类型检查、依赖管理等软件工程体系 |
+
+## 总体判断
+
+从 GitHub 公开项目来看，CUADC 多旋翼技术路线正在从：`航点飞行 + YOLO 检测`
+逐渐发展为：`可靠状态估计 + 世界坐标目标 + 多帧/多视角融合 + FSM/Action Mission + 精确投放 + 故障保护 + 可复现部署`
+目前公开项目中，真正能够形成明显竞争力的已经不是“是否使用 YOLO、PX4、ArduPilot 或 MAVSDK”，而是整条任务链在真实比赛环境中的可靠性。
+对于 2026 多旋翼无人机侦察与救援，后续最值得关注的方向主要包括：
+
+1. 目标世界坐标与多视角融合；
+2. 精确且鲁棒的视觉辅助降落；
+3. 视觉数据集和现场光照适应；
+4. 状态机模块化与任务配置化；
+5. SITL/HIL 自动回归测试；
+6. Watchdog、异常降级和人工接管；
+7. 一键部署、设备固定和赛前自动预检。
