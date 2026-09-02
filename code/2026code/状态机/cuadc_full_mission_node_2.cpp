@@ -1,3 +1,9 @@
+/*
+ * 代码功能：全流程
+ * 是否进行仿真验证：是
+ * 是否进行飞行验证：否
+ * 去赛前最后一版优先高价值目标投放代码，由于区赛采取保守策略，这一版代码没有实际使用
+ */
 #include <rclcpp/rclcpp.hpp>
 
 #include <geometry_msgs/msg/pose_array.hpp>
