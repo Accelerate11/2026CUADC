@@ -1,45 +1,42 @@
 /*
- * CUADC 2026 autonomous mission node - public/community edition
+ * CUADC 2026 自主任务节点 - 公开/社区版
  *
- * Purpose
+ * 目的
  * -------
- * This file is an intentionally simplified public version of an internal
- * competition mission controller.  It keeps the overall ROS 2 / MAVROS
- * architecture, state-machine organization, coordinate-frame interfaces and
- * safety interlocks, while deliberately omitting or replacing details that
- * still have competition value.
+ * 本文件是内部比赛任务控制器的刻意简化公开版本。它保留了整体的
+ * ROS 2 / MAVROS 架构、状态机组织、坐标系接口和安全联锁机制，
+ * 同时刻意省略或替换了仍具有比赛价值的细节。
  *
- * Intentionally NOT included in this public edition
+ * 本公开版刻意未包含的内容
  * -------------------------------------------------
- * 1. Competition target tracking, deduplication, stability scoring and ranking.
- * 2. Calibrated camera/body/release-port extrinsics and payload ballistics.
- * 3. Competition field geometry, optimized search lanes and boundary recovery.
- * 4. Production camera-capture / FCU-odometry hard time synchronization logic.
- * 5. Competition release thresholds, retries, compensation and scoring logic.
- * 6. Production reconnaissance viewpoints and phase-specific speed tuning.
- * 7. Any field calibration or target-selection policy derived from scoring rules.
+ * 1. 比赛目标追踪、去重、稳定性评分及排名。
+ * 2. 标定后的相机/机体/投放口外参及载荷弹道学参数。
+ * 3. 比赛场地几何结构、优化的搜索航线及边界恢复逻辑。
+ * 4. 正式版相机采集 / 飞控(FCU)里程计的硬时间同步逻辑。
+ * 5. 比赛投放阈值、重试、补偿及评分逻辑。
+ * 6. 正式版侦察视点及特定阶段的速度调优。
+ * 7. 任何基于评分规则得出的场地校准或目标选择策略。
  *
- * The public code therefore uses conservative demo parameters and simple
- * reference algorithms.  It is intended for learning and re-implementation,
- * not direct competition use or direct flight on an untested aircraft.
+ * 因此，公开代码使用了保守的演示参数和简单的参考算法。其旨在用于
+ * 学习和重新实现，而非直接用于比赛或在未经测试的飞行器上直接飞行。
  *
- * Before any real flight: test in simulation, remove propellers for actuator
- * checks, verify servo directions/PWM, verify coordinate conventions, and tune
- * every safety threshold for the actual vehicle.
+ * 在进行任何真实飞行前：请在仿真环境中进行测试，拆下螺旋桨进行执行器
+ * 检查，验证舵机方向/PWM，验证坐标系惯例，并针对实际飞行器调整
+ * 每一个安全阈值。
  *
- * Variant V2 public notes
+ * V2 公开版变体说明
  * -----------------------
- * This version demonstrates the newer architecture at a high level:
- *   - configurable preferred/minimum target-set size;
- *   - target-memory and guarded reacquisition interface;
- *   - separate transit/search/return speeds and explicit alignment gates;
- *   - a release stabilization gate;
- *   - generic route smoothing through time interpolation.
+ * 本版本在较高层面上展示了较新的架构：
+ *   - 可配置的期望/最小目标集大小；
+ *   - 目标记忆与受保护的重新获取接口；
+ *   - 独立的转场/搜索/返航速度及明确的对齐门限；
+ *   - 投放稳定门限；
+ *   - 通过时间插值实现的通用航线平滑处理。
  *
- * The production target ranking, scoring-derived choices, actual reacquisition
- * gates, field geometry, real release-port extrinsics and high-speed tuning are
- * intentionally not published here.
+ * 正式版的目标排名、基于评分的选择、实际的重获门限、场地几何结构、
+ * 真实的投放口外参以及高速调优均在此刻意不予发布。
  */
+
 
 #include <algorithm>
 #include <chrono>
