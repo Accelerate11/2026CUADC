@@ -26,7 +26,9 @@
 │   ├── README.md
 │   ├── cuadc_full_mission_node_1.cpp
 │   ├── cuadc_full_mission_node_2.cpp
-│   ├── cuadc_full_mission_node_3.cpp（北部赛区冠军机组代码）
+│   ├── cuadc_full_mission_node_3_v0_public.cpp（北部赛区冠军机组代码）
+│   ├── cuadc_full_mission_node_3_v1_public.cpp
+│   ├── cuadc_full_mission_node_3_v2_public.cpp
 │   ├── offb_node.cpp
 │   ├── recon_state_machine_node_1.cpp
 │   ├── takeoff_drop_land_node_1.cpp
