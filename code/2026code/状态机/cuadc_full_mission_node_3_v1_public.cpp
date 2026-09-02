@@ -1,43 +1,40 @@
 /*
- * CUADC 2026 autonomous mission node - public/community edition
+ * CUADC 2026 自主任务节点 - 公开/社区版
  *
- * Purpose
+ * 目的
  * -------
- * This file is an intentionally simplified public version of an internal
- * competition mission controller.  It keeps the overall ROS 2 / MAVROS
- * architecture, state-machine organization, coordinate-frame interfaces and
- * safety interlocks, while deliberately omitting or replacing details that
- * still have competition value.
+ * 本文件是内部比赛任务控制器的刻意简化公开版本。它保留了整体的
+ * ROS 2 / MAVROS 架构、状态机组织、坐标系接口和安全联锁机制，
+ * 同时刻意省略或替换了仍具有比赛价值的细节。
  *
- * Intentionally NOT included in this public edition
+ * 本公开版刻意未包含的内容
  * -------------------------------------------------
- * 1. Competition target tracking, deduplication, stability scoring and ranking.
- * 2. Calibrated camera/body/release-port extrinsics and payload ballistics.
- * 3. Competition field geometry, optimized search lanes and boundary recovery.
- * 4. Production camera-capture / FCU-odometry hard time synchronization logic.
- * 5. Competition release thresholds, retries, compensation and scoring logic.
- * 6. Production reconnaissance viewpoints and phase-specific speed tuning.
- * 7. Any field calibration or target-selection policy derived from scoring rules.
+ * 1. 比赛目标追踪、去重、稳定性评分及排名。
+ * 2. 标定后的相机/机体/投放口外参及载荷弹道学参数。
+ * 3. 比赛场地几何结构、优化的搜索航线及边界恢复逻辑。
+ * 4. 正式版相机采集 / 飞控(FCU)里程计的硬时间同步逻辑。
+ * 5. 比赛投放阈值、重试、补偿及评分逻辑。
+ * 6. 正式版侦察视点及特定阶段的速度调优。
+ * 7. 任何基于评分规则得出的场地校准或目标选择策略。
  *
- * The public code therefore uses conservative demo parameters and simple
- * reference algorithms.  It is intended for learning and re-implementation,
- * not direct competition use or direct flight on an untested aircraft.
+ * 因此，公开代码使用了保守的演示参数和简单的参考算法。其旨在用于
+ * 学习和重新实现，而非直接用于比赛或在未经测试的飞行器上直接飞行。
  *
- * Before any real flight: test in simulation, remove propellers for actuator
- * checks, verify servo directions/PWM, verify coordinate conventions, and tune
- * every safety threshold for the actual vehicle.
+ * 在进行任何真实飞行前：请在仿真环境中进行测试，拆下螺旋桨进行执行器
+ * 检查，验证舵机方向/PWM，验证坐标系惯例，并针对实际飞行器调整
+ * 每一个安全阈值。
  *
- * Variant V1 public notes
+ * V1 公开版变体说明
  * -----------------------
- * This version demonstrates the conservative/classic mission architecture:
- *   WAIT_FCU -> WAIT_NAV_STABLE -> PRESTREAM -> WAIT_GUIDED -> WAIT_ARM
- *   -> TAKEOFF -> SEARCH -> ALIGN -> RELEASE -> SEARCH/RECON
- *   -> RETURN_HOME -> LAND -> DISARM -> DONE
+ * 本版本展示了保守/经典的任务架构：
+ *   WAIT_FCU (等待飞控) -> WAIT_NAV_STABLE (等待导航稳定) -> PRESTREAM (预流) -> WAIT_GUIDED (等待指令模式) -> WAIT_ARM (等待解锁)
+ *   -> TAKEOFF (起飞) -> SEARCH (搜索) -> ALIGN (对齐) -> RELEASE (投放) -> SEARCH/RECON (搜索/侦察)
+ *   -> RETURN_HOME (返航) -> LAND (降落) -> DISARM (上锁) -> DONE (完成)
  *
- * The real V1 branch contained multi-stage target alignment and release-port
- * compensation.  The public edition keeps the state boundaries and extension
- * points, but uses a center-over-target demo alignment model.
+ * 真实的 V1 分支包含多阶段目标对齐和投放口补偿。公开版保留了状态边界和扩展点，但使用了目标正上方对齐的演示对齐模型。
+ * 由于cuadc_full_mission_node_3代码在反复实测中依旧保留较强的任务执行能力，后续的代码改动均为针对node_3的微调尝试。
  */
+
 
 #include <algorithm>
 #include <chrono>
