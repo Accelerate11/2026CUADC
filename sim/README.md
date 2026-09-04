@@ -14,4 +14,3 @@
 
 - `cuadc_hazard_recognition_sim-v0.2.0/` 和 `cuadc_hazard_recognition_sim/` 的 ROS 2 包名均为 `cuadc_hazard_recognition_sim`，它们是不同阶段的实现，不能同时加入同一个 `colcon` 工作区构建。使用时请选择其中一个。
 - 本目录首先承担集中归档作用。建议把需要运行的单个工程复制或链接到 ROS 2 工作区的 `src/` 下，再按该工程自己的文档构建。
-- 三个工程仅从仓库根目录迁移至此，迁移过程中未修改其内部文件。迁移完成后已按相对路径、目录、文件大小和逐文件 SHA-256 校验，内容保持一致。
