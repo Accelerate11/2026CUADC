@@ -1,0 +1,36 @@
+# Copy to config/aircraft.yaml.
+# All physical coordinates are FCU body FRD metres: +X forward, +Y right, +Z down.
+
+camera:
+  # Standard ROS image topics. The alignment viewer does not own the camera.
+  image_topic: null
+  camera_info_topic: null
+  # Row-major: p_frd = R_frd_camera * p_camera + t_frd_camera
+  rotation_camera_to_frd: null
+  translation_frd_m: null
+
+vision:
+  detections_topic: /vision_servo/targets_body
+  frame_id: fcu_body_frd
+
+payloads:
+  # Static mechanical estimate. Static alignment updates X/Y only; measure Z physically.
+  release_offsets_frd_m: null
+
+  # Optional: only required by bin/servo_ground_check.sh
+  channels: null
+  stowed_pwm: null
+  release_pwm: null
+  release_duration_s: null
+
+target:
+  # Positive vertical distance from the published target reference point up to
+  # the plane on which the payload crosshair should be compared.
+  # Example: bucket ground-center -> bucket mouth = 0.30 m.
+  # Set 0.0 if the vision provider already publishes a point on the target plane.
+  height_m: null
+
+# Optional: only required by bin/servo_ground_check.sh
+fcu:
+  device: null
+  baud: null

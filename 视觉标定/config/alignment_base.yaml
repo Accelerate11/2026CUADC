@@ -1,0 +1,35 @@
+alignment_viewer:
+  ros__parameters:
+    detections_topic: /vision_servo/targets_body
+    image_topic: /camera/color/image_raw
+    camera_info_topic: /camera/color/camera_info
+    expected_frame_id: fcu_body_frd
+
+    camera_to_body_rotation:
+      [1.0, 0.0, 0.0,
+       0.0, 1.0, 0.0,
+       0.0, 0.0, 1.0]
+    camera_to_body_translation_m: [0.0, 0.0, 0.0]
+    payload_release_offsets_body_m: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    target_height_m: 0.0
+
+    sync_tolerance_s: 0.35
+    min_camera_z_m: 0.05
+    live_view_enabled: true
+    annotated_image_topic: /vision_servo/alignment/image
+    detection_csv_path: ""
+    video_path: ""
+    video_fps: 10.0
+
+vision_provider_template:
+  ros__parameters:
+    image_topic: /camera/color/image_raw
+    output_topic: /vision_servo/targets_body
+    frame_id: fcu_body_frd
+
+vision_contract_check:
+  ros__parameters:
+    detections_topic: /vision_servo/targets_body
+    expected_frame_id: fcu_body_frd
+    duration_s: 5.0
+    require_contract_sentinel: true
