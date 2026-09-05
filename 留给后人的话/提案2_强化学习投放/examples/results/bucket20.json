@@ -1,0 +1,122 @@
+{
+  "config": {
+    "dt": 0.1,
+    "horizon_s": 12.0,
+    "height_m": 1.2,
+    "height_jitter_m": 0.25,
+    "bucket_radius_m": 0.1,
+    "payload_radius_m": 0.03,
+    "rim_margin_m": 0.005,
+    "start_distance_min_m": 0.4,
+    "start_distance_max_m": 1.4,
+    "initial_speed_m_s": 0.2,
+    "vehicle_tau_s": 0.35,
+    "tau_jitter_s": 0.1,
+    "max_command_m_s": 0.6,
+    "residual_limit_m_s": 0.15,
+    "kp": 0.9,
+    "kd": 0.55,
+    "wind_max_m_s": 1.2,
+    "vehicle_wind_gain": 0.08,
+    "horizontal_drag_s_inv": 0.18,
+    "drag_jitter_s_inv": 0.06,
+    "release_delay_s": 0.18,
+    "delay_jitter_s": 0.07,
+    "port_x_m": 0.08,
+    "port_y_m": 0.0,
+    "port_uncertainty_m": 0.01,
+    "vision_noise_m": 0.018,
+    "velocity_noise_m_s": 0.012,
+    "depth_noise_m": 0.02,
+    "vision_delay_steps": 1,
+    "dropout_probability": 0.04,
+    "blackout_start_s": -1.0,
+    "blackout_duration_s": 0.0,
+    "vision_timeout_s": 0.3,
+    "confidence_min": 0.5,
+    "release_speed_max_m_s": 0.25,
+    "release_height_min_m": 0.5,
+    "release_height_max_m": 3.0,
+    "stable_required_s": 0.2,
+    "fence_radius_m": 3.0,
+    "step_cost_per_s": 0.25
+  },
+  "seed_start": 84000000,
+  "seed_end": 84000299,
+  "model_sha256": "ac5f31667964c39f0b7336d2c69bcb7335d61c0561782a1aa1685e87a08ec7a9",
+  "metrics": {
+    "random": {
+      "episodes": 300,
+      "hits": 19,
+      "hit_rate": 0.06333333333333334,
+      "hit_rate_ci95": [
+        0.040916882383915276,
+        0.09679131248552161
+      ],
+      "release_rate": 1.0,
+      "mean_error_m_released_only": 0.2512379901642445,
+      "p90_error_m_released_only": 0.6443430853120967,
+      "mean_decision_s_released_only": 2.0093333333333336,
+      "mean_episode_s": 2.1921955941730196,
+      "mean_return": -10.531390769223357,
+      "timeouts": 0,
+      "out_of_bounds": 0,
+      "unknown_q_decisions": 0
+    },
+    "hover": {
+      "episodes": 300,
+      "hits": 195,
+      "hit_rate": 0.65,
+      "hit_rate_ci95": [
+        0.5944391111549903,
+        0.7017679974776458
+      ],
+      "release_rate": 1.0,
+      "mean_error_m_released_only": 0.054445651474941216,
+      "p90_error_m_released_only": 0.08427917135886871,
+      "mean_decision_s_released_only": 4.84,
+      "mean_episode_s": 5.022862260839687,
+      "mean_return": 1.7550271720351014,
+      "timeouts": 0,
+      "out_of_bounds": 0,
+      "unknown_q_decisions": 0
+    },
+    "ballistic": {
+      "episodes": 300,
+      "hits": 108,
+      "hit_rate": 0.36,
+      "hit_rate_ci95": [
+        0.30776933517318583,
+        0.4157706967696869
+      ],
+      "release_rate": 1.0,
+      "mean_error_m_released_only": 0.07284778229881506,
+      "p90_error_m_released_only": 0.09951706530603335,
+      "mean_decision_s_released_only": 3.756666666666667,
+      "mean_episode_s": 3.939528927506353,
+      "mean_return": -1.9977883311046862,
+      "timeouts": 0,
+      "out_of_bounds": 0,
+      "unknown_q_decisions": 0
+    },
+    "q_learning": {
+      "episodes": 300,
+      "hits": 157,
+      "hit_rate": 0.5233333333333333,
+      "hit_rate_ci95": [
+        0.466878323217167,
+        0.5791983381256874
+      ],
+      "release_rate": 0.9833333333333333,
+      "mean_error_m_released_only": 0.06216731838928712,
+      "p90_error_m_released_only": 0.09229844956989625,
+      "mean_decision_s_released_only": 4.185762711864407,
+      "mean_episode_s": 4.496191488898464,
+      "mean_return": 0.09357797875515145,
+      "timeouts": 5,
+      "out_of_bounds": 0,
+      "unknown_q_decisions": 289
+    }
+  },
+  "scope": "simple simulation; not field validation or official scoring"
+}

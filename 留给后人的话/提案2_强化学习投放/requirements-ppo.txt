@@ -1,0 +1,4 @@
+numpy>=1.24,<3
+gymnasium>=1.0,<2
+stable-baselines3>=2.4,<3
+# 建议 Python 3.10–3.12；PyTorch 由 stable-baselines3 安装。

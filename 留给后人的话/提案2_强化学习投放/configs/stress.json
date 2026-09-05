@@ -1,0 +1,9 @@
+{
+  "wind_max_m_s": 3.0,
+  "vision_noise_m": 0.045,
+  "velocity_noise_m_s": 0.025,
+  "vision_delay_steps": 2,
+  "dropout_probability": 0.20,
+  "delay_jitter_s": 0.14,
+  "port_uncertainty_m": 0.035
+}

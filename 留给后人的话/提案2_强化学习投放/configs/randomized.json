@@ -1,0 +1,8 @@
+{
+  "wind_max_m_s": 1.2,
+  "vision_noise_m": 0.018,
+  "vision_delay_steps": 1,
+  "dropout_probability": 0.04,
+  "height_jitter_m": 0.25,
+  "delay_jitter_s": 0.07
+}

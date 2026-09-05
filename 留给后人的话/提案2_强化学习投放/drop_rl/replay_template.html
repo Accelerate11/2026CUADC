@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CUADC · 强化学习投放回放</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,"Microsoft YaHei",sans-serif;background:#0b1220;color:#dce7f4}*{box-sizing:border-box}body{max-width:1220px;margin:auto;padding:36px 28px}header{display:flex;justify-content:space-between;align-items:center;gap:20px}h1{font-size:30px;font-weight:650;margin:8px 0}p{line-height:1.7;color:#9aadc4}.eyebrow{color:#57dbc5;letter-spacing:.15em;font-size:12px}.tag{padding:9px 13px;background:#17283a;border-radius:20px;color:#9bc3e8;font-size:13px}.layout{display:grid;grid-template-columns:1fr 300px;gap:22px;margin-top:26px}.card{border:1px solid #26374d;background:#111d2c;border-radius:16px;padding:22px}canvas{width:100%;height:500px;display:block}h2{font-size:16px;margin-top:0}.stat{border-bottom:1px solid #26374d;padding:15px 0}.stat label{display:block;color:#8ea3bb;font-size:12px;margin-bottom:8px}.stat strong{font-size:24px;font-weight:550;font-variant-numeric:tabular-nums}.controls{display:flex;align-items:center;gap:14px;margin-top:18px}button,select{border:1px solid #36516c;background:#1b3347;color:#e6eff9;padding:10px 14px;border-radius:8px;cursor:pointer}input{flex:1;accent-color:#57dbc5;min-width:60px}.legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:18px;font-size:12px;color:#9aadc4}.note{font-size:12px}#status{font-size:15px;color:#57dbc5}.footer{font-size:12px;border-top:1px solid #26374d;margin-top:26px;padding-top:18px}@media(max-width:850px){.layout{grid-template-columns:1fr}canvas{height:380px}header{align-items:start}.tag{max-width:150px}.card{padding:15px}body{padding:20px}}
+</style>
+<header><div><div class="eyebrow">CUADC / RELEASE LAB</div><h1>投放阶段 · 策略回放</h1><p>沿用视觉与飞控观测，学习何时释放救援载荷。</p></div><div class="tag">离线仿真 · 非实飞结果</div></header>
+<div class="layout"><section class="card"><h2>俯视轨迹 <span class="note">　局部水平坐标 / m</span></h2><canvas id="scene"></canvas><div class="controls"><button id="play">播放</button><input id="timeline" type="range" min="0" value="0" aria-label="时间轴"><select id="speed" aria-label="播放速度"><option value="1">1×</option><option value="2">2×</option><option value="4">4×</option></select></div><div class="legend"><span style="color:#57dbc5">● 桶口与有效命中范围</span><span style="color:#8abaff">● 飞机与轨迹</span><span style="color:#ffcf72">× 载荷落点</span></div></section>
+<aside class="card"><h2 id="policy"></h2><div id="status"></div><div class="stat"><label>回放时刻</label><strong id="time"></strong></div><div class="stat"><label>最近观测水平速度</label><strong id="velocity"></strong></div><div class="stat"><label>该次观测帧年龄</label><strong id="age"></strong></div><div class="stat"><label>最终桶口平面误差</label><strong id="error"></strong></div><p class="note">轨迹及落点来自仿真真值，仅供回放与评分。策略只接收含噪视觉、里程计和控制历史。图示有效命中半径已扣除载荷半径及余量。</p><div class="note" id="seed"></div></aside></div>
+<div class="footer">模型范围：固定桶口、近悬停、二维水平响应、竖直自由落体及水平线性阻力。未模拟瓶体翻滚、弹跳或旋翼下洗。</div>
+<script>
+const D=/*REPLAY_DATA*/null;
+if(D){
+const frames=D.frames, canvas=document.querySelector('#scene'),ctx=canvas.getContext('2d');
+const slider=document.querySelector('#timeline');slider.max=frames.length-1;
+document.querySelector('#policy').textContent=D.policy;
+document.querySelector('#seed').textContent='场景种子 '+D.seed+' · 桶口直径 '+(D.config.bucket_radius_m*200).toFixed(0)+' cm';
+const finish=D.result, colors={hit:'命中',miss:'未命中',timeout:'超时未投放',out_of_bounds:'超出局部范围'};
+document.querySelector('#error').textContent=finish.error_m===null?'—':(finish.error_m*100).toFixed(1)+' cm';
+let index=0,playing=false,last=0,clock=0;
+const extent=Math.max(.8,...frames.map(f=>Math.max(Math.abs(f.x),Math.abs(f.y))))*1.25;
+function draw(){
+ const rect=canvas.getBoundingClientRect(),dpr=window.devicePixelRatio||1;canvas.width=rect.width*dpr;canvas.height=rect.height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);const w=rect.width,h=rect.height,s=Math.min(w,h)/(2*extent),cx=w/2,cy=h/2;
+ const p=(x,y)=>[cx+x*s,cy-y*s];ctx.clearRect(0,0,w,h);ctx.font='11px system-ui';ctx.lineWidth=1;
+ for(let v=-Math.ceil(extent*2)/2;v<=extent;v+=.5){ctx.strokeStyle='#233349';ctx.beginPath();ctx.moveTo(...p(v,-extent));ctx.lineTo(...p(v,extent));ctx.moveTo(...p(-extent,v));ctx.lineTo(...p(extent,v));ctx.stroke();ctx.fillStyle='#667d97';ctx.fillText(v.toFixed(1),p(v,0)[0]+4,cy+14);}
+ ctx.strokeStyle='#57dbc5';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,D.config.bucket_radius_m*s,0,2*Math.PI);ctx.stroke();ctx.fillStyle='#57dbc526';ctx.beginPath();ctx.arc(cx,cy,(D.config.bucket_radius_m-D.config.payload_radius_m-D.config.rim_margin_m)*s,0,2*Math.PI);ctx.fill();
+ ctx.strokeStyle='#699fdf';ctx.lineWidth=2;ctx.beginPath();frames.slice(0,index+1).forEach((f,i)=>{const xy=p(f.x,f.y);i?ctx.lineTo(...xy):ctx.moveTo(...xy)});ctx.stroke();
+ const f=frames[index],xy=p(f.x,f.y);ctx.strokeStyle='#b2d3ff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(xy[0]-10,xy[1]-10);ctx.lineTo(xy[0]+10,xy[1]+10);ctx.moveTo(xy[0]-10,xy[1]+10);ctx.lineTo(xy[0]+10,xy[1]-10);ctx.stroke();ctx.fillStyle='#8abaff';ctx.beginPath();ctx.arc(...xy,5,0,Math.PI*2);ctx.fill();
+ if(index===frames.length-1&&finish.landing_xy){const lp=p(...finish.landing_xy),rp=p(...finish.release_xy);ctx.setLineDash([5,5]);ctx.strokeStyle='#ffcf72';ctx.beginPath();ctx.moveTo(...rp);ctx.lineTo(...lp);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.moveTo(lp[0]-6,lp[1]-6);ctx.lineTo(lp[0]+6,lp[1]+6);ctx.moveTo(lp[0]-6,lp[1]+6);ctx.lineTo(lp[0]+6,lp[1]-6);ctx.stroke();}
+ document.querySelector('#time').textContent=f.t.toFixed(2)+' s';document.querySelector('#velocity').textContent=Math.hypot(f.observation.vx,f.observation.vy).toFixed(2)+' m/s';document.querySelector('#age').textContent=f.observation.age.toFixed(2)+' s';document.querySelector('#status').textContent=index===frames.length-1?colors[finish.outcome]:(f.observation.visible?'视觉有效 · 对准中':'视觉不可用 · 等待');slider.value=index;
+}
+document.querySelector('#play').onclick=()=>{if(index===frames.length-1){index=0;clock=0}playing=!playing;last=0;document.querySelector('#play').textContent=playing?'暂停':'播放';draw()};
+slider.oninput=()=>{index=Number(slider.value);clock=frames[index].t;draw()};window.onresize=draw;
+function tick(t){if(playing){if(last)clock+=(t-last)/1000*Number(document.querySelector('#speed').value);while(index<frames.length-1&&frames[index+1].t<=clock)index++;draw();if(index===frames.length-1){playing=false;document.querySelector('#play').textContent='重播'}}last=t;requestAnimationFrame(tick)}draw();requestAnimationFrame(tick);
+}
+</script></html>

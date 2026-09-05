@@ -1,0 +1,5 @@
+{
+  "bucket_radius_m": 0.10,
+  "payload_radius_m": 0.03,
+  "rim_margin_m": 0.005
+}

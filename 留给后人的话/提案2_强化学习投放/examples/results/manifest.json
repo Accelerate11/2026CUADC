@@ -1,0 +1,101 @@
+{
+  "files": {
+    "q_policy.json": {
+      "sha256": "ac5f31667964c39f0b7336d2c69bcb7335d61c0561782a1aa1685e87a08ec7a9",
+      "bytes": 10587
+    },
+    "q_policy.json.training.csv": {
+      "sha256": "2ea5faeb7e352ab0070c1970186b7418fc580a79ad4d269b2fa1f5734b980e69",
+      "bytes": 274580
+    },
+    "ballistic_sweep.csv": {
+      "sha256": "760cd810b05072cc40e3eb9ebe1a26cad4000114449c0f0d8a47f899b50592df",
+      "bytes": 1786
+    },
+    "evaluation.json": {
+      "sha256": "c5705056f05e7d4ce67ba8b079ba5c5b077163d7ddf9777140ba279c7706b957",
+      "bytes": 3707
+    },
+    "evaluation.csv": {
+      "sha256": "2c2e41727399db08af658eca731ae1d475058cd6b85e37aa42f653b8520b5ffa",
+      "bytes": 270420
+    },
+    "stress.json": {
+      "sha256": "b2172a76699f6b4bd90f72d320a5b1622d4b82c77e1c80911dfc8a3fae0f8ae2",
+      "bytes": 3726
+    },
+    "stress.csv": {
+      "sha256": "703c97491f739d1f566a12702a8e703b17f3923877733fc2a37b0e0f1aa05cfb",
+      "bytes": 257625
+    },
+    "bucket15.json": {
+      "sha256": "5419b20d072a887d672d20c5e9098585b94f901da813a0cfde1b59786bd7e693",
+      "bytes": 3734
+    },
+    "bucket15.csv": {
+      "sha256": "2321df34e42cb06debb4324971064caa80294f648e2f871f5b3edb1b70c3814f",
+      "bytes": 265193
+    },
+    "bucket20.json": {
+      "sha256": "5095c0c9cc6b93c7091bd17cee27dbc1c852c160ffb99e2f4820abc9b1b309cb",
+      "bytes": 3689
+    },
+    "bucket20.csv": {
+      "sha256": "9faefaf2b0f8647eddd21f7b07044c111841944c977ffcd187d3170687b10db9",
+      "bytes": 270095
+    },
+    "demo_q.html": {
+      "sha256": "cf91de6df8318ac44a9afa606f210677497b1bb3d3f8e02d04589b9e7f8929f8",
+      "bytes": 24796
+    },
+    "demo_q.html.json": {
+      "sha256": "bfc10719a1cb428cd057ff024f9ac0cb86d879913d09ef8901d8ebb71b9bbc7f",
+      "bytes": 24374
+    },
+    "demo_hover.html": {
+      "sha256": "1715e52917713a6da24b9c1e650bc030fb1ce450248f6b2a576cd77fce335183",
+      "bytes": 28838
+    },
+    "demo_hover.html.json": {
+      "sha256": "85e89ef54f7f1f21bea4131a822866b140f1088f58966a70db27e02a4156ac66",
+      "bytes": 29907
+    },
+    "vision_loss.html": {
+      "sha256": "847488cf6f93f518de3823aa7b1b26489bbbd0827ea14022805f9a8890abcd62",
+      "bytes": 56005
+    },
+    "vision_loss.html.json": {
+      "sha256": "a5fd83c493ebbdd1cf00aabed0ab66aee962cbda7c0531638b6c86dd14c06ae9",
+      "bytes": 71798
+    },
+    "replay_preview.png": {
+      "sha256": "9bac67e6e9f67637139bad1cbd41c9f374623445f3874e670f7fb60b73746090",
+      "bytes": 66528
+    },
+    "ppo_smoke.zip": {
+      "sha256": "6f69352fed3d5d1abcd83fc1760f16e76dd136667769dc87ea9fe5291e71b43c",
+      "bytes": 157641
+    },
+    "ppo_smoke.metadata.json": {
+      "sha256": "a2a568741585892133fb638f58fbd80152f5254afa4ffb7fd6a3aa5168d0b38a",
+      "bytes": 1416
+    },
+    "ppo_smoke.monitor.csv": {
+      "sha256": "b1d800798f9f1887f0a171a367fe784b14d2e69bb24788415e241975181422fd",
+      "bytes": 22366
+    },
+    "ppo_training.log": {
+      "sha256": "ef1da867cbd453d33d7282261ebb7161d22b9245ddf356e52477639da5ebd57e",
+      "bytes": 55690
+    },
+    "ppo_evaluation.json": {
+      "sha256": "837c73b6c5281613cfa6e137ed98d501902237b9f34a66b1162d7380f76db977",
+      "bytes": 2809
+    },
+    "ppo_evaluation.json.csv": {
+      "sha256": "532aca6ab0822846b90ccc8cc102de1f97dd8d67e693efd5a94f2f3e730b7a7d",
+      "bytes": 67458
+    }
+  },
+  "not_generated": []
+}

@@ -1,0 +1,9 @@
+{
+  "height_jitter_m": 0.0,
+  "tau_jitter_s": 0.0,
+  "wind_max_m_s": 0.0,
+  "drag_jitter_s_inv": 0.0,
+  "delay_jitter_s": 0.0,
+  "port_uncertainty_m": 0.0,
+  "dropout_probability": 0.0
+}

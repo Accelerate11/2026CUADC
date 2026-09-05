@@ -1,0 +1,11 @@
+先阅读 README.md。
+
+直接运行：python scripts/run_quickstart.py
+直接看回放：examples/results/demo_q.html
+查看实验结果：docs/04_实验结果.md
+接入已有状态机：integration/README.md
+
+基础版本无第三方依赖。可选 PPO 需要单独安装依赖。
+仅使用现有 D435i 和飞控观测，不新增传感器。
+这是可运行的研究草案，没有修改或推送原 GitHub 项目。
+训练结果尚未证明强化学习优于稳定悬停基线，详见结果文档。

@@ -1,0 +1,2 @@
+# 基础仿真、Q-learning、评估、HTML 回放只使用 Python 标准库。
+# 无需 pip install；PPO 的可选依赖见 requirements-ppo.txt。
