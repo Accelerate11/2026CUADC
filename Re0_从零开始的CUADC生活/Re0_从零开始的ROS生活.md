@@ -2,7 +2,7 @@
 
 > **主线**：Ubuntu 22.04、ROS 2 Humble、C++17 / Python、MAVROS、ArduPilot、多旋翼侦察与救援。  
 > **阅读目标**：不仅会启动一个节点，还能设计接口、组织工作空间、接入视觉和飞控、验证时间与坐标、构建状态机、复现故障，并把系统交给下一届队员。  
-> **基准代码**：`cuadc_full_mission_node_3_v11(1).cpp`，源码版本字符串为 `full-mission-v11-geometric-fine-alignment-2026-09-03`。[P1]  
+> **基准代码**：`cuadc_full_mission_node_3.cpp`，源码版本字符串为 `full-mission-v11-geometric-fine-alignment-2026-09-03`。[P1]  
 > **配套练习**：`CUADC_ROS2_阶段实践工作空间.zip`。本文包含主要完整文件，压缩包用于免去逐段复制。  
 > **编写日期**：2026-09-05。教程以 Humble 为教学基线，不把其他发行版的新功能默认为 Humble 可用。
 
