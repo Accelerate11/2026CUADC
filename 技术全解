@@ -1,40 +1,268 @@
-##此文档用于记载备赛流程的技术选型##
+# 2026 赛季备赛技术选型记录
 
-####ubuntu####
-2026赛季开始，Ubuntu版本决定为22.04，本地测试采用双系统
+> 此文档用于记载 2026 赛季备赛流程中的技术选型、环境配置及相关方案变更。
 
+---
 
-####ROS####
-ROS采用最新的ROS2 humble
+## Ubuntu
 
+2026 赛季开发环境统一采用：
 
-####gezebo####
-gezebo选用11.xx.x系列，用来本地对自动飞行代码的验证和一些仿真工作
-gezebo选用11.xx.x系列配置失败
-对于ubuntu22.04，其实Fortress才是LTS（长期支持更新的稳定版本），但它和ardupilot不兼容；另外gazebo 11并不好用，所以我们最终选用gazebo Harmonic。
-gazebo官网https://gazebosim.org/home
-意外收获时发现gazebo classic不支持RGBD相机仿真gazebo Harmonic支持https://gazebosim.org/docs/harmonic/comparison/?utm_source=chatgpt.com
+- **Ubuntu 22.04 LTS**
+- 本地开发与测试采用 **Windows + Ubuntu 双系统**
 
+Ubuntu 22.04 作为本赛季主要 Linux 开发环境，用于 ROS 2、ArduPilot、Gazebo 以及无人机自主飞行相关代码的开发与验证。
 
-####ardipilot####
-选用missionplanner里面原生的arducopter系列飞控固件
-https://ardupilot.org/ardupilot/index.html
-https://github.com/ArduPilot/MissionPlanner
+---
 
+## ROS
 
-####wattToolkit####
-这是一个免费的linux github加速器
+ROS 采用：
 
+- **ROS 2 Humble Hawksbill**
 
-####飞控####
-CUAV V5 nano
-CUAV X7+ PRO    https://www.cuav.net/x7-plus-pro/
-CUAV 7-nano     https://www.cuav.net/7-nano/
-CUAV v6x-v2     https://www.cuav.net/v6x-v2/
+ROS 2 Humble 与 Ubuntu 22.04 具有较好的兼容性，并且属于 ROS 2 的 LTS 版本，作为本赛季机器人通信、传感器数据处理以及自主飞行算法的主要软件框架。
 
+---
 
-####RTK####
-CUAV c-rtk-2hp  https://www.cuav.net/c-rtk-2hp/
+## Gazebo
+
+### 初始方案
+
+最初计划采用：
+
+- **Gazebo Classic 11.x.x**
+
+主要用于：
+
+- 本地自动飞行代码验证
+- 无人机动力学仿真
+- 传感器仿真
+- ArduPilot SITL 联调
+
+### 配置问题
+
+Gazebo Classic 11.x.x 在 Ubuntu 22.04 上的配置过程并不理想，最终配置失败。
+
+对于 Ubuntu 22.04：
+
+- **Gazebo Fortress** 才是对应的 LTS 稳定版本
+- 但 Fortress 与当前 ArduPilot 仿真方案的兼容性存在问题
+- Gazebo Classic 11 的整体使用体验和后续支持情况也不理想
+
+### 最终方案
+
+因此最终决定采用：
+
+- **Gazebo Harmonic**
+
+Gazebo Harmonic 用于后续无人机仿真、自动飞行程序验证以及传感器仿真。
+
+官方网站：
+
+[Gazebo 官方网站](https://gazebosim.org/home)
+
+### RGB-D 相机仿真
+
+在调研过程中发现：
+
+- Gazebo Classic 对 RGB-D 相机仿真的支持存在限制
+- Gazebo Harmonic 对 RGB-D 相机及新一代传感器仿真支持更完善
+
+相关官方对比：
+
+[Gazebo Classic 与新版 Gazebo 功能对比](https://gazebosim.org/docs/harmonic/comparison/)
+
+---
+
+## ArduPilot
+
+飞控固件采用：
+
+- **ArduCopter**
+
+主要使用 Mission Planner 中原生提供的 ArduCopter 系列飞控固件。
+
+ArduPilot 负责无人机底层飞行控制，包括：
+
+- 姿态控制
+- 位置控制
+- 高度控制
+- 航点飞行
+- 自动起降
+- MAVLink 通信
+- 外部控制接口
+
+相关链接：
+
+- [ArduPilot 官方文档](https://ardupilot.org/ardupilot/index.html)
+- [Mission Planner GitHub](https://github.com/ArduPilot/MissionPlanner)
+
+---
+
+## Watt Toolkit
+
+**Watt Toolkit** 用于改善部分 GitHub 资源的访问速度。
+
+主要用途：
+
+- GitHub 访问加速
+- GitHub Release 下载加速
+- 部分开发资源下载加速
+
+在 Linux 开发环境配置以及 ROS、ArduPilot 等相关依赖下载过程中使用。
+
+---
+
+# 硬件选型
+
+## 飞控
+
+目前考虑和使用过的 CUAV 飞控包括：
+
+### CUAV V5 Nano
+
+早期使用的飞控平台之一。
+
+---
+
+### CUAV X7+ Pro
+
+CUAV X7 系列飞控。
+
+官方资料：
+
+[CUAV X7+ Pro](https://www.cuav.net/x7-plus-pro/)
+
+---
+
+### CUAV 7-Nano
+
+目前重点使用的飞控之一。
+
+特点：
+
+- 体积较小
+- 适合无人机机载使用
+- 支持 ArduPilot
+- 接口资源较丰富
+- 便于与 RTK、机载电脑、数传等设备连接
+
+官方资料：
+
+[CUAV 7-Nano](https://www.cuav.net/7-nano/)
+
+---
+
+### CUAV V6X V2
+
+作为另一套飞控备选方案。
+
+官方资料：
+
+[CUAV V6X V2](https://www.cuav.net/v6x-v2/)
+
+---
+
+## RTK
+
+RTK 初期选型：
+
+- **CUAV C-RTK 2HP**
+
+主要用于：
+
+- 高精度定位
+- 无人机定点飞行
+- 自动航线飞行
+- 提高位置控制精度
+
+官方资料：
+
+[CUAV C-RTK 2HP](https://www.cuav.net/c-rtk-2hp/)
+
+后续根据航向稳定性需求，可进一步考虑：
+
+- 双天线 RTK
+- Moving Base
+- GPS Heading
+- RTK + 外置罗盘组合方案
+
+---
+
+## 机载电脑
+
+目前考虑过的 Intel NUC 机载计算平台包括：
+
+### Intel NUC 10
+
+主要用于：
+
+- ROS 2 节点运行
+- 视觉算法
+- 自主飞行算法
+- MAVLink 通信
+- 数据处理
+
+---
+
+### Intel NUC 13
+
+作为性能更高的机载计算平台备选。
+
+主要用于：
+
+- 高计算量视觉算法
+- 多传感器融合
+- 自主规划
+- ROS 2 系统
+- 深度学习推理
+- 飞控通信与任务控制
+
+---
+
+# 当前软件技术栈
+
+目前 2026 赛季基础软件环境确定为：
+
+| 模块 | 技术选型 |
+| --- | --- |
+| 操作系统 | Ubuntu 22.04 LTS |
+| ROS | ROS 2 Humble |
+| 仿真平台 | Gazebo Harmonic |
+| 飞控固件 | ArduPilot / ArduCopter |
+| 地面站 | Mission Planner |
+| 飞控通信 | MAVLink |
+| GitHub 加速 | Watt Toolkit |
+
+---
+
+# 当前主要硬件技术栈
+
+| 模块 | 主要选型 |
+| --- | --- |
+| 飞控 | CUAV 7-Nano |
+| 备选飞控 | CUAV X7+ Pro / CUAV V6X V2 / CUAV V5 Nano |
+| RTK | CUAV C-RTK 2HP |
+| 机载电脑 | Intel NUC 10 / Intel NUC 13 |
+
+---
+
+# 后续工作
+
+后续需要继续完善：
+
+- Gazebo Harmonic + ArduPilot SITL 联调
+- ROS 2 Humble 与 ArduPilot 通信方案
+- MAVROS / MAVSDK 技术选型
+- RGB-D 相机仿真
+- RTK 定位与航向方案
+- 双 RTK 定向方案
+- 机载电脑与飞控通信
+- 自动飞行代码仿真验证
+- 实机环境与仿真环境统一
+- 传感器时间同步
+- 多传感器数据融合
 
 
 ####机载电脑####
