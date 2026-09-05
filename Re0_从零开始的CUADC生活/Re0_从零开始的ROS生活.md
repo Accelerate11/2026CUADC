@@ -5248,7 +5248,7 @@ ament_package()
 ## E.1 项目内资料
 
 <a id="p1"></a>
-**[P1] 上传源码**：`cuadc_full_mission_node_3_v11(1).cpp`，版本字符串`full-mission-v11-geometric-fine-alignment-2026-09-03`。本教程通过接口、函数体和默认参数说明其实际行为，没有修改该文件。
+**[P1] 上传源码**：`cuadc_full_mission_node_3.cpp`，版本字符串`full-mission-v11-geometric-fine-alignment-2026-09-03`。本教程通过接口、函数体和默认参数说明其实际行为，没有修改该文件。
 
 <a id="p2"></a>
 **[P2] 前一份教程**：`CUADC_Cpp_ROS2_MAVROS_从零到完整状态机教程.md`。用于衔接学习主线；ROS机制以本教程给出的官方资料和实际代码为准。
