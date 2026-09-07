@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
+PARAMS="$ROOT/config/alignment_generated.yaml"
+INSTALL="$ROOT/ros2_ws/install"
+# ROS_SETUP_NOUNSET_GUARD
+set +u
+source /opt/ros/humble/setup.bash
+set -u
+set +u
+source "$INSTALL/setup.bash"
+set -u
+exec ros2 run vision_servo_calibration vision_provider_template --ros-args --params-file "$PARAMS"

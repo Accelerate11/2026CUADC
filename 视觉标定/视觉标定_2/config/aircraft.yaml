@@ -1,0 +1,27 @@
+camera:
+  image_topic: /cuadc/calib/color/image_raw
+  camera_info_topic: /cuadc/calib/color/camera_info
+  # camera optical -> FCU FRD
+  rotation_camera_to_frd:
+    [-0.971358, 0.237622, 0.0,
+     -0.237622,-0.971358, 0.0,
+      0.0,      0.0,      1.0]
+  # Effective FRD translation includes camera_xy_calib_bias_m.
+  translation_frd_m: [0.047805, 0.014577, 0.35]
+
+vision:
+  detections_topic: /vision_servo/targets_body
+  frame_id: fcu_body_frd
+
+payloads:
+  release_offsets_frd_m:
+    [0.0260, 0.0650, 0.3200,
+     0.0109,-0.0720, 0.3200]
+
+target:
+  # Current formal vision uses rim_direct, i.e. the 3D reference is already the rim plane.
+  height_m: 0.0
+
+fcu:
+  device: null
+  baud: null
