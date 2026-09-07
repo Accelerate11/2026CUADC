@@ -258,16 +258,6 @@ docs/
   MIGRATION_FROM_OLD_WORKSPACE.md
 ```
 
-## 9. 发布到 GitHub 前
-
-`.gitignore` 已排除：
-
-- `build/install/log`；
-- `config/aircraft.yaml`；
-- 生成参数；
-- 飞行/标定日志；
-- Python 缓存。
-
 这个公开版也已经移除原始检测模型、ONNX/PT 文件、原视觉算法和比赛专用全流程节点。请在正式发布前自行选择并写入开源许可证；本整理版没有替项目作者擅自改变许可证。
 
 ## 10. 安全边界
