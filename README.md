@@ -9,4 +9,6 @@
 
 感谢micoair微空科技对本项目的大力支持！
 
+感谢HARD海砥装备对本项目的大力支持！
+
 <img width="784" height="279" alt="屏幕截图 2026-09-11 192442" src="https://github.com/user-attachments/assets/838b945b-0a3c-4e52-ab9a-4813591e9ead" />
