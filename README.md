@@ -9,4 +9,4 @@
 
 感谢micoair微空科技对本项目的大力支持！
 
-<img width="2287" height="790" alt="屏幕截图 2026-09-08 152103" src="https://github.com/user-attachments/assets/532c2616-dbeb-43c4-89ea-e2d49ff47462" />
+<img width="784" height="279" alt="屏幕截图 2026-09-11 192442" src="https://github.com/user-attachments/assets/838b945b-0a3c-4e52-ab9a-4813591e9ead" />
