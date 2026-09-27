@@ -6,7 +6,5 @@
 <img width="830" height="550" alt="屏幕截图 2026-09-27 121408" src="https://github.com/user-attachments/assets/b8b260b0-abf0-48af-b059-1b07d2426cfe" />
 <img width="830" height="555" alt="屏幕截图 2026-09-27 121359" src="https://github.com/user-attachments/assets/04868c78-d11a-4513-b317-5f25e19def56" />
 
-# 更换更稳定的4G模块
-# 考虑使用更强的机载算力，有钱或者有资源建议使用orin NX
-# 更新飞控、RTK设备，RTK基站有条件的话买两套
-# 更换大功率数传
+# 硬件方面，更换更稳定的4G模块，考虑使用更强的机载算力，有钱或者有资源建议使用orin NX 更新飞控、RTK设备，RTK基站有条件的话买两套，更换大功率数传
+# 提升代码结构，可以考虑使用Behavior Tree，危险物识别阶段，如果能训练出高速情况下的快速准确识别模型采用视觉模型会更好
