@@ -29,6 +29,11 @@
 │   ├── cuadc_full_mission_node_3_v0_public.cpp（北部赛区冠军机组代码）
 │   ├── cuadc_full_mission_node_3_v1_public.cpp
 │   ├── cuadc_full_mission_node_3_v2_public.cpp
+│   ├── cuadc_full_mission_node_3_v3_public.cpp
+│   ├── cuadc_full_mission_node_3_v4_public.cpp
+│   ├── cuadc_full_mission_node_3_v5_public.cpp
+│   ├── cuadc_full_mission_node_3_v6_public.cpp
+│   ├── cuadc_full_mission_node_3_v7_public.cpp
 │   ├── offb_node.cpp
 │   ├── recon_state_machine_node_1.cpp
 │   ├── takeoff_drop_land_node_1.cpp
@@ -45,8 +50,13 @@
     |   ├── labels.docx
     |   └── single_demo_en.py
     └── 视觉2.0/drop
-        ├── basket_detect_seg.pt
-        └── basket_detect_seg.py
+    |    ├── basket_detect_seg.pt
+    |    └── basket_detect_seg.py
+    └── 视觉3.0/
+    |   ├── basket_detect_seg_analysis.py
+    |   ├── basket_v3.onnx
+    |   └── basket_v3.pt
+    └── 视觉4.0/
 
 ## 注意事项
 
