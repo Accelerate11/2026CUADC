@@ -1,0 +1,5 @@
+{
+  "src/cuadc_perception/models/basket_detect.onnx": "e0163ba70e3cc167071d15ba26f69f5a9b1bf8bfbec0db68a8b12b708aa1dfe2",
+  "src/cuadc_perception/models/basket_v3.onnx": "2c53885a527eeb5acb37ca8201791d61dafac80f6ae135fa60f61064fecde9cf",
+  "src/cuadc_perception/models/basket_v3.pt": "061b67ace71d5f036f7003a3699640dc0a8522e3c3162116884b67b552cd87bf"
+}

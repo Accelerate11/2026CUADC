@@ -1,0 +1,103 @@
+{
+  "source_archive": "cuadc_2.zip",
+  "source_archive_sha256": "d9e0de2f842e6cb9d78d59c44d28056ed34b901ca448683dd7f7316e033b1bdf",
+  "layout_reference": "https://github.com/Accelerate11/2026CUADC/tree/main/code/2026code/状态机/ws_offboard/ws_offboard_2026_8_20",
+  "layout_reference_tree_sha": "9eff574eff1249b99296ec2d77b707b8e70494c6",
+  "migrated_files": {
+    "aaa/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp": {
+      "destination": "src/cuadc_mission/src/cuadc_full_mission_node.cpp",
+      "original_sha256": "c6050887c06085a9645d9447b861e6917867d789eef1f6685d91cc9e6e41f87f",
+      "sha256": "31f9d4803942f4ea74d4f50f55825885524249eab41f47dbf7182a1695a3309e",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/config/mission_real.yaml": {
+      "destination": "src/cuadc_bringup/config/mission_real.yaml",
+      "original_sha256": "3e1da43313819a37262144a66ccf35fa7378d5a3e0440d075c4fc83fa0abec92",
+      "sha256": "051db0a49674ee93d8e84aff50f18fb3068a60bceb4da34aef70591f13ed0787",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/requirements-onboard.txt": {
+      "destination": "requirements-onboard.txt",
+      "original_sha256": "4b71e91936dc42b1ee3767e21c78ff1290b0a34524906fd0d7ad00b73e0285d9",
+      "sha256": "7c0c278d13c4c4aa9edb5b28bcd46ad118e014129686b2eb914586aaf99fd9cb",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/LICENSES.md": {
+      "destination": "docs/ORIGINAL_LICENSES.md",
+      "original_sha256": "df264604b070d1be6a03e4d095c2dd357520086927f6af104c7fced0e2a42a59",
+      "sha256": "38b5c5bd038043ad50f3d2353f34a25289faf7131f8b18ed7e561a72f1ff4ad4",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/models/basket_detect.onnx": {
+      "destination": "src/cuadc_perception/models/basket_detect.onnx",
+      "original_sha256": "e0163ba70e3cc167071d15ba26f69f5a9b1bf8bfbec0db68a8b12b708aa1dfe2",
+      "sha256": "e0163ba70e3cc167071d15ba26f69f5a9b1bf8bfbec0db68a8b12b708aa1dfe2",
+      "content_unchanged": true
+    },
+    "aaa/cuadc_full_mission_20260803/models/basket_v3.onnx": {
+      "destination": "src/cuadc_perception/models/basket_v3.onnx",
+      "original_sha256": "2c53885a527eeb5acb37ca8201791d61dafac80f6ae135fa60f61064fecde9cf",
+      "sha256": "2c53885a527eeb5acb37ca8201791d61dafac80f6ae135fa60f61064fecde9cf",
+      "content_unchanged": true
+    },
+    "aaa/cuadc_full_mission_20260803/models/basket_v3.pt": {
+      "destination": "src/cuadc_perception/models/basket_v3.pt",
+      "original_sha256": "061b67ace71d5f036f7003a3699640dc0a8522e3c3162116884b67b552cd87bf",
+      "sha256": "061b67ace71d5f036f7003a3699640dc0a8522e3c3162116884b67b552cd87bf",
+      "content_unchanged": true
+    },
+    "aaa/cuadc_full_mission_20260803/scripts/basket_vision_ros_node.py": {
+      "destination": "src/cuadc_perception/cuadc_perception/basket_vision_ros_node.py",
+      "original_sha256": "bb4bb9dc7558bfecea1ac7581455df512196703bbd80c518e91e20ab902700db",
+      "sha256": "c312e7270451141e3fc2fc304373913d61a279f8e4d09da02af4ca96c30bc6fb",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/scripts/basket_detect_seg_analysis.py": {
+      "destination": "src/cuadc_perception/cuadc_perception/basket_detect_seg_analysis.py",
+      "original_sha256": "13d09729af3ef53653cdf4667be7b3ba30abf320fa3ae235dd7f4b2f5a3c81ee",
+      "sha256": "89693467ab1e2457d95b436b4fadc96dbc54260dcaa98adedd68894a85ee47c5",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/scripts/preflight_camera_view.py": {
+      "destination": "src/cuadc_perception/cuadc_perception/preflight_camera_view.py",
+      "original_sha256": "31f49416e09682b90ebdade99a03e447955f9ca07717cf83bac20a7d0f07c277",
+      "sha256": "810b315e581efc8ec17561ad3baa564187bd412e70fb932e0cd2751c38e46d53",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/scripts/flight_telemetry_recorder.py": {
+      "destination": "src/cuadc_tools/cuadc_tools/flight_telemetry_recorder.py",
+      "original_sha256": "423d1ddb293eac1d59e21556ce6104f5d97b79ffd065d7a8b21cfd510c491fc2",
+      "sha256": "56bdc1135f649e75630318279e7f53014d683881197a72bd30eb9f39e059e078",
+      "content_unchanged": false
+    },
+    "aaa/cuadc_full_mission_20260803/scripts/mavlink_stream_configurator.py": {
+      "destination": "src/cuadc_tools/cuadc_tools/mavlink_stream_configurator.py",
+      "original_sha256": "a6755a78bdf2fef26edaf8694cc062f734ebbb6adcaa6981fddbb6afffa93655",
+      "sha256": "930a0b8bdfc93ed6b1e2143aa0254df798b51726cd6d4c589b9d85e4a94c802b",
+      "content_unchanged": false
+    },
+    "aaa/routes/calibrate_route.py": {
+      "destination": "src/cuadc_tools/cuadc_tools/calibrate_route.py",
+      "original_sha256": "a0b1066da6faf8fee5b02f679659acbdc0956be8b9e22e4ca17861762aa8e30e",
+      "sha256": "1feabdd6d5fa42326a24ca91bf1effc424604539fd453fd07eb9b874e5e475be",
+      "content_unchanged": false
+    }
+  },
+  "excluded_files": [
+    "aaa/cuadc_full_mission_20260803/CMakeLists.txt",
+    "aaa/cuadc_full_mission_20260803/deploy/build_onboard.sh",
+    "aaa/cuadc_full_mission_20260803/launch/full_mission_real.launch.py",
+    "aaa/cuadc_full_mission_20260803/package.xml",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/basket_detect_seg_analysis.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/basket_vision_ros_node.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/flight_telemetry_recorder.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/mavlink_stream_configurator.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/preflight_camera_view.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/vision_gui.cpython-310.pyc",
+    "aaa/cuadc_full_mission_20260803/scripts/__pycache__/vision_gui_live.cpython-310.pyc",
+    "aaa/routes/README.md",
+    "aaa/routes/test.yaml",
+    "aaa/routes/__pycache__/calibrate_route.cpython-310.pyc"
+  ],
+  "comment_language": "zh-CN"
+}

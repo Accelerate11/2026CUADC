@@ -1,0 +1,13 @@
+# 原部署使用的 Intel NUC11 CPU 运行依赖。
+ultralytics==8.4.41
+onnx==1.17.0
+onnxruntime==1.23.2
+PyYAML>=6.0,<7.0
+Pillow>=10.0,<12.0
+
+# 以下厂商和运行环境依赖需要预先准备，不由此清单安装：
+# - NumPy 版本需满足 >=1.24,<2.0。
+# - cv2 / OpenCV 使用机载镜像或团队认可的 Jetson 构建。
+# - 原环境使用 PyTorch 2.11 的 CPU 构建。
+# - pyrealsense2 / librealsense 需与安装的 D435i 一起验证。
+# - rclpy 来自 /opt/ros/humble 的 ROS 2 Humble 安装。

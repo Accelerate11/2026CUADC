@@ -1,0 +1,221 @@
+cuadc_full_mission_node:
+  ros__parameters:
+    # 部署开关；完成飞机检查后才应设为 true。
+    flight_enable: true
+    bucket_detection_topic: /perception/drop_buckets_body
+    bucket_projection_log_path: ""
+    lock_mission_yaw_to_initial_heading: true
+    # 启动器在运行时注入航向 YAML 的角度；-1 是无效占位值，
+    # 因此未提供航向的直接启动无法通过配置检查。
+    geographic_heading_deg: -1.0
+    yaw_to_target: false
+    auto_arm_on_guided: true
+    drop_only_mode: false
+    # 试验配置：使用冻结的桶粗定位坐标，在 1.8 m 高度释放。
+    coarse_release_trial_mode: true
+    fixed_release_test_mode: false
+    fixed_release_points_field_xy: [32.5, -2.6, 32.5, 2.6]
+
+    vision_heartbeat_timeout_s: 1.5
+    vision_max_pipeline_delay_s: 1.5
+    vision_future_tolerance_s: 0.05
+    vision_transform_tolerance_s: 0.20
+    nav_interpolation_max_gap_s: 0.50
+    odom_history_s: 5.0
+    vision_pending_buffer_s: 1.00
+    # 空检测帧也计为有效的起飞前视觉心跳。
+    vision_min_messages_before_takeoff: 3
+    search_vision_acquire_min_frames: 3
+    search_vision_acquire_timeout_s: 5.0
+
+    takeoff_alt_m: 3.0
+    enforce_final_drop_heights: false
+    search_alt_m: 3.0
+    coarse_alt_m: 2.0
+    fine_alt_m: 0.8
+    transit_speed_m_s: 10.5
+    drop_target_transit_speed_m_s: 6.0
+    recon_transit_speed_m_s: 9.5
+    return_speed_m_s: 11.0
+    return_alt_m: 2.5
+    search_speed_m_s: 1.75
+    search_forward_step_m: 2.5
+    recon_speed_m_s: 1.5
+    drop_approach_speed_m_s: 5.0
+    descent_vertical_speed_m_s: 0.2
+    alignment_horizontal_speed_m_s: 0.5
+    release_positioning_speed_m_s: 0.2
+    release_stabilization_s: 2.0
+    release_visual_xy_tolerance_m: 0.03
+    middle_calibration_error_m: 0.12
+    middle_calibration_stable_s: 0.50
+    min_segment_time_s: 1.0
+    waypoint_accept_radius_m: 0.40
+
+    # 场地坐标相对于切入 GUIDED 时锁定的起点和航向。
+    drop_area_near_edge_field_x_m: 30.0
+    drop_area_length_field_x_m: 3.5
+    drop_area_width_field_y_m: 8.0
+    search_lane_count: 3
+    cross_track_camera_fov_deg: 42.0
+    search_lane_overlap_ratio: 0.30
+    search_edge_margin_m: 0.35
+    search_cross_margin_m: 0.55
+    # 0 表示重复航线，直到生成可用的视觉投放方案。
+    max_search_passes: 0
+
+    # 危险物区域只执行航点覆盖，不接收危险物视觉输入。
+    recon_area_center_field_x_m: 57.45
+    recon_area_length_field_x_m: 2.4
+    recon_area_width_field_y_m: 8.0
+    recon_hover_alt_m: 2.0
+    recon_lane_count: 2
+    recon_edge_margin_m: 0.35
+    recon_cross_margin_m: 0.55
+    recon_waypoint_hold_s: 0.0
+
+    bucket_required_count: 2
+    use_post_search_cluster_fit: false
+    cluster_position_scale_m: 0.60
+    cluster_diameter_scale_m: 0.025
+    motion_compensation_enabled: false
+    motion_compensation_matrix: [0.85335529, 0.80596326, -0.97181809, 0.97507692]
+    motion_compensation_reference_field_xy: [31.75, 0.0]
+    # 已标定的实际桶直径：15 cm 和 20 cm。
+    bucket_diameter_centers_m: [0.150, 0.200, 0.235]
+    bucket_min_confirmations: 3
+    track_gate_m: 0.45
+    diameter_track_gate_m: 0.08
+    bucket_track_max_gap_s: 0.60
+    bucket_selection_max_age_s: 10.0
+    bucket_distinct_min_separation_m: 0.14
+    bucket_distinct_min_diameter_m: 0.025
+    bucket_target_ranking_stable_s: 0.80
+    bucket_diameter_filter_window: 9
+    known_bucket_memory_s: 120.0
+    released_bucket_exclusion_m: 0.25
+    bucket_position_filter_alpha: 0.25
+    bucket_body_filter_alpha: 1.0
+    bucket_diameter_filter_alpha: 0.20
+    bucket_confidence_filter_alpha: 0.30
+    bucket_max_position_deviation_m: 0.25
+    bucket_max_diameter_deviation_m: 0.050
+    bucket_min_track_confidence: 0.25
+
+    coarse_error_m: 0.15
+    fine_error_m: 0.08
+    coarse_stable_s: 0.8
+    alignment_timeout_s: 12.0
+    detection_timeout_s: 3.0
+    target_guidance_max_age_s: 0.5
+    recover_hold_s: 0.5
+
+    prestream_hold_s: 1.5
+    takeoff_timeout_s: 60.0
+    # 此超时已关闭；下方的投放阶段超时从首次搜索开始计时。
+    mission_timeout_s: 0.0
+    drop_phase_timeout_s: 150.0
+    return_climb_timeout_s: 30.0
+    return_home_timeout_s: 120.0
+    land_timeout_s: 120.0
+    disarm_timeout_s: 20.0
+    odom_timeout_s: 1.5
+    compass_timeout_s: 1.0
+    extended_state_timeout_s: 2.5
+    landing_confirm_stable_s: 1.5
+    landing_max_relative_altitude_m: 0.30
+    landing_max_horizontal_speed_m_s: 0.20
+    landing_max_vertical_speed_m_s: 0.15
+    heading_lock_stability_s: 2.0
+    heading_lock_max_variation_deg: 2.0
+    position_lock_stability_s: 2.0
+    stationary_speed_max_m_s: 0.15
+
+    release_mode: servo
+    payload_count: 2
+    payload_release_offsets_body_m:
+      # FCU FRD: 1号右前 (+x,+y), 2号左后 (-x,-y); +Z points down.
+       [0.029, 0.070, 0.320,
+       -0.031, -0.065, 0.320]
+    servo_channels: [7, 8]
+    servo_stowed_pwm: [1100, 1100]
+    servo_release_pwm: [1900, 1900]
+    servo_release_duration_s: [0.7, 0.7]
+    servo_initialize_stowed: true
+    servo_return_to_stowed: true
+    servo_ack_timeout_s: 3.0
+    virtual_release_ack_timeout_s: 3.0
+
+basket_vision_ros_node:
+  ros__parameters:
+    model_path: ""
+    camera_serial: ""
+    output_topic: /perception/drop_buckets_body
+    diagnostics_topic: /diagnostics
+    frame_id: fcu_body_frd
+    payload_release_offsets_body_m: [0.029, 0.070, 0.320, -0.031, -0.065, 0.320]
+
+    # 0 表示自动曝光；正数表示手动曝光时间，单位为微秒。
+    exposure: 0.0
+    color_width: 1280
+    color_height: 720
+    depth_width: 848
+    depth_height: 480
+    camera_fps: 30
+    warmup_frames: 15
+    frame_timeout_ms: 1500
+    power_line_frequency_hz: 50
+
+    target_class: 0
+    confidence_threshold: 0.08
+    inference_image_size: 640
+    nms_iou_threshold: 0.01
+    duplicate_mask_iou_threshold: 0.20
+    device: "cpu"
+    half: false
+
+    # 启用高度补偿；桶高为 30 cm。
+    bucket_height_m: 0.30
+    bucket_height_compensation_ratio: 0.85
+    # 实测桶高为 0.30 m；投影和直径恢复使用补偿后的深度，
+    # 而不是直接采用未经补偿的原始测距。
+    depth_mode: wall_minus_height
+    depth_filter_size: 5
+    rim_band_thickness_pixels: 11
+    ground_ring_inner_scale: 1.15
+    ground_ring_outer_scale: 1.75
+
+    # 飞控 FRD 坐标：图像左方对应 +X（前），图像上方对应 +Y（右），
+    # 光轴对应 +Z（下）；光学 +X 映射到机体 -X，光学 +Y 映射到机体 -Y，
+    # 光学 +Z 映射到机体 +Z。
+    # 平移量必须在最终安装完成的机架上测量。
+    camera_to_body_rotation:
+      [-1.0, 0.0, 0.0,
+        0.0, -1.0, 0.0,
+        0.0,  0.0, 1.0]
+    camera_to_body_translation_m: [0.033, 0.0, 0.320]
+    extrinsic_orthogonality_tolerance: 0.001
+
+    min_quality_confidence: 0.08
+    min_depth_m: 0.15
+    max_depth_m: 6.0
+    min_depth_valid_ratio: 0.20
+    max_depth_iqr_m: 0.30
+    max_ellipse_axis_ratio: 3.50
+    min_diameter_m: 0.08
+    max_diameter_m: 0.35
+    min_mask_area_px: 60.0
+    ellipse_center_switch_depth_m: 2.4
+    max_consecutive_frame_errors: 5
+    diagnostic_period_s: 1.0
+
+    diagnostic_video_enabled: true
+    diagnostic_video_path: ""
+    diagnostic_detection_csv_path: ""
+    release_snapshot_dir: ""
+    # 原包记录：NUC11 的 ONNX 流水线在 1280×720 下约处理 10 帧/秒。
+    diagnostic_video_fps: 10
+    diagnostic_video_bitrate: 8000000
+    diagnostic_video_software_encoder: false
+    # 以非阻塞方式显示最新帧；关闭窗口不会停止飞行。
+    live_view_enabled: true

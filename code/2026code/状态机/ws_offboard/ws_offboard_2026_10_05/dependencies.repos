@@ -1,0 +1,2 @@
+# ROS 依赖声明在 package.xml 中；Python 运行依赖版本见 requirements-onboard.txt。
+repositories: {}

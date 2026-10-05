@@ -1,0 +1,9 @@
+# 仅用于展示格式的合成示例；这些坐标不对应实际飞行地点。
+point_1:
+  latitude_deg: 0.0
+  longitude_deg: 0.0
+point_2:
+  latitude_deg: 0.0002
+  longitude_deg: 0.0
+separation_m: 22.264
+heading_deg: 0.0
