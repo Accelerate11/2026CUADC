@@ -40,7 +40,8 @@
 │   ├── takeoff_drop_land_node_2.cpp
 │   └── ws_offboard/
 |       ├── ws_offboard_2026_6_20
-│       └── ws_offboard_2026_8_20
+|       ├── ws_offboard_2026_8_20
+│       └── ws_offboard_2026_10_05（加入了不依赖磁罗盘的航向确认逻辑，为整体流程的倒数第二版，在学校能实现较为稳定的1300分）
 │
 └── 视觉/
     ├── README.md
