@@ -1,0 +1,98 @@
+Starting >>> cuadc_full_mission_20260803
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found mavros_msgs: 2.14.0 (/opt/ros/humble/share/mavros_msgs/cmake)
+-- Found nav_msgs: 4.9.1 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/humble/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[Processing: cuadc_full_mission_20260803]
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/build/cuadc_full_mission_20260803
+[ 16%] Building CXX object CMakeFiles/test_time_alignment.dir/test/test_time_alignment.cpp.o
+[ 50%] Building CXX object test/CMakeFiles/test_release_gate.dir/test_release_gate.cpp.o
+[ 50%] Building CXX object CMakeFiles/cuadc_full_mission_node.dir/src/cuadc_full_mission_node.cpp.o
+[ 66%] Linking CXX executable test_release_gate
+[ 66%] Built target test_release_gate
+[ 83%] Linking CXX executable cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[100%] Linking CXX executable test_time_alignment
+[100%] Built target cuadc_full_mission_node
+[100%] Built target test_time_alignment
+-- Install configuration: "RelWithDebInfo"
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node
+-- Set runtime path of "/tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node" to ""
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_vision_ros_node.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/capture_clock.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_detect_seg_analysis.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/mavlink_stream_configurator.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/flight_telemetry_recorder.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/preflight_camera_view.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mission_real.yaml
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mavros_time_sync.yaml
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/vision_gpu_switch.md
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/time_alignment.md
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/staged_release.md
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/mission_mavros.launch.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/full_mission_real.launch.py
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.onnx
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.bin
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.xml
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/metadata.yaml
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect.onnx
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.pt
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/ament_index/resource_index/package_run_dependencies/cuadc_full_mission_20260803
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/ament_index/resource_index/parent_prefix_path/cuadc_full_mission_20260803
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.sh
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.dsv
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.sh
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.dsv
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.bash
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.sh
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.zsh
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.dsv
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.dsv
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/ament_index/resource_index/packages/cuadc_full_mission_20260803
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config.cmake
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config-version.cmake
+-- Installing: /tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.xml
+Finished <<< cuadc_full_mission_20260803 [2min 6s]
+
+Summary: 1 package finished [2min 6s]
+/tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16/install/cuadc_full_mission_20260803
+编译完成。测试命令：bash scripts/verify.sh

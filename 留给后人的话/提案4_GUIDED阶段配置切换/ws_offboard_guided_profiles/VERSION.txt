@@ -1,0 +1,5 @@
+ws_offboard_guided_profiles
+GUIDED 阶段配置切换提案，版本 1
+源码基线：2026CUADC 公开 V16 完整工作区
+基线提交：1475f59a1f0d601fa8e0514a7c363ecd05003823
+日期：2026-10-13（Asia/Shanghai）

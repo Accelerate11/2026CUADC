@@ -1,0 +1,7 @@
+# Install this before requirements-cpu.txt to select CPU wheels explicitly.
+# Source notes record "torch 2.11 CPU" without its patch version.
+# 2.11.0 + torchvision 0.26.0 is the official matched installation pair,
+# selected for reproduction; it is not claimed to be the flight-machine freeze.
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.11.0
+torchvision==0.26.0

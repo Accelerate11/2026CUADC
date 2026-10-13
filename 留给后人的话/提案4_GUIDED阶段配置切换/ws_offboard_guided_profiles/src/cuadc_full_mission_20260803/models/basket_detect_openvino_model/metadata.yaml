@@ -1,0 +1,15 @@
+args: '{''batch'': 1, ''half'': False, ''dynamic'': False, ''simplify'': False, ''opset'':
+  12, ''nms'': False}'
+author: Ultralytics
+batch: '1'
+channels: '3'
+date: '2026-08-09T16:37:27.212587'
+description: Ultralytics YOLO26n model trained on E:\yolo11_drone_project\datasets\basket_new_detect\basket-detect.yaml
+docs: https://docs.ultralytics.com
+end2end: 'True'
+imgsz: '[640, 640]'
+license: AGPL-3.0 License (https://ultralytics.com/license)
+names: '{0: ''cylinder_mouth''}'
+stride: '32'
+task: detect
+version: 8.4.41

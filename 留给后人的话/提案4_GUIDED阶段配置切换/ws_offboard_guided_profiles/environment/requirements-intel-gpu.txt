@@ -1,0 +1,6 @@
+-r requirements-cpu.txt
+
+# Recorded in basket_detect_openvino_model.xml, rt_info Runtime_version:
+# 2026.4.1-22982-e213a147257-releases/2026/4 (model conversion provenance).
+# Intel GPU kernel/userspace drivers must be installed separately.
+openvino==2026.4.1

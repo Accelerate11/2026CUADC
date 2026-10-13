@@ -1,0 +1,12 @@
+# V16 source-recorded dependencies. This is an installation input, not a
+# recovered flight-machine pip freeze. See README.md for provenance.
+-r ../src/cuadc_full_mission_20260803/requirements-onboard.txt
+
+# The source deployment notes require NumPy 1.x. OpenCV 4.12+ wheels require
+# NumPy 2 on Python 3.10, so retain the compatible OpenCV wheel family.
+numpy>=1.24,<2.0
+opencv-python>=4.6,<4.12
+
+# No exact D435i Python SDK version was recorded in the original package.
+# After camera validation, archive the resolved version with pip freeze.
+pyrealsense2

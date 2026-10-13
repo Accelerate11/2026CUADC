@@ -1,0 +1,281 @@
+cuadc_full_mission_node:
+  ros__parameters:
+    # 提案4：连续机载参考轨迹 + 独立阶段切换门控；示例值需 SITL 和实机验收。
+    guided_local_profiles_enabled: true
+    guided_switch_timeout_s: 20.0
+    guided_switch_stable_s: 0.5
+    guided_switch_nav_max_age_s: 0.3
+    guided_switch_horizontal_speed_m_s: 0.25
+    guided_switch_vertical_speed_m_s: 0.15
+    # 飞控配置事务双开关默认关闭；firmware 字符串是操作者确认，程序不会自动检测。
+    guided_fcu_enabled: false
+    guided_fcu_param_switch_enabled: false
+    guided_fcu_confirmed_firmware: ""
+    guided_fcu_timeout_s: 15.0
+    guided_fcu_retries: 1
+    guided_fcu_tolerance: 0.00001
+    # allowlist / 每阶段 fcu_param_ids / fcu_param_values 默认 typed 空数组；需要实验时再填入同类型非空数组。
+    guided_profiles.cruise.speed_xy_m_s: 3.0
+    guided_profiles.cruise.acceleration_xy_m_s2: 1.0
+    guided_profiles.cruise.speed_z_m_s: 0.7
+    guided_profiles.cruise.acceleration_z_m_s2: 0.5
+    guided_profiles.cruise.vision_gain: 1.0
+    guided_profiles.search.speed_xy_m_s: 1.25
+    guided_profiles.search.acceleration_xy_m_s2: 0.6
+    guided_profiles.search.speed_z_m_s: 0.5
+    guided_profiles.search.acceleration_z_m_s2: 0.4
+    guided_profiles.search.vision_gain: 1.0
+    guided_profiles.approach.speed_xy_m_s: 1.5
+    guided_profiles.approach.acceleration_xy_m_s2: 0.6
+    guided_profiles.approach.speed_z_m_s: 0.5
+    guided_profiles.approach.acceleration_z_m_s2: 0.4
+    guided_profiles.approach.vision_gain: 0.8
+    guided_profiles.align.speed_xy_m_s: 0.375
+    guided_profiles.align.acceleration_xy_m_s2: 0.4
+    guided_profiles.align.speed_z_m_s: 0.16
+    guided_profiles.align.acceleration_z_m_s2: 0.25
+    guided_profiles.align.vision_gain: 0.6
+    guided_profiles.release.speed_xy_m_s: 0.15
+    guided_profiles.release.acceleration_xy_m_s2: 0.25
+    guided_profiles.release.speed_z_m_s: 0.16
+    guided_profiles.release.acceleration_z_m_s2: 0.25
+    guided_profiles.release.vision_gain: 0.35
+    guided_profiles.recon.speed_xy_m_s: 1.5
+    guided_profiles.recon.acceleration_xy_m_s2: 0.8
+    guided_profiles.recon.speed_z_m_s: 0.7
+    guided_profiles.recon.acceleration_z_m_s2: 0.5
+    guided_profiles.recon.vision_gain: 1.0
+    guided_profiles.return.speed_xy_m_s: 3.0
+    guided_profiles.return.acceleration_xy_m_s2: 1.0
+    guided_profiles.return.speed_z_m_s: 0.7
+    guided_profiles.return.acceleration_z_m_s2: 0.5
+    guided_profiles.return.vision_gain: 1.0
+
+    # Hard deployment interlock. Set true only after the aircraft checklist.
+    flight_enable: false
+    bucket_detection_topic: /perception/drop_buckets_body
+    bucket_projection_log_path: ""
+    lock_mission_yaw_to_initial_heading: true
+    # The wrapper injects a route YAML heading at runtime; -1 is an invalid
+    # placeholder so a direct launch without a route fails closed.
+    geographic_heading_deg: -1.0
+    yaw_to_target: false
+    auto_arm_on_guided: false
+    drop_only_mode: false
+    # Trial profile: use frozen coarse bucket coordinates and release at 1.8 m.
+    coarse_release_trial_mode: true
+    fixed_release_test_mode: false
+    fixed_release_points_field_xy: [32.5, -2.6, 32.5, 2.6]
+
+    vision_heartbeat_timeout_s: 1.5
+    vision_max_pipeline_delay_s: 1.5
+    vision_future_tolerance_s: 0.05
+    vision_transform_tolerance_s: 0.20
+    nav_interpolation_max_gap_s: 0.50
+    odom_history_s: 5.0
+    vision_pending_buffer_s: 1.00
+    # Empty detection frames count as healthy preflight vision heartbeats.
+    vision_min_messages_before_takeoff: 3
+    search_vision_acquire_min_frames: 3
+    search_vision_acquire_timeout_s: 5.0
+
+    takeoff_alt_m: 3.0
+    enforce_final_drop_heights: false
+    search_alt_m: 3.0
+    coarse_alt_m: 2.0
+    fine_alt_m: 1.0
+    transit_speed_m_s: 10.5
+    drop_target_transit_speed_m_s: 4.8
+    recon_transit_speed_m_s: 9.5
+    return_speed_m_s: 11.0
+    return_alt_m: 2.5
+    search_speed_m_s: 1.75
+    search_forward_step_m: 2.5
+    recon_speed_m_s: 1.5
+    drop_approach_speed_m_s: 5.0
+    descent_vertical_speed_m_s: 0.16
+    alignment_horizontal_speed_m_s: 0.375
+    release_positioning_speed_m_s: 0.15
+    release_stabilization_s: 4.0
+    release_visual_xy_tolerance_m: 0.03
+    middle_calibration_error_m: 0.12
+    middle_calibration_stable_s: 0.50
+    min_segment_time_s: 1.0
+    waypoint_accept_radius_m: 0.40
+
+    # Field coordinates are relative to the GUIDED-time home/heading lock.
+    drop_area_near_edge_field_x_m: 30.0
+    drop_area_length_field_x_m: 3.5
+    drop_area_width_field_y_m: 8.0
+    search_lane_count: 3
+    cross_track_camera_fov_deg: 42.0
+    search_lane_overlap_ratio: 0.30
+    search_edge_margin_m: 0.35
+    search_cross_margin_m: 0.55
+    # 0 means repeat the route until a visual plan is usable.
+    max_search_passes: 0
+
+    # Waypoint-only hazard-area coverage; no hazard vision input exists.
+    # 侦察区整体向起飞点方向回移 2.0 m。
+    # 两条侦察横线 field_x=54.90/57.80m。
+    recon_area_center_field_x_m: 56.35
+    recon_area_length_field_x_m: 3.60
+    recon_area_width_field_y_m: 8.0
+    recon_hover_alt_m: 2.5
+    recon_lane_count: 2
+    recon_edge_margin_m: 0.35
+    recon_cross_margin_m: 0.55
+    recon_waypoint_hold_s: 0.0
+
+    bucket_required_count: 2
+    use_post_search_cluster_fit: false
+    cluster_position_scale_m: 0.60
+    cluster_diameter_scale_m: 0.025
+    motion_compensation_enabled: false
+    motion_compensation_matrix: [0.85335529, 0.80596326, -0.97181809, 0.97507692]
+    motion_compensation_reference_field_xy: [31.75, 0.0]
+    # Calibrated physical bucket diameters: 15 cm and 20 cm.
+    # First-pass diameter classes: small/medium/large, each +/- 0.015 m.
+    bucket_diameter_centers_m: [0.150, 0.200, 0.250]
+    bucket_diameter_class_tolerance_m: 0.015
+    bucket_min_confirmations: 3
+    track_gate_m: 0.45
+    diameter_track_gate_m: 0.08
+    bucket_track_max_gap_s: 0.60
+    bucket_selection_max_age_s: 10.0
+    bucket_distinct_min_separation_m: 0.14
+    bucket_distinct_min_diameter_m: 0.025
+    bucket_target_ranking_stable_s: 0.80
+    bucket_diameter_filter_window: 9
+    known_bucket_memory_s: 120.0
+    released_bucket_exclusion_m: 0.25
+    bucket_position_filter_alpha: 0.25  # 用于离散度更新；搜索坐标采用中位数窗口
+    # 搜索锁定专用：世界坐标中位数窗口，不限制画面位置。
+    bucket_position_filter_window: 15
+    bucket_search_min_confirmations: 6
+    bucket_search_max_position_deviation_m: 0.20
+    bucket_body_filter_alpha: 1.0
+    bucket_diameter_filter_alpha: 0.20
+    bucket_confidence_filter_alpha: 0.30
+    bucket_max_position_deviation_m: 0.25
+    bucket_max_diameter_deviation_m: 0.050
+    bucket_min_track_confidence: 0.25
+
+    coarse_error_m: 0.15
+    fine_error_m: 0.08
+    coarse_stable_s: 0.8
+    alignment_timeout_s: 18.0
+    detection_timeout_s: 3.0
+    target_guidance_max_age_s: 0.5
+    recover_hold_s: 0.5
+
+    prestream_hold_s: 1.5
+    takeoff_timeout_s: 60.0
+    # Disabled: DROP_PHASE_TIMEOUT below starts at the first search pass.
+    mission_timeout_s: 0.0
+    drop_phase_timeout_s: 150.0
+    return_climb_timeout_s: 30.0
+    return_home_timeout_s: 120.0
+    land_timeout_s: 120.0
+    disarm_timeout_s: 20.0
+    odom_timeout_s: 1.5
+    compass_timeout_s: 1.0
+    extended_state_timeout_s: 2.5
+    landing_confirm_stable_s: 1.5
+    landing_max_relative_altitude_m: 0.30
+    landing_max_horizontal_speed_m_s: 0.20
+    landing_max_vertical_speed_m_s: 0.15
+    heading_lock_stability_s: 2.0
+    heading_lock_max_variation_deg: 2.0
+    position_lock_stability_s: 2.0
+    stationary_speed_max_m_s: 0.15
+
+    release_mode: servo
+    payload_count: 2
+    payload_release_offsets_body_m:
+      # FCU FRD: 1号右前 (+x,+y), 2号左后 (-x,-y); +Z points down.
+       [0.029, 0.070, 0.320,
+       -0.031, -0.065, 0.320]
+    servo_channels: [7, 8]
+    servo_stowed_pwm: [1100, 1100]
+    servo_release_pwm: [1900, 1900]
+    servo_release_duration_s: [0.7, 0.7]
+    servo_initialize_stowed: true
+    servo_return_to_stowed: true
+    servo_ack_timeout_s: 3.0
+    virtual_release_ack_timeout_s: 3.0
+
+basket_vision_ros_node:
+  ros__parameters:
+    model_path: ""
+    camera_serial: ""
+    output_topic: /perception/drop_buckets_body
+    diagnostics_topic: /diagnostics
+    frame_id: fcu_body_frd
+    payload_release_offsets_body_m: [0.029, 0.070, 0.320, -0.031, -0.065, 0.320]
+
+    # 0 = auto exposure; a positive value is manual exposure in microseconds.
+    exposure: 0.0
+    color_width: 1280
+    color_height: 720
+    depth_width: 848
+    depth_height: 480
+    camera_fps: 30
+    warmup_frames: 15
+    frame_timeout_ms: 1500
+    power_line_frequency_hz: 50
+
+    target_class: 0
+    confidence_threshold: 0.08
+    inference_image_size: 640
+    nms_iou_threshold: 0.01
+    duplicate_mask_iou_threshold: 0.20
+    # intel:gpu 使用 OpenVINO；改为 cpu 回退原 ONNX。
+    device: "intel:gpu"
+    half: false
+
+    # Height compensation is enabled; the bucket height is 30 cm.
+    bucket_height_m: 0.30
+    bucket_height_compensation_ratio: 0.85
+    # Measured bucket height is 0.30 m; use compensated depth for projection
+    # and diameter recovery.
+    depth_mode: wall_minus_height
+    depth_filter_size: 5
+    rim_band_thickness_pixels: 11
+    ground_ring_inner_scale: 1.15
+    ground_ring_outer_scale: 1.75
+
+    # FCU FRD: image-left is +X (forward), image-up is +Y (right), and the
+    # optical axis is +Z (down). Optical +X -> body -X, optical +Y -> body -Y,
+    # optical +Z -> body +Z.
+    # Measure the translation on the final airframe.
+    camera_to_body_rotation:
+      [-1.0, 0.0, 0.0,
+        0.0, -1.0, 0.0,
+        0.0,  0.0, 1.0]
+    camera_to_body_translation_m: [0.033, 0.0, 0.320]
+    extrinsic_orthogonality_tolerance: 0.001
+
+    min_quality_confidence: 0.08
+    min_depth_m: 0.15
+    max_depth_m: 6.0
+    min_depth_valid_ratio: 0.20
+    max_depth_iqr_m: 0.30
+    max_ellipse_axis_ratio: 3.50
+    min_diameter_m: 0.08
+    max_diameter_m: 0.35
+    min_mask_area_px: 60.0
+    ellipse_center_switch_depth_m: 2.4
+    max_consecutive_frame_errors: 5
+    diagnostic_period_s: 1.0
+
+    diagnostic_video_enabled: true
+    diagnostic_video_path: ""
+    diagnostic_detection_csv_path: ""
+    release_snapshot_dir: ""
+    # NUC11 ONNX pipeline sustains about 10 processed frames/s at 1280x720.
+    diagnostic_video_fps: 10
+    diagnostic_video_bitrate: 8000000
+    diagnostic_video_software_encoder: false
+    # Non-blocking latest-frame display; closing the window does not stop flight.
+    live_view_enabled: true

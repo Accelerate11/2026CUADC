@@ -1,0 +1,13 @@
+# Intel NUC11 CPU runtime used by this deployment.
+ultralytics==8.4.41
+onnx==1.17.0
+onnxruntime==1.23.2
+PyYAML>=6.0,<7.0
+Pillow>=10.0,<12.0
+
+# PRE-EXISTING VENDOR/RUNTIME PREREQUISITES — intentionally not installed here:
+# - numpy >=1.24,<2.0
+# - cv2 / OpenCV from the board image or team-approved Jetson build
+# - torch 2.11 CPU build
+# - pyrealsense2/librealsense validated with the installed D435i
+# - ROS 2 Humble rclpy from /opt/ros/humble

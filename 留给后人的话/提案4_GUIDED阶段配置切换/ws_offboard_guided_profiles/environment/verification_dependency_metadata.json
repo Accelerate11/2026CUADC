@@ -1,0 +1,136 @@
+{
+  "checked_date": "2026-10-13",
+  "timezone": "Asia/Shanghai",
+  "scope": "Official distribution metadata only. No wheels installed; dependency resolution and full vision execution are not validated by this report.",
+  "checks": [
+    {
+      "package": "ultralytics",
+      "version": "8.4.41",
+      "url": "https://pypi.org/pypi/ultralytics/8.4.41/json",
+      "requires_python": ">=3.8",
+      "matching_wheels": [
+        "ultralytics-8.4.41-py3-none-any.whl"
+      ],
+      "requires_dist": [
+        "numpy>=1.23.0",
+        "matplotlib>=3.3.0",
+        "opencv-python>=4.6.0",
+        "pillow>=7.1.2",
+        "pyyaml>=5.3.1",
+        "requests>=2.23.0",
+        "scipy>=1.4.1",
+        "torch>=1.8.0",
+        "torch!=2.4.0,>=1.8.0; sys_platform == \"win32\"",
+        "torchvision>=0.9.0",
+        "psutil>=5.8.0",
+        "polars>=0.20.0",
+        "ultralytics-thop>=2.0.18",
+        "ipython; extra == \"dev\"",
+        "pytest; extra == \"dev\"",
+        "pytest-cov; extra == \"dev\"",
+        "coverage[toml]; extra == \"dev\"",
+        "zensical>=0.0.15; python_version >= \"3.10\" and extra == \"dev\"",
+        "mkdocs-ultralytics-plugin>=0.2.4; extra == \"dev\"",
+        "minijinja>=2.0.0; extra == \"dev\"",
+        "numpy<2.0.0; extra == \"export\"",
+        "onnx>=1.12.0; platform_system != \"Darwin\" and extra == \"export\"",
+        "onnx<1.18.0,>=1.12.0; platform_system == \"Darwin\" and extra == \"export\"",
+        "onnxslim>=0.1.82; extra == \"export\"",
+        "coremltools>=9.0; (platform_system != \"Windows\" and python_version <= \"3.13\") and extra == \"export\"",
+        "scikit-learn>=1.3.2; (platform_system != \"Windows\" and python_version <= \"3.13\") and extra == \"export\"",
+        "openvino>=2024.0.0; extra == \"export\"",
+        "tensorflow<=2.19.0,>=2.0.0; extra == \"export\"",
+        "tensorflowjs>=2.0.0; extra == \"export\"",
+        "ydf<0.13.0; platform_machine != \"aarch64\" and extra == \"export\"",
+        "tensorstore>=0.1.63; (platform_machine == \"aarch64\" and python_version >= \"3.9\") and extra == \"export\"",
+        "h5py!=3.11.0; platform_machine == \"aarch64\" and extra == \"export\"",
+        "setuptools<=81.0.0; extra == \"export\"",
+        "packaging>=26.0; (platform_machine == \"aarch64\" and platform_system == \"Linux\" and python_version >= \"3.9\") and extra == \"export\"",
+        "shapely>=2.0.0; extra == \"solutions\"",
+        "streamlit>=1.51.0; python_version >= \"3.10\" and extra == \"solutions\"",
+        "streamlit<1.51.0,>=1.29.0; (python_version < \"3.10\" and (python_version < \"3.9\" or platform_machine != \"aarch64\" or platform_system != \"Linux\")) and extra == \"solutions\"",
+        "flask>=3.0.1; extra == \"solutions\"",
+        "wandb; extra == \"logging\"",
+        "tensorboard; extra == \"logging\"",
+        "mlflow; extra == \"logging\"",
+        "ipython; extra == \"extra\"",
+        "albumentations>=1.4.6; extra == \"extra\"",
+        "faster-coco-eval>=1.6.7; extra == \"extra\"",
+        "scipy-stubs>=1.14.1.4; python_version >= \"3.10\" and extra == \"typing\"",
+        "types-pillow; extra == \"typing\"",
+        "types-psutil; extra == \"typing\"",
+        "types-pyyaml; extra == \"typing\"",
+        "types-requests; extra == \"typing\"",
+        "types-shapely; extra == \"typing\""
+      ],
+      "success": true
+    },
+    {
+      "package": "onnx",
+      "version": "1.17.0",
+      "url": "https://pypi.org/pypi/onnx/1.17.0/json",
+      "requires_python": ">=3.8",
+      "matching_wheels": [
+        "onnx-1.17.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+      ],
+      "requires_dist": [
+        "numpy>=1.20",
+        "protobuf>=3.20.2",
+        "google-re2; extra == \"reference\"",
+        "Pillow; extra == \"reference\""
+      ],
+      "success": true
+    },
+    {
+      "package": "onnxruntime",
+      "version": "1.23.2",
+      "url": "https://pypi.org/pypi/onnxruntime/1.23.2/json",
+      "requires_python": ">=3.10",
+      "matching_wheels": [
+        "onnxruntime-1.23.2-cp310-cp310-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl"
+      ],
+      "requires_dist": [
+        "coloredlogs",
+        "flatbuffers",
+        "numpy>=1.21.6",
+        "packaging",
+        "protobuf",
+        "sympy"
+      ],
+      "success": true
+    },
+    {
+      "package": "openvino",
+      "version": "2026.4.1",
+      "url": "https://pypi.org/pypi/openvino/2026.4.1/json",
+      "requires_python": ">=3.10",
+      "matching_wheels": [
+        "openvino-2026.4.1-22982-cp310-cp310-manylinux_2_28_x86_64.whl"
+      ],
+      "requires_dist": [
+        "numpy<2.6.0,>=1.16.6",
+        "openvino-telemetry>=2023.2.1"
+      ],
+      "success": true
+    },
+    {
+      "package": "torch",
+      "version": "2.11.0",
+      "url": "https://download.pytorch.org/whl/cpu/torch/",
+      "matching_wheels": [
+        "torch-2.11.0+cpu-cp310-cp310-manylinux_2_28_x86_64.whl"
+      ],
+      "success": true
+    },
+    {
+      "package": "torchvision",
+      "version": "0.26.0",
+      "url": "https://download.pytorch.org/whl/cpu/torchvision/",
+      "matching_wheels": [
+        "torchvision-0.26.0+cpu-cp310-cp310-manylinux_2_28_x86_64.whl"
+      ],
+      "success": true
+    }
+  ],
+  "success": true
+}
