@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>cuadc_full_mission_20260803</name>
+  <version>4.0.0</version>
+  <description>
+    CUADC 2026 V16 open-source full mission: two-payload basket segmentation drop flow,
+    waypoint-only hazard-area reconnaissance, return, landing, and disarm.
+  </description>
+  <maintainer email="flight-team@example.invalid">CUADC Flight Team</maintainer>
+  <license>AGPL-3.0-only</license>
+  <url type="repository">https://github.com/Accelerate11/2026CUADC</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <depend>geometry_msgs</depend>
+  <depend>mavros_msgs</depend>
+  <depend>nav_msgs</depend>
+  <depend>rclcpp</depend>
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>sensor_msgs</depend>
+  <exec_depend>cv_bridge</exec_depend>
+  <depend>std_srvs</depend>
+
+  <exec_depend>ament_index_python</exec_depend>
+  <exec_depend>diagnostic_msgs</exec_depend>
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>mavros</exec_depend>
+  <exec_depend>builtin_interfaces</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+
+  <test_depend>python3-numpy</test_depend>
+  <test_depend>python3-opencv</test_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

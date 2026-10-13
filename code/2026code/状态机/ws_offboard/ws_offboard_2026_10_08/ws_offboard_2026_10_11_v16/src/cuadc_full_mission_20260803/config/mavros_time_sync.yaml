@@ -1,0 +1,6 @@
+# Loaded after the installed APM defaults, only by mission MAVROS launch.
+/**/time:
+  ros__parameters:
+    timesync_mode: MAVLINK
+    timesync_rate: 20.0
+    convergence_window: 100

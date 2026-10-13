@@ -1,0 +1,20 @@
+{
+  "workspace": "/tmp/cuadc_v16_relocated_9hnom226/ws_offboard_2026_10_11_v16",
+  "candidate": "/mnt/d/CODEX/CUADC/validation_artifacts/v16_release_candidate_20261013",
+  "scope": "Clean relocated source build and offline verification; no hardware.",
+  "steps": [
+    {
+      "name": "build",
+      "exit_code": 0,
+      "seconds": 128.74,
+      "log": "v16_relocated_build.log"
+    },
+    {
+      "name": "verify",
+      "exit_code": 0,
+      "seconds": 4.16,
+      "log": "v16_relocated_verify.log"
+    }
+  ],
+  "success": true
+}

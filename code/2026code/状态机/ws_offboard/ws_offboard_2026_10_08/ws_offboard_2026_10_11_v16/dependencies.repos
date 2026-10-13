@@ -1,0 +1,2 @@
+# ROS系统依赖由package.xml与rosdep解析，本包没有额外源码仓库。
+repositories: {}

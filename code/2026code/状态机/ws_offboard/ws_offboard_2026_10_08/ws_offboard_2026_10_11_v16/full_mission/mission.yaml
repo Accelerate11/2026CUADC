@@ -1,0 +1,270 @@
+cuadc_full_mission_node:
+  ros__parameters:
+    # 同步、视觉与原有预发送在 READY_FOR_GUIDED 前完成。
+    measurement_time_sync: true
+    # 下降到投放高度±5cm后：0-0.5s禁投；0.5-4s四帧+速度；4-6s单帧；6s强投。
+    staged_release_gate: true
+    # ===== 任务总开关与启动方式 =====
+    flight_enable: true
+    bucket_detection_topic: /perception/drop_buckets_body
+    # 启动脚本为每次飞行写入局部世界坐标投影 CSV 路径。
+    bucket_projection_log_path: ""
+    # 地理航向：0=北、90=东、180=南、270=西。启动命令第一个数字可覆盖。
+    # 启动脚本会从 routes/<name>.yaml 注入计算出的中轴线航向；-1 仅是占位值。
+    lock_mission_yaw_to_initial_heading: true
+    # -1 = use the stable magnetic-compass heading captured during LOCK_FRAME.
+    # Pass a heading on the command line (for example 179.9) to override it.
+    geographic_heading_deg: -1.0
+    yaw_to_target: false
+    # 切入 GUIDED 且定位、航向、视觉、舵机条件满足后，由机载计算机解锁。
+    auto_arm_on_guided: true
+    # false 表示投放后继续执行灾情区域航线；完整任务必须保持 false。
+    drop_only_mode: false
+    # Trial profile: use frozen coarse bucket coordinates for release guidance.
+    coarse_release_trial_mode: true
+    # 固定坐标投放仅由 fixed_release_test 入口在运行时开启。
+    fixed_release_test_mode: false
+    fixed_release_after_search: false
+    # Timeout fallback: fixed forward coordinate, lateral positions at 1/3
+    # and 2/3 of the centered 8 m drop-area width.
+    fixed_release_points_field_xy: [32.5, -1.33, 32.5, 1.33]
+
+    # ===== 视觉消息与里程计时间对齐 =====
+    vision_heartbeat_timeout_s: 1.5
+    vision_max_pipeline_delay_s: 1.5
+    vision_future_tolerance_s: 0.05
+    vision_transform_tolerance_s: 0.20
+    nav_interpolation_max_gap_s: 0.50
+    odom_history_s: 5.0
+    vision_pending_buffer_s: 1.00
+    # 起飞前只要求连续相机/推理心跳，空检测帧同样有效，不要求起飞点有桶。
+    vision_min_messages_before_takeoff: 3
+    search_vision_acquire_min_frames: 3
+    search_vision_acquire_timeout_s: 5.0
+
+    # ===== 飞行高度、速度和航点判定 =====
+    takeoff_alt_m: 3.0
+    # 识别完成后先到 2.0m 粗对准高度，再机械标定下降至投放高度。
+    enforce_final_drop_heights: false
+    search_alt_m: 3.0
+    coarse_alt_m: 2.0
+    fine_alt_m: 1.0
+    transit_speed_m_s: 10.5
+    drop_target_transit_speed_m_s: 4.8
+    recon_transit_speed_m_s: 9.5
+    return_speed_m_s: 11.0
+    return_alt_m: 2.5
+    search_speed_m_s: 1.75
+    # 第一条横扫前移 0.5 m；结束后沿场地前向推进 2.5 m，再反向横扫。
+    search_forward_step_m: 2.5
+    recon_speed_m_s: 1.5
+    drop_approach_speed_m_s: 5.0
+    descent_vertical_speed_m_s: 0.16
+    alignment_horizontal_speed_m_s: 0.375
+    release_positioning_speed_m_s: 0.15
+    release_stabilization_s: 4.0  # staged_release_gate=true 时由 0.5/4/6s 分段规则替代
+    release_visual_xy_tolerance_m: 0.03
+    middle_calibration_error_m: 0.12
+    middle_calibration_stable_s: 0.50
+    min_segment_time_s: 1.0
+    waypoint_accept_radius_m: 0.40
+
+    # ===== 投放区搜索航线 =====
+    # 以下场地坐标均相对于切入 GUIDED 时锁定的起飞点和初始航向。
+    drop_area_near_edge_field_x_m: 30.0
+    # 投放区搜索范围：场地前向长 3.5 m、横向宽 8.0 m。
+    drop_area_length_field_x_m: 3.5
+    drop_area_width_field_y_m: 8.0
+    # 三条横向扫描线，蛇形覆盖投放区，共六个航点。
+    search_lane_count: 3
+    cross_track_camera_fov_deg: 42.0
+    search_lane_overlap_ratio: 0.30
+    search_edge_margin_m: 0.35
+    search_cross_margin_m: 0.55
+    # 每轮严格重复相同航点顺序，不反转、不换线；0 表示持续搜索直到三桶拟合完成。
+    max_search_passes: 0
+
+    # ===== 灾情区域航线（只按航点覆盖，不使用灾情视觉识别） =====
+    # 侦察区整体向起飞点方向回移 2.0 m。
+    # 两条侦察横线 field_x=54.90/57.80m。
+    recon_area_center_field_x_m: 56.35
+    recon_area_length_field_x_m: 3.60
+    recon_area_width_field_y_m: 8.0
+    recon_hover_alt_m: 2.5
+    recon_lane_count: 2
+    recon_edge_margin_m: 0.35
+    recon_cross_margin_m: 0.55
+    recon_waypoint_hold_s: 0.0
+
+    # ===== 桶目标确认、跟踪和大小排序 =====
+    bucket_required_count: 2
+    # 下降使用机械标定目标；投放前 1.5s 才启用视觉准星误差闭环。
+    use_post_search_cluster_fit: false
+    cluster_position_scale_m: 0.60
+    cluster_diameter_scale_m: 0.025
+    motion_compensation_enabled: false
+    motion_compensation_matrix: [0.85335529, 0.80596326, -0.97181809, 0.97507692]
+    motion_compensation_reference_field_xy: [31.75, 0.0]
+    # Calibrated physical bucket diameters: 15 cm and 20 cm.
+    # 首轮识别的桶径类别：小/中/大；每类允许 +/- 0.015 m。
+    bucket_diameter_centers_m: [0.150, 0.200, 0.250]
+    bucket_diameter_class_tolerance_m: 0.015
+    # 在线轨迹仍用于日志和视觉诊断。
+    bucket_min_confirmations: 3
+    track_gate_m: 0.45
+    consecutive_track_position_gate_m: 0.50
+    consecutive_track_frames: 3
+    diameter_track_gate_m: 0.08
+    bucket_track_max_gap_s: 0.60
+    bucket_selection_max_age_s: 10.0
+    bucket_distinct_min_separation_m: 0.14
+    bucket_distinct_min_diameter_m: 0.025
+    bucket_target_ranking_stable_s: 0.80
+    bucket_diameter_filter_window: 9
+    known_bucket_memory_s: 120.0
+    released_bucket_exclusion_m: 0.25
+    bucket_position_filter_alpha: 0.25  # 用于离散度更新；搜索坐标采用中位数窗口
+    # 搜索锁定专用：世界坐标中位数窗口，不限制画面位置。
+    bucket_position_filter_window: 15
+    bucket_search_min_confirmations: 6
+    bucket_search_max_position_deviation_m: 0.20
+    bucket_body_filter_alpha: 1.0
+    bucket_diameter_filter_alpha: 0.20
+    bucket_confidence_filter_alpha: 0.30
+    bucket_max_position_deviation_m: 0.25
+    bucket_max_diameter_deviation_m: 0.050
+    bucket_min_track_confidence: 0.25
+
+    # ===== 对准与最终投放条件 =====
+    coarse_error_m: 0.15
+    fine_error_m: 0.08
+    coarse_stable_s: 0.8
+    alignment_timeout_s: 18.0
+    detection_timeout_s: 3.0
+    target_guidance_max_age_s: 0.5
+    recover_hold_s: 0.5
+
+    # ===== 起飞、返航、降落和通信超时 =====
+    prestream_hold_s: 1.5
+    takeoff_timeout_s: 60.0
+    # Disabled: DROP_PHASE_TIMEOUT below starts at the first search pass.
+    mission_timeout_s: 0.0
+    drop_phase_timeout_s: 150.0
+    return_climb_timeout_s: 30.0
+    return_home_timeout_s: 120.0
+    land_timeout_s: 120.0
+    disarm_timeout_s: 20.0
+    odom_timeout_s: 1.5
+    compass_timeout_s: 1.0
+    extended_state_timeout_s: 2.5
+    landing_confirm_stable_s: 1.5
+    landing_max_relative_altitude_m: 0.30
+    landing_max_horizontal_speed_m_s: 0.20
+    landing_max_vertical_speed_m_s: 0.15
+    heading_lock_stability_s: 2.0
+    heading_lock_max_variation_deg: 2.0
+    position_lock_stability_s: 2.0
+    stationary_speed_max_m_s: 0.15
+
+    # ===== 双舵机投放机构 =====
+    release_mode: servo
+    payload_count: 2
+    payload_release_offsets_body_m:
+      # FCU FRD: 1号右前 (+x,+y), 2号左后 (-x,-y); +Z points down.
+       [0.029, 0.070, 0.320,
+       -0.031, -0.065, 0.320]
+    servo_channels: [7, 8]
+    servo_stowed_pwm: [1100, 1100]
+    servo_release_pwm: [1900, 1900]
+    servo_release_duration_s: [0.7, 0.7]
+    servo_initialize_stowed: true
+    servo_return_to_stowed: true
+    servo_ack_timeout_s: 3.0
+    virtual_release_ack_timeout_s: 3.0
+
+basket_vision_ros_node:
+  ros__parameters:
+    measurement_time_sync: true
+    # ===== D435i 与 ONNX 视觉节点 =====
+    # run_full_mission.sh 使用已安装任务包内的纯检测模型 basket_detect.onnx。
+    model_path: ""
+    # run_full_mission.sh 会自动枚举 D435i；此处记录当前飞机的相机序列号。
+    camera_serial: "243622070551"
+    output_topic: /perception/drop_buckets_body
+    diagnostics_topic: /diagnostics
+    frame_id: fcu_body_frd
+    payload_release_offsets_body_m: [0.029, 0.070, 0.320, -0.031, -0.065, 0.320]
+
+    # 启动脚本用 expo=数值临时覆盖曝光，例如 expo=20。
+    # 0 = auto exposure; a positive value is manual exposure in microseconds.
+    exposure: 0.0
+    color_width: 1280
+    color_height: 720
+    depth_width: 848
+    depth_height: 480
+    camera_fps: 30
+    warmup_frames: 15
+    frame_timeout_ms: 1500
+    power_line_frequency_hz: 50
+
+    # ===== YOLO 推理：intel:gpu 使用 OpenVINO；改为 cpu 回退原 ONNX =====
+    target_class: 0
+    # YOLO 候选最低置信度。降低后依靠椭圆、深度、尺寸和多帧轨迹继续过滤误检。
+    confidence_threshold: 0.08
+    inference_image_size: 640
+    nms_iou_threshold: 0.01
+    duplicate_mask_iou_threshold: 0.20
+    device: "intel:gpu"
+    half: false
+
+    # Height compensation is enabled; the bucket height is 30 cm.
+    bucket_height_m: 0.30
+    # Apply 85% of the known height only to apparent-diameter scaling.
+    # Release/rim geometry continues to use the full 30 cm height.
+    bucket_height_compensation_ratio: 0.85
+    # ===== 深度与桶口几何过滤 =====
+    # 实测桶高 0.30 m；位置与直径均使用去除桶高后的深度。
+    depth_mode: wall_minus_height
+    depth_filter_size: 5
+    rim_band_thickness_pixels: 11
+    ground_ring_inner_scale: 1.15
+    ground_ring_outer_scale: 1.75
+
+    # FCU FRD：图像左侧为 +X（机头前），图像上方为 +Y（机体右）。
+    # 光学 +X（图像向右）映射到机体 -X；光学 +Y（图像向下）映射到机体 -Y；
+    # 光学 +Z（镜头前方）映射到机体 +Z（下）。平移量按本机安装位置填写。
+    camera_to_body_rotation:
+      [-1.0, 0.0, 0.0,
+        0.0, -1.0, 0.0,
+        0.0,  0.0, 1.0]
+    camera_to_body_translation_m: [0.033, 0.0, 0.320]
+    extrinsic_orthogonality_tolerance: 0.001
+
+    min_quality_confidence: 0.08
+    min_depth_m: 0.15
+    max_depth_m: 6.0
+    # 适度放宽几何 reject，最终仍由深度和多帧轨迹过滤。
+    min_depth_valid_ratio: 0.20
+    max_depth_iqr_m: 0.30
+    max_ellipse_axis_ratio: 3.50
+    min_diameter_m: 0.08
+    max_diameter_m: 0.35
+    min_mask_area_px: 60.0
+    # 下降保持机械标定逻辑；到投放高度后使用准星与桶中心的实时误差。
+    ellipse_center_switch_depth_m: 2.4
+    max_consecutive_frame_errors: 5
+    diagnostic_period_s: 1.0
+
+    # ===== 标注视频 =====
+    # 启动脚本会把视频保存到本目录 logs/flight_<时间>/vision/。
+    diagnostic_video_enabled: true
+    diagnostic_video_path: ""
+    # 启动脚本为每次飞行写入相机/机体系检测 CSV 路径。
+    diagnostic_detection_csv_path: ""
+    release_snapshot_dir: ""
+    # NUC11 在 1280x720 下实测约 10 个处理帧/秒。
+    diagnostic_video_fps: 10
+    diagnostic_video_bitrate: 8000000
+    diagnostic_video_software_encoder: false
+    # 非阻塞实时画面窗口；关闭窗口不会停止飞行任务。
+    live_view_enabled: true
