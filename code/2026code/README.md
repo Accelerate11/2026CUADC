@@ -34,6 +34,7 @@
 │   ├── cuadc_full_mission_node_3_v5_public.cpp
 │   ├── cuadc_full_mission_node_3_v6_public.cpp
 │   ├── cuadc_full_mission_node_3_v7_public.cpp
+│   ├── cuadc_full_mission_node_3_v8_public.cpp （国赛代码最终版）
 │   ├── offb_node.cpp（实现自动飞行的第一步，作为新机环境验证较为合适）
 │   ├── recon_state_machine_node_1.cpp
 │   ├── takeoff_drop_land_node_1.cpp
