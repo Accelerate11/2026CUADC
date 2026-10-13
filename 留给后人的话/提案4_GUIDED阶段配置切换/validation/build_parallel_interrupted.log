@@ -1,0 +1,71 @@
+Starting >>> cuadc_full_mission_20260803
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/lib/ccache/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/lib/ccache/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+-- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found mavros_msgs: 2.14.0 (/opt/ros/humble/share/mavros_msgs/cmake)
+-- Found nav_msgs: 4.9.1 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+-- Found FastRTPS: /opt/ros/humble/include  
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[Processing: cuadc_full_mission_20260803]
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 0.37 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_ros_adapter.dir/progress.make' has modification time 0.09 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/progress.make' has modification time 0.18 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_client.dir/progress.make' has modification time 0.065 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_stage_integration.dir/progress.make' has modification time 0.11 s in the future
+gmake[2]: Warning: File 'test/CMakeFiles/test_release_gate.dir/progress.make' has modification time 0.12 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_stage_motion_profile.dir/progress.make' has modification time 0.14 s in the future
+gmake[2]: Warning: File 'CMakeFiles/cuadc_full_mission_node.dir/progress.make' has modification time 0.018 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/progress.make' has modification time 0.014 s in the future
+[ 14%] Building CXX object CMakeFiles/test_time_alignment.dir/test/test_time_alignment.cpp.o
+[ 28%] Building CXX object CMakeFiles/test_guided_profile_client.dir/test/test_guided_profile_client.cpp.o
+[ 35%] Building CXX object CMakeFiles/test_stage_motion_profile.dir/test/test_stage_motion_profile.cpp.o
+[ 42%] Building CXX object CMakeFiles/test_guided_profile_ros_adapter.dir/test/test_guided_profile_ros_adapter.cpp.o
+[ 42%] Building CXX object CMakeFiles/test_guided_stage_integration.dir/test/test_guided_stage_integration.cpp.o
+[ 42%] Building CXX object CMakeFiles/cuadc_full_mission_node.dir/src/cuadc_full_mission_node.cpp.o
+[ 50%] Building CXX object test/CMakeFiles/test_release_gate.dir/test_release_gate.cpp.o
+[ 57%] Linking CXX executable test_release_gate
+[ 64%] Linking CXX executable test_stage_motion_profile
+[ 64%] Built target test_release_gate
+[ 64%] Built target test_stage_motion_profile
+[ 71%] Linking CXX executable test_guided_profile_client
+[ 71%] Built target test_guided_profile_client
+[ 78%] Linking CXX executable test_guided_profile_ros_adapter
+[Processing: cuadc_full_mission_20260803]
+[ 78%] Built target test_guided_profile_ros_adapter

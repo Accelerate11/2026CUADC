@@ -1,0 +1,9 @@
+Consolidate compiler generated dependencies of target test_guided_stage_integration
+[ 50%] Building CXX object CMakeFiles/test_guided_stage_integration.dir/test/test_guided_stage_integration.cpp.o
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp: In static member function ‘static void StageProfileIntegrationTest::run()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: warning: converting to ‘rclcpp::Time’ from initializer list would use explicit constructor ‘rclcpp::Time::Time(int64_t, rcl_clock_type_t)’
+   94 |     n.active_bucket_ = BucketTrack{};
+      |                                    ^
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: note: in C++11 and above a default constructor can be explicit
+[100%] Linking CXX executable test_guided_stage_integration
+[100%] Built target test_guided_stage_integration

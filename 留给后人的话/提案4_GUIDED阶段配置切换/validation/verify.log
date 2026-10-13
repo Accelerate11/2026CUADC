@@ -1,0 +1,110 @@
+PASS：99个提案文件、73个基线原样文件、6个模型资源；源码语法正常
+test_explicit_serial_url (test_deployment.DeploymentConfigTests) ... ok
+test_invalid_or_missing_connection_rejected (test_deployment.DeploymentConfigTests) ... ok
+test_lock_is_portable_and_can_be_shared (test_deployment.DeploymentConfigTests) ... ok
+test_default_generates_local_report_without_email (test_deployment.LocalReportTests) ... ok
+test_failure_also_stays_local (test_deployment.LocalReportTests) ... ok
+test_manual_send_is_explicit_and_mocked (test_deployment.LocalReportTests) ... ok
+test_no_email_remains_compatible (test_deployment.LocalReportTests) ... ok
+test_attitude_gate_rejects_invalid_quaternion (test_deployment.RoutePreflightTests) ... ok
+test_synthetic_gps_baseline (test_deployment.RoutePreflightTests) ... ok
+test_help_never_needs_ros_or_hardware (test_deployment.ShellEntryTests) ... ok
+test_missing_fcu_is_rejected_before_hardware_setup (test_deployment.ShellEntryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.905s
+
+OK
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.008s
+
+OK
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.011s
+
+OK
+Internal ctest changing into directory: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+Test project /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+    Start 1: stage_motion_profile
+1/8 Test #1: stage_motion_profile .............   Passed    0.01 sec
+    Start 2: guided_profile_client
+2/8 Test #2: guided_profile_client ............   Passed    0.01 sec
+    Start 3: guided_stage_integration
+3/8 Test #3: guided_stage_integration .........   Passed    1.08 sec
+    Start 4: guided_profile_ros_adapter
+4/8 Test #4: guided_profile_ros_adapter .......   Passed    1.00 sec
+    Start 5: time_alignment
+5/8 Test #5: time_alignment ...................   Passed    0.40 sec
+    Start 6: capture_clock
+6/8 Test #6: capture_clock ....................   Passed    0.38 sec
+    Start 7: vision_backend
+7/8 Test #7: vision_backend ...................   Passed    1.09 sec
+    Start 8: release_gate
+8/8 Test #8: release_gate .....................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Label Time Summary:
+offline       =   3.99 sec*proc (8 tests)
+regression    =   3.99 sec*proc (8 tests)
+standalone    =   0.03 sec*proc (3 tests)
+
+Total Test time (real) =   4.38 sec
+cuadc_full_mission_20260803 basket_detect_seg_analysis.py
+cuadc_full_mission_20260803 basket_vision_ros_node.py
+cuadc_full_mission_20260803 capture_clock.py
+cuadc_full_mission_20260803 cuadc_full_mission_node
+cuadc_full_mission_20260803 flight_telemetry_recorder.py
+cuadc_full_mission_20260803 mavlink_stream_configurator.py
+cuadc_full_mission_20260803 preflight_camera_view.py
+Arguments (pass arguments as '<name>:=<value>'):
+
+    'fcu_url':
+        Explicit MAVROS serial URL for the flight controller.
+
+    'gcs_url':
+        no description given
+        (default: '')
+
+    'start_mavros':
+        no description given
+        (default: 'true')
+
+    'camera_serial':
+        Exact Intel RealSense D435i serial number.
+        (default: '')
+
+    'start_vision':
+        no description given
+        (default: 'true')
+
+    'telemetry_csv_path':
+        Low-rate structured MAVROS telemetry CSV.
+        (default: '/tmp/cuadc_flight_telemetry.csv')
+
+    'params_file':
+        no description given
+        (default: '/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mission_real.yaml')
+
+    'model_path':
+        no description given
+        (default: '/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect.onnx')
+
+    'namespace':
+        no description given
+        (default: 'mavros')
+Arguments (pass arguments as '<name>:=<value>'):
+
+    'fcu_url':
+        no description given
+
+    'gcs_url':
+        no description given
+        (default: '')
+
+    'namespace':
+        no description given
+        (default: 'mavros')
+离线验证完成；本命令没有连接飞控、相机或执行任务。

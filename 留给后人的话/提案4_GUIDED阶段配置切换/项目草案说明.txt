@@ -1,0 +1,20 @@
+先阅读 README.md，再阅读 docs/01_方案设计.md。
+
+实际状态机工作空间：ws_offboard_guided_profiles/
+进入该目录后编译：bash scripts/build_onboard.sh
+离线验证：bash scripts/verify.sh
+仅源码检查：python3 scripts/validate_source.py
+本次执行结果：docs/04_验证记录.md
+具体配置与 MAVROS 接口：docs/02_参数与接口.md
+
+本版从公开 V16 完整工作空间扩展阶段配置切换。
+巡航、搜索、接近、对准、投放、侦察、返航有独立的本地速度、参考加速度和视觉修正增益。
+切换期间连续发布位置参考，先减速并确认里程计低速，再应用新阶段。
+可选飞控改速和飞控 PID 参数事务默认关闭；未填入未经验证的载荷 PID 参数。
+flight_enable 和 auto_arm_on_guided 默认 false。
+
+载荷标签由原舵机投放流程计数更新，不等于检测到瓶子实际脱离。
+新参数事务的确认不等于飞控控制器已采用、更不等于真实飞行响应合格。
+原始投放策略包含放宽条件及超时回退，需要现场独立评估。
+本次未连接实机或实飞，没有推送或修改远程 GitHub 仓库。
+源码沿用 AGPL-3.0-only 许可，第三方许可保留。

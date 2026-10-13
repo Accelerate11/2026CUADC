@@ -1,0 +1,16 @@
+test_explicit_serial_url (test_deployment.DeploymentConfigTests) ... ok
+test_invalid_or_missing_connection_rejected (test_deployment.DeploymentConfigTests) ... ok
+test_lock_is_portable_and_can_be_shared (test_deployment.DeploymentConfigTests) ... ok
+test_default_generates_local_report_without_email (test_deployment.LocalReportTests) ... ok
+test_failure_also_stays_local (test_deployment.LocalReportTests) ... ok
+test_manual_send_is_explicit_and_mocked (test_deployment.LocalReportTests) ... ok
+test_no_email_remains_compatible (test_deployment.LocalReportTests) ... ok
+test_attitude_gate_rejects_invalid_quaternion (test_deployment.RoutePreflightTests) ... ok
+test_synthetic_gps_baseline (test_deployment.RoutePreflightTests) ... ok
+test_help_never_needs_ros_or_hardware (test_deployment.ShellEntryTests) ... ok
+test_missing_fcu_is_rejected_before_hardware_setup (test_deployment.ShellEntryTests) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 2.161s
+
+OK

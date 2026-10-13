@@ -1,0 +1,150 @@
+Starting >>> cuadc_full_mission_20260803
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found mavros_msgs: 2.14.0 (/opt/ros/humble/share/mavros_msgs/cmake)
+-- Found nav_msgs: 4.9.1 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+Consolidate compiler generated dependencies of target cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: Warning: File 'CMakeFiles/cuadc_full_mission_node.dir/compiler_depend.make' has modification time 0.77 s in the future
+[  7%] Building CXX object CMakeFiles/cuadc_full_mission_node.dir/src/cuadc_full_mission_node.cpp.o
+[ 14%] Linking CXX executable cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 14%] Built target cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+Consolidate compiler generated dependencies of target test_stage_motion_profile
+gmake[2]: Warning: File 'CMakeFiles/test_stage_motion_profile.dir/compiler_depend.make' has modification time 2.3 s in the future
+[ 21%] Building CXX object CMakeFiles/test_stage_motion_profile.dir/test/test_stage_motion_profile.cpp.o
+[ 28%] Linking CXX executable test_stage_motion_profile
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 28%] Built target test_stage_motion_profile
+Consolidate compiler generated dependencies of target test_guided_profile_client
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_client.dir/compiler_depend.make' has modification time 1.7 s in the future
+[ 35%] Building CXX object CMakeFiles/test_guided_profile_client.dir/test/test_guided_profile_client.cpp.o
+[ 42%] Linking CXX executable test_guided_profile_client
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 42%] Built target test_guided_profile_client
+Consolidate compiler generated dependencies of target test_guided_stage_integration
+gmake[2]: Warning: File 'CMakeFiles/test_guided_stage_integration.dir/compiler_depend.make' has modification time 0.24 s in the future
+[ 50%] Building CXX object CMakeFiles/test_guided_stage_integration.dir/test/test_guided_stage_integration.cpp.o
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp: In static member function ‘static void StageProfileIntegrationTest::run()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: warning: converting to ‘rclcpp::Time’ from initializer list would use explicit constructor ‘rclcpp::Time::Time(int64_t, rcl_clock_type_t)’
+   94 |     n.active_bucket_ = BucketTrack{};
+      |                                    ^
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: note: in C++11 and above a default constructor can be explicit
+[ 57%] Linking CXX executable test_guided_stage_integration
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 57%] Built target test_guided_stage_integration
+[Processing: cuadc_full_mission_20260803]
+Consolidate compiler generated dependencies of target test_guided_profile_ros_adapter
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_ros_adapter.dir/compiler_depend.make' has modification time 2.6 s in the future
+[ 64%] Building CXX object CMakeFiles/test_guided_profile_ros_adapter.dir/test/test_guided_profile_ros_adapter.cpp.o
+[ 71%] Linking CXX executable test_guided_profile_ros_adapter
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 71%] Built target test_guided_profile_ros_adapter
+Consolidate compiler generated dependencies of target test_time_alignment
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/compiler_depend.make' has modification time 2 s in the future
+[ 78%] Building CXX object CMakeFiles/test_time_alignment.dir/test/test_time_alignment.cpp.o
+[ 85%] Linking CXX executable test_time_alignment
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 85%] Built target test_time_alignment
+[Processing: cuadc_full_mission_20260803]
+Consolidate compiler generated dependencies of target test_release_gate
+gmake[2]: Warning: File 'test/CMakeFiles/test_release_gate.dir/compiler_depend.make' has modification time 3.5 s in the future
+[ 92%] Building CXX object test/CMakeFiles/test_release_gate.dir/test_release_gate.cpp.o
+[100%] Linking CXX executable test_release_gate
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target test_release_gate
+-- Install configuration: "Release"
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node
+-- Set runtime path of "/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node" to ""
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_vision_ros_node.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/capture_clock.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_detect_seg_analysis.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/mavlink_stream_configurator.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/flight_telemetry_recorder.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/preflight_camera_view.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mavros_time_sync.yaml
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mission_real.yaml
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/staged_release.md
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/time_alignment.md
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/vision_gpu_switch.md
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/full_mission_real.launch.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/mission_mavros.launch.py
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect.onnx
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.bin
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.xml
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/metadata.yaml
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.onnx
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.pt
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/package_run_dependencies/cuadc_full_mission_20260803
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/parent_prefix_path/cuadc_full_mission_20260803
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.sh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.dsv
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.sh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.dsv
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.bash
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.sh
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.zsh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.dsv
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.dsv
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/packages/cuadc_full_mission_20260803
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config.cmake
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config-version.cmake
+-- Up-to-date: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.xml
+--- stderr: cuadc_full_mission_20260803
+gmake[2]: Warning: File 'CMakeFiles/cuadc_full_mission_node.dir/compiler_depend.make' has modification time 0.77 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_stage_motion_profile.dir/compiler_depend.make' has modification time 2.3 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_client.dir/compiler_depend.make' has modification time 1.7 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_guided_stage_integration.dir/compiler_depend.make' has modification time 0.24 s in the future
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp: In static member function ‘static void StageProfileIntegrationTest::run()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: warning: converting to ‘rclcpp::Time’ from initializer list would use explicit constructor ‘rclcpp::Time::Time(int64_t, rcl_clock_type_t)’
+   94 |     n.active_bucket_ = BucketTrack{};
+      |                                    ^
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: note: in C++11 and above a default constructor can be explicit
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_ros_adapter.dir/compiler_depend.make' has modification time 2.6 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/compiler_depend.make' has modification time 2 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'test/CMakeFiles/test_release_gate.dir/compiler_depend.make' has modification time 3.5 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+---
+Finished <<< cuadc_full_mission_20260803 [8min 23s]
+
+Summary: 1 package finished [8min 26s]
+  1 package had stderr output: cuadc_full_mission_20260803
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803
+编译完成。测试命令：bash scripts/verify.sh

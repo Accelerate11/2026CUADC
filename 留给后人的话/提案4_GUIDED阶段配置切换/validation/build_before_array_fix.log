@@ -1,0 +1,138 @@
+Starting >>> cuadc_full_mission_20260803
+[  7%] Building CXX object CMakeFiles/cuadc_full_mission_node.dir/src/cuadc_full_mission_node.cpp.o
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp: In member function ‘void CuadcFullMissionNode::declare_parameters()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:355:50: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  355 |       declare_parameter<std::vector<std::string>>(prefix + "fcu_param_ids", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:355:50: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:356:45: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  356 |       declare_parameter<std::vector<double>>(prefix + "fcu_param_values", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:356:45: note: in C++11 and above a default constructor can be explicit
+[ 14%] Linking CXX executable cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[ 14%] Built target cuadc_full_mission_node
+[Processing: cuadc_full_mission_20260803]
+[ 28%] Built target test_stage_motion_profile
+[ 42%] Built target test_guided_profile_client
+[ 50%] Building CXX object CMakeFiles/test_guided_stage_integration.dir/test/test_guided_stage_integration.cpp.o
+In file included from /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:2:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp: In member function ‘void CuadcFullMissionNode::declare_parameters()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:355:50: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  355 |       declare_parameter<std::vector<std::string>>(prefix + "fcu_param_ids", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:355:50: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:356:45: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  356 |       declare_parameter<std::vector<double>>(prefix + "fcu_param_values", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:356:45: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp: In static member function ‘static void StageProfileIntegrationTest::run()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: warning: converting to ‘rclcpp::Time’ from initializer list would use explicit constructor ‘rclcpp::Time::Time(int64_t, rcl_clock_type_t)’
+   94 |     n.active_bucket_ = BucketTrack{};
+      |                                    ^
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: note: in C++11 and above a default constructor can be explicit
+[ 57%] Linking CXX executable test_guided_stage_integration
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[ 57%] Built target test_guided_stage_integration
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[ 71%] Built target test_guided_profile_ros_adapter
+[ 78%] Building CXX object CMakeFiles/test_time_alignment.dir/test/test_time_alignment.cpp.o
+[ 85%] Linking CXX executable test_time_alignment
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[ 85%] Built target test_time_alignment
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+[100%] Built target test_release_gate
+-- Install configuration: "RelWithDebInfo"
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node
+-- Set runtime path of "/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/cuadc_full_mission_node" to ""
+[Processing: cuadc_full_mission_20260803]
+[Processing: cuadc_full_mission_20260803]
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_vision_ros_node.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/capture_clock.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/basket_detect_seg_analysis.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/mavlink_stream_configurator.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/flight_telemetry_recorder.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/lib/cuadc_full_mission_20260803/preflight_camera_view.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mavros_time_sync.yaml
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/config/mission_real.yaml
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/staged_release.md
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/time_alignment.md
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/docs/vision_gpu_switch.md
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/full_mission_real.launch.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/launch/mission_mavros.launch.py
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect.onnx
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.bin
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/basket_detect_openvino_model.xml
+[Processing: cuadc_full_mission_20260803]
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_detect_openvino_model/metadata.yaml
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.onnx
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/models/basket_v3.pt
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/package_run_dependencies/cuadc_full_mission_20260803
+[Processing: cuadc_full_mission_20260803]
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/parent_prefix_path/cuadc_full_mission_20260803
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.sh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/ament_prefix_path.dsv
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.sh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/environment/path.dsv
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.bash
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.sh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.zsh
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/local_setup.dsv
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.dsv
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/ament_index/resource_index/packages/cuadc_full_mission_20260803
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config.cmake
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/cmake/cuadc_full_mission_20260803Config-version.cmake
+-- Installing: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803/share/cuadc_full_mission_20260803/package.xml
+--- stderr: cuadc_full_mission_20260803
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp: In member function ‘void CuadcFullMissionNode::declare_parameters()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:355:50: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  355 |       declare_parameter<std::vector<std::string>>(prefix + "fcu_param_ids", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:355:50: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:356:45: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  356 |       declare_parameter<std::vector<double>>(prefix + "fcu_param_values", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/src/cuadc_full_mission_node.cpp:356:45: note: in C++11 and above a default constructor can be explicit
+In file included from /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:2:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp: In member function ‘void CuadcFullMissionNode::declare_parameters()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:355:50: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  355 |       declare_parameter<std::vector<std::string>>(prefix + "fcu_param_ids", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:355:50: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:356:45: warning: converting to ‘const ParameterDescriptor’ {aka ‘const rcl_interfaces::msg::ParameterDescriptor_<std::allocator<void> >’} from initializer list would use explicit constructor ‘rcl_interfaces::msg::ParameterDescriptor_<ContainerAllocator>::ParameterDescriptor_(rosidl_runtime_cpp::MessageInitialization) [with ContainerAllocator = std::allocator<void>]’
+  356 |       declare_parameter<std::vector<double>>(prefix + "fcu_param_values", {});
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/../src/cuadc_full_mission_node.cpp:356:45: note: in C++11 and above a default constructor can be explicit
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp: In static member function ‘static void StageProfileIntegrationTest::run()’:
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: warning: converting to ‘rclcpp::Time’ from initializer list would use explicit constructor ‘rclcpp::Time::Time(int64_t, rcl_clock_type_t)’
+   94 |     n.active_bucket_ = BucketTrack{};
+      |                                    ^
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/src/cuadc_full_mission_20260803/test/test_guided_stage_integration.cpp:94:36: note: in C++11 and above a default constructor can be explicit
+---
+Finished <<< cuadc_full_mission_20260803 [13min 16s]
+
+Summary: 1 package finished [13min 17s]
+  1 package had stderr output: cuadc_full_mission_20260803
+/mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/install/cuadc_full_mission_20260803
+编译完成。测试命令：bash scripts/verify.sh

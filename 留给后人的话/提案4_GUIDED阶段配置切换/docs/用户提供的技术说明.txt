@@ -1,0 +1,142 @@
+**可以。ArduCopter 在 GUIDED 飞行中，可以通过 MAVLink 或飞控端 Lua 修改部分参数，不必退出 GUIDED，也不必重新刷固件。**但必须区分三件事：**参数写入成功、当前控制器已经采用新值、这个修改适合在空中执行**。三者并不等价。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-4.5/libraries/GCS_MAVLink/GCS_Param.cpp)
+
+按你们的 **机载 NUC＋ROS 2＋MAVROS＋ArduCopter** 架构，既能做“不同任务阶段切换导航参数”，也能设计“满载、单瓶、空载切换控制参数”。不过，这两类需求应当分开处理。
+
+## 一、哪些参数可以动态切换？
+
+下文涉及 `WPNAV_*` 的名称和单位，按 **Copter 4.5.x** 举例；实机需要按完整固件版本核对，不能直接套用其他版本的参数表。
+
+| 要修改的内容 | GUIDED 飞行中的处理方式 | 关键限制 |
+|---|---|---|
+| 水平、上升、下降速度 | 优先使用 `MAV_CMD_DO_CHANGE_SPEED`，或直接调整上位机发送的速度目标 | “导航速度设置”和“外部速度目标”不是同一件事 |
+| `WPNAV_SPEED`、`WPNAV_ACCEL` 等导航参数 | 可以写入，但必须核对当前 GUIDED 子模式的读取、更新路径 | 写入后不一定立即改变正在执行的控制器 |
+| `ATC_RAT_RLL_P/I/D` 等角速度环增益 | 控制器运行时会使用相应增益，技术上可以在线修改 | 增益突变会改变闭环响应，必须先验证参数组和切换过程 |
+| `FRAME_CLASS` 等明确标注需要重启的参数 | 不应作为空中切换对象 | 写入参数表不代表硬件或控制结构已经重新初始化 |
+
+上述区别可以在官方实现中看到：GUIDED 有专门的速度更新接口；PID 计算直接使用当前增益；而 `FRAME_CLASS` 的参数说明明确要求修改后重启。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-4.5/ArduCopter/GCS_Mavlink.cpp)
+
+**因此，不能用“没有标注需要重启”作为“保证空中立即生效”的充分条件。**还要看这个参数是在控制循环中读取，还是只在某个初始化函数中复制一次。
+
+## 二、最容易踩的坑：改了参数，但 GUIDED 仍然按旧限制飞
+
+以 Copter 4.5 的实现为例，GUIDED 普通位置、速度等控制路径初始化时，会通过 `pva_control_start()` 将默认速度、加速度设置到位置控制器：
+
+```cpp
+pos_control->set_max_speed_accel_xy(
+    wp_nav->get_default_speed_xy(),
+    wp_nav->get_wp_acceleration()
+);
+```
+
+这意味着：
+
+> **修改 `WPNAV_SPEED` 的参数值，不等于已经调用位置控制器的速度更新接口。**
+
+该版本的 `ModeGuided::set_speed_xy()` 才会明确更新当前控制器的水平速度限制，并重新读取相应加速度参数。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-4.5/ArduCopter/mode_guided.cpp)
+
+另外，同样显示为 `GUIDED`，内部也可能走不同路径。`GUID_OPTIONS` 的 bit 6 可以让位置目标使用 WPNAV 的 S 曲线路径规划，而不是普通的 GUIDED 位置控制路径；所以必须结合配置判断，不能只看地面站上显示的模式名。[ArduPilot.org](https://ardupilot.org/copter/docs/ac2_guidedmode.html)
+
+**不要为了“刷新参数”而盲目切出、再切回 GUIDED。**我的建议是：针对参数找到明确的运行时更新路径，而不是依赖模式切换的副作用。
+
+## 三、通过你们的 MAVROS 修改飞控参数
+
+### 1. 先确认本机接口
+
+先在同版本 SITL 中验证。MAVROS 启动后执行：
+
+```bash
+ros2 service list -t | grep -E '/mavros/(param|cmd)'
+ros2 service type /mavros/param/set
+```
+
+若 `/mavros/param/set` 的类型为：
+
+```text
+mavros_msgs/srv/ParamSetV2
+```
+
+就使用这个接口，而不是照搬 ROS 1 的 `ParamSet` 请求格式。`ParamSetV2` 使用的是 `rcl_interfaces/ParameterValue`。[GitHub](https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros_msgs/srv/ParamSetV2.srv)
+
+### 2. 参数写入示例
+
+**以下仅演示参数写入，不代表执行后当前 GUIDED 子模式一定立即改变速度。**
+
+对采用 Copter 4.5.x 参数定义的飞控，将 `WPNAV_SPEED` 写为 `100 cm/s`，即 `1 m/s`：
+
+```bash
+ros2 service call /mavros/param/set mavros_msgs/srv/ParamSetV2 \
+"{force_set: false, param_id: 'WPNAV_SPEED', value: {type: 3, double_value: 100.0}}"
+```
+
+这里 `type: 3` 表示 ROS 参数类型中的浮点数；该版本 `WPNAV_SPEED` 本身也是浮点参数，单位为 `cm/s`。整数类型则使用 `type: 2` 和 `integer_value`。**数值看起来是整数，并不代表飞控参数类型就是整数。**[GitHub](https://raw.githubusercontent.com/ros2/rcl_interfaces/humble/rcl_interfaces/msg/ParameterType.msg)
+
+收到响应以后，不能只判断 `success: true`，还应检查返回的 `value` 是否与目标一致，并设置合理的浮点比较容差。MAVROS 的参数写入流程依赖飞控返回的参数值，而参数读取接口可能只是返回本地缓存；最终是否影响飞行，还要用飞行状态或日志验证。[GitHub](https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros/src/plugins/param.cpp)
+
+### 3. 这种写法通常会保存参数，不是“临时修改”
+
+在核对的 Copter 4.5 实现中，收到普通 `PARAM_SET` 后，飞控会修改参数并调用保存逻辑。因此，**不能认为“没有另发保存命令，重启后就一定恢复原值”**。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-4.5/libraries/GCS_MAVLink/GCS_Param.cpp)
+
+`force_set: false` 也不是“不保存”的意思。它影响 MAVROS 侧的部分检查，不控制飞控是否保存，更不能让需要重启的参数立即生效。[GitHub](https://raw.githubusercontent.com/mavlink/mavros/ros2/mavros_msgs/srv/ParamSetV2.srv)
+
+我的建议是：**普通参数写入用于少量、阶段性的调整，不要把它当成每个控制周期都要发送的控制指令。**
+
+## 四、仅仅为了“巡航快、对准慢”，优先使用改速命令
+
+ArduCopter 官方明确支持在 GUIDED 中处理：
+
+```text
+MAV_CMD_DO_CHANGE_SPEED
+```
+
+因此，对于“飞往目标区时较快，接近目标时减速”这类需求，优先考虑专门的改速接口，而不是反复写 `WPNAV_SPEED`。[ArduPilot.org](https://ardupilot.org/dev/docs/copter-commands-in-guided-mode.html)
+
+例如，通过 MAVROS 请求将水平导航速度设置为 `1 m/s`：
+
+```bash
+ros2 service call /mavros/cmd/command mavros_msgs/srv/CommandLong \
+"{broadcast: false, command: 178, confirmation: 0, \
+param1: 1.0, param2: 1.0, param3: -1.0, param4: 0.0, \
+param5: 0.0, param6: 0.0, param7: 0.0}"
+```
+
+这里 `command: 178` 是改速命令；`param1: 1` 表示地速，`param2` 的单位为 **m/s**。在核对的 Copter 4.5 实现中，`param1: 2`、`3` 分别用于上升、下降速度。MAVROS 的 `/mavros/cmd/command` 接口会发送 `COMMAND_LONG` 并等待确认。[MAVLink](https://mavlink.io/en/messages/common.html)
+
+这里有两个重要区别：
+
+**第一，改速命令不等于修改 `WPNAV_SPEED` 参数。**在核对的 GUIDED 实现中，它更新的是运行中的控制器设置。因此，参数表没有变化，并不代表改速命令没有执行。控制子模式重新初始化时，也可能重新加载默认限制，状态机需要对此进行管理。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/master/ArduCopter/mode_guided.cpp)
+
+**第二，持续发送速度目标时，应优先修改速度目标本身。**例如上位机一直发送 `vx = 3 m/s`，不能把一次改速命令理解为“把此后的所有速度目标自动改写成 `1 m/s`”。官方接口允许直接发送速度、加速度目标；对于你们的视觉闭环，我建议在上位机明确做速度限幅和加减速约束。[ArduPilot.org](https://ardupilot.org/dev/docs/copter-commands-in-guided-mode.html)
+
+## 五、要切换“两套参数”，状态机应怎么设计？
+
+我的建议是将它设计成一个**有确认、有超时、有失败处理的阶段切换过程**：
+
+```text
+进入阶段切换
+    ↓
+限制运动，进入适合切换的飞行状态
+    ↓
+逐项发送需要修改的参数
+    ↓
+逐项检查返回值，确认是否完整应用
+    ↓
+确认飞行响应符合预期
+    ↓
+进入下一任务阶段
+```
+
+重点不是增加一个 `set_param()` 函数，而是处理下面这些问题。
+
+**参数组不是原子切换。**普通 MAVLink 参数协议逐项写入；即使从上位机一次提交多个参数，也不能假定飞控会在同一时刻全部替换。可能出现“新 P、旧 I、旧 D”的过渡组合，当前 MAVROS 实现也明确不支持设备端原子参数设置。因此应预先验证中间组合，并对部分成功设置恢复或终止任务策略。[MAVLink](https://mavlink.io/en/services/parameter.html)
+
+**参数服务不能阻塞飞行控制循环。**我建议 C++ 中使用异步请求，由独立的参数切换状态管理确认、超时和有限次数重试；不要在发布 setpoint 的定时回调中阻塞等待。特别是速度、加速度、姿态控制存在 `GUID_TIMEOUT` 超时机制，改参数期间仍要维持所需的目标指令流。[ArduPilot.org](https://ardupilot.org/copter/docs/ac2_guidedmode.html)
+
+**切换 PID 不等于重新初始化控制器。**已有积分状态不会因为换了 P、I、D 就自动成为“新参数组对应的最佳状态”。增益突变和积分状态之间的关系需要验证；简单地给参数做线性渐变，也不能替代稳定性和实飞测试。[GitHub](https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-4.5/libraries/AC_PID/AC_PID.cpp)
+
+**需要仅在本次飞行中临时生效时，可以考虑飞控 Lua。**官方 Lua 接口中，`param:set()` 只修改运行值，不主动保存到非易失存储；`param:set_and_save()` 则同时保存。但 Lua 也不能绕过参数本身的初始化、生效条件，脚本退出也不等于自动恢复原值。应明确编写恢复逻辑。[ArduPilot.org](https://ardupilot.org/dev/docs/common-scripting-parameters.html)
+
+### 对你们项目的建议
+
+我建议先采用：**飞控内环保持一套已验证参数，任务状态机按巡航、接近、视觉对准、返航阶段切换速度目标、加速度约束和上位机视觉控制增益。**只有在满载、单瓶、空载试验确实表明同一套飞控增益无法满足要求时，再引入飞控 PID 参数组切换。
+
+**你准备动态切换哪些具体参数？请同时给出 ArduCopter 完整版本号，以及当前主要发送的是位置还是速度 setpoint。**

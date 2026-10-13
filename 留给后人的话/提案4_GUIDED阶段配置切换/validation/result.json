@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-13",
+  "timezone": "Asia/Shanghai",
+  "version": "guided-stage-proposal-1",
+  "build_type": "Release",
+  "build_exit_code": 0,
+  "verify_exit_code": 0,
+  "ctest": {"passed": 8, "failed": 0, "elapsed_seconds": 4.38},
+  "deployment_python_tests": 11,
+  "capture_clock_python_tests": 6,
+  "vision_backend_python_tests": 4,
+  "source_manifest_files": 99,
+  "unchanged_baseline_files": 73,
+  "model_resources_verified": 6,
+  "hardware_connected": false,
+  "sitl_verified": false,
+  "flight_verified": false,
+  "baseline_commit": "1475f59a1f0d601fa8e0514a7c363ecd05003823"
+}

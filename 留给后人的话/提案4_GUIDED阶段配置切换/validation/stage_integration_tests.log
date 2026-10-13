@@ -1,0 +1,44 @@
+Internal ctest changing into directory: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+Test project /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+    Start 3: guided_stage_integration
+1/1 Test #3: guided_stage_integration .........***Failed    0.90 sec
+[ERROR] [1791888434.427946154] [cuadc_full_mission_node]: Safety configuration invalid: flight_enable must be true, yaw must be fixed, geographic_heading_deg must be in [0,360), release_mode must be servo|virtual, payload_count must be two, servo mode requires CH7/CH8 1100->1900 for 0.7s with ACKed stow, fixed-release test requires two finite XY points plus coarse mode, and GUIDED profiles require valid limits plus local gate for FCU switching
+[INFO] [1791888434.466066764] [cuadc_full_mission_node]: CUADC mission ready [cuadc-guided-stage-profiles-proposal-2026-10-13]: flight_enable=false release_mode=servo arm=manual mission=full heights(takeoff/search/align/release)=3.00/3.00/2.00/1.00 m payload_targets=2 search_lanes=3(explicit) recon_lanes=2 expected_recon_waypoints=4
+[INFO] [1791888434.466255506] [cuadc_full_mission_node]: COARSE_RELEASE_TRIAL_MODE=enabled; fine vision refresh retained; release prechecks removed
+[ERROR] [1791888434.609169145] [cuadc_full_mission_node]: Safety configuration invalid: flight_enable must be true, yaw must be fixed, geographic_heading_deg must be in [0,360), release_mode must be servo|virtual, payload_count must be two, servo mode requires CH7/CH8 1100->1900 for 0.7s with ACKed stow, fixed-release test requires two finite XY points plus coarse mode, and GUIDED profiles require valid limits plus local gate for FCU switching
+[INFO] [1791888434.612332994] [cuadc_full_mission_node]: CUADC mission ready [cuadc-guided-stage-profiles-proposal-2026-10-13]: flight_enable=false release_mode=servo arm=manual mission=drop_only heights(takeoff/search/align/release)=3.00/3.00/2.00/1.00 m payload_targets=2 search_lanes=3(explicit) recon_lanes=2 expected_recon_waypoints=4
+[INFO] [1791888434.612382769] [cuadc_full_mission_node]: COARSE_RELEASE_TRIAL_MODE=enabled; fine vision refresh retained; release prechecks removed
+[ERROR] [1791888434.775363085] [cuadc_full_mission_node]: Safety configuration invalid: flight_enable must be true, yaw must be fixed, geographic_heading_deg must be in [0,360), release_mode must be servo|virtual, payload_count must be two, servo mode requires CH7/CH8 1100->1900 for 0.7s with ACKed stow, fixed-release test requires two finite XY points plus coarse mode, and GUIDED profiles require valid limits plus local gate for FCU switching
+[INFO] [1791888434.782435318] [cuadc_full_mission_node]: CUADC mission ready [cuadc-guided-stage-profiles-proposal-2026-10-13]: flight_enable=false release_mode=servo arm=manual mission=full heights(takeoff/search/align/release)=3.00/3.00/2.00/1.00 m payload_targets=2 search_lanes=3(explicit) recon_lanes=2 expected_recon_waypoints=4
+[INFO] [1791888434.782489863] [cuadc_full_mission_node]: COARSE_RELEASE_TRIAL_MODE=enabled; fine vision refresh retained; release prechecks removed
+[ERROR] [1791888434.911248390] [cuadc_full_mission_node]: Safety configuration invalid: flight_enable must be true, yaw must be fixed, geographic_heading_deg must be in [0,360), release_mode must be servo|virtual, payload_count must be two, servo mode requires CH7/CH8 1100->1900 for 0.7s with ACKed stow, fixed-release test requires two finite XY points plus coarse mode, and GUIDED profiles require valid limits plus local gate for FCU switching
+[INFO] [1791888434.914758870] [cuadc_full_mission_node]: CUADC mission ready [cuadc-guided-stage-profiles-proposal-2026-10-13]: flight_enable=false release_mode=servo arm=manual mission=full heights(takeoff/search/align/release)=3.00/3.00/2.00/0.50 m payload_targets=2 search_lanes=6(auto) recon_lanes=2 expected_recon_waypoints=4
+[INFO] [1791888434.914812377] [cuadc_full_mission_node]: COARSE_RELEASE_TRIAL_MODE=disabled; fine vision refresh retained; release prechecks removed
+[INFO] [1791888434.915627970] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=cruise to=release state=RELEASE fcu=disabled
+[INFO] [1791888434.915702408] [cuadc_full_mission_node]: GUIDED_STAGE_APPLIED stage=release speed=0.150 accel=0.250 vision_gain=0.350 wait=2.000 fcu=local_only load=full
+[INFO] [1791888434.915718318] [cuadc_full_mission_node]: STATE RELEASE -> TAKEOFF
+[INFO] [1791888434.916438717] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=release to=cruise state=SEARCH fcu=disabled
+[INFO] [1791888434.916483131] [cuadc_full_mission_node]: GUIDED_STAGE_APPLIED stage=cruise speed=3.000 accel=1.000 vision_gain=1.000 wait=1.000 fcu=local_only load=full
+[INFO] [1791888434.916495542] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=cruise to=return state=RETURN_CLIMB fcu=disabled
+[INFO] [1791888434.916501675] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=cruise to=search state=SEARCH fcu=disabled
+[INFO] [1791888434.916506763] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=cruise to=return state=RETURN_CLIMB fcu=disabled
+[ERROR] [1791888434.916511762] [cuadc_full_mission_node]: GUIDED_STAGE_GATE_TIMEOUT stage=return nav_fresh=no elapsed=21.00
+[ERROR] [1791888434.916539852] [cuadc_full_mission_node]: MISSION_FAILURE: GUIDED stage switching gate timeout
+[INFO] [1791888434.916570582] [cuadc_full_mission_node]: STATE RETURN_CLIMB -> LAND
+[INFO] [1791888434.916603888] [cuadc_full_mission_node]: GUIDED_STAGE_SWITCH_BEGIN from=cruise to=search state=SEARCH fcu=enabled
+[ERROR] [1791888434.916612874] [cuadc_full_mission_node]: MISSION_FAILURE: FCU disconnected or disarmed during mission
+[INFO] [1791888434.916620893] [cuadc_full_mission_node]: STATE SEARCH -> ABORT
+disarmed airborne state did not retain V16 abort behavior
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+offline       =   0.90 sec*proc (1 test)
+regression    =   0.90 sec*proc (1 test)
+
+Total Test time (real) =   1.09 sec
+
+The following tests FAILED:
+	  3 - guided_stage_integration (Failed)
+Errors while running CTest

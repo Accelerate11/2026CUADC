@@ -1,0 +1,55 @@
+Starting >>> cuadc_full_mission_20260803
+-- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+-- Found geometry_msgs: 4.9.1 (/opt/ros/humble/share/geometry_msgs/cmake)
+-- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+-- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+-- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found mavros_msgs: 2.14.0 (/opt/ros/humble/share/mavros_msgs/cmake)
+-- Found nav_msgs: 4.9.1 (/opt/ros/humble/share/nav_msgs/cmake)
+-- Found rclcpp: 16.0.19 (/opt/ros/humble/share/rclcpp/cmake)
+-- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 6.2.10 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found std_srvs: 4.9.1 (/opt/ros/humble/share/std_srvs/cmake)
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /mnt/d/CODEX/CUADC/delivery/提案4_GUIDED阶段配置切换/ws_offboard_guided_profiles/build/cuadc_full_mission_20260803
+gmake[1]: Warning: File 'CMakeFiles/Makefile2' has modification time 3.4 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_stage_motion_profile.dir/progress.make' has modification time 3.3 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/progress.make' has modification time 3.3 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_stage_integration.dir/flags.make' has modification time 2.6 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_client.dir/progress.make' has modification time 3.2 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_ros_adapter.dir/progress.make' has modification time 3.2 s in the future
+gmake[2]: Warning: File 'CMakeFiles/cuadc_full_mission_node.dir/progress.make' has modification time 3.2 s in the future
+gmake[2]: Warning: File 'test/CMakeFiles/test_release_gate.dir/progress.make' has modification time 3.2 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_time_alignment.dir/progress.make' has modification time 3.2 s in the future
+gmake[2]: Warning: File 'CMakeFiles/test_guided_stage_integration.dir/flags.make' has modification time 2.5 s in the future
+gmake[2]: Warning: File 'CMakeFiles/cuadc_full_mission_node.dir/progress.make' has modification time 3.1 s in the future
+[ 21%] Building CXX object CMakeFiles/test_guided_stage_integration.dir/test/test_guided_stage_integration.cpp.o
+[ 21%] Building CXX object CMakeFiles/test_time_alignment.dir/test/test_time_alignment.cpp.o
+[ 21%] Building CXX object CMakeFiles/cuadc_full_mission_node.dir/src/cuadc_full_mission_node.cpp.o
+Consolidate compiler generated dependencies of target test_release_gate
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'test/CMakeFiles/test_release_gate.dir/progress.make' has modification time 1.2 s in the future
+Consolidate compiler generated dependencies of target test_stage_motion_profile
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_stage_motion_profile.dir/progress.make' has modification time 1.2 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 35%] Built target test_release_gate
+[ 50%] Built target test_stage_motion_profile
+Consolidate compiler generated dependencies of target test_guided_profile_client
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_client.dir/progress.make' has modification time 0.91 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 64%] Built target test_guided_profile_client
+Consolidate compiler generated dependencies of target test_guided_profile_ros_adapter
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+gmake[2]: Warning: File 'CMakeFiles/test_guided_profile_ros_adapter.dir/compiler_depend.make' has modification time 3 s in the future
+gmake[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 78%] Built target test_guided_profile_ros_adapter
