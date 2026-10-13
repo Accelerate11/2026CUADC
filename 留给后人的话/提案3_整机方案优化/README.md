@@ -1,4 +1,6 @@
-# 结构方面，参考大连理工大学结构，做非常规构型四旋翼、使用高能量密度高压大容量电池，提升整体续航，将机身结构直接纳入桨保部分，参考这些优秀结构：
+## 结构方面，参考大连理工大学结构，做非常规构型四旋翼、使用高能量密度高压大容量电池，提升整体续航，将机身结构直接纳入桨保部分，参考这些优秀结构：
+
+## 国赛赛场后，大连理工大学的方案好像并不是终极解决方案，大连理工的方案依赖于他们极致的姿态控制和动力组，参考中国民航和西交的方案，更加紧凑，重心集中的方案和共轴反浆动力组可能更加适配当前规则
 <img width="2050" height="1367" alt="屏幕截图 2026-09-27 121436" src="https://github.com/user-attachments/assets/f05e652d-6bf0-41a3-92c6-77a50bd9020b" />
 <img width="1605" height="955" alt="屏幕截图 2026-09-27 121443" src="https://github.com/user-attachments/assets/ef8dfe5e-d586-48fd-bdfa-5fa30908aacc" />
 <img width="835" height="555" alt="屏幕截图 2026-09-27 121426" src="https://github.com/user-attachments/assets/406fba65-4c28-4841-afc3-ddd097d34535" />
