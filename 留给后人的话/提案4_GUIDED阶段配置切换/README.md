@@ -1,8 +1,6 @@
 # CUADC GUIDED 阶段配置切换方案草案
 
 
-本版以公开 V16 完整工作空间为基线，新增巡航、搜索、接近、视觉对准、投放、侦察、返航的阶段配置，以及不阻塞 setpoint 发布的切换门控。优先在 NUC 侧调整参考运动和视觉修正力度；飞控改速与 PID 参数事务是默认关闭的可选实验入口。没有使用臆造的满载、单瓶、空载 PID 数值。
-
 ## 先查看和验证
 
 从本目录进入 `ws_offboard_guided_profiles/`，其中 `src/` 是实际 ROS 2 源码，不依赖另一个 V16 目录。目标环境是 Ubuntu 22.04、ROS 2 Humble、C++17；依赖准备见 [工作空间环境说明](ws_offboard_guided_profiles/environment/README.md)。
